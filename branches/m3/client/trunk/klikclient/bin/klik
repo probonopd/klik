@@ -1,0 +1,239 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+#   klik2 
+#   Copyright (C) 2008  Jason Taylor - killerkiwi2005@gmail.com
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+import sys
+import os
+import traceback
+import gettext
+
+os.environ["PATH"] = "/sbin:" + os.getenv("PATH")  # FEDORA PATH
+
+# Add klik libraries to the module search path.
+sys.path.insert(1, os.path.join(sys.path[0], os.path.pardir, "lib", "klik"))
+
+# klik libs
+from klik.base import KlikBase
+from klik.create import KlikCreate
+from klik.integration import KlikIntegration
+from klik.utils.xdg import XdgUtils
+
+gettext.install( 'klikclient' )
+
+def usage():
+
+	print """
+Usage:
+
+klik foo				- Short for "klik get foo"
+
+klik /path/to/foo.cmg			- Short for "klik run /path/to/foo.cmg"
+
+klik get foo				- Download a recipe and create a cmg
+					  file for the application foo
+
+klik klik2://foo			- Download a recipe and create a cmg
+					  file for the application foo
+
+klik /path/to/foo.recipe		- Create a cmg file for the application
+					  moo from the given recipe
+
+klik run [executable] foo.cmg [args]	- Run application foo.cmg, executable
+					  is an optional command to start
+
+klik jail foo.cmg [jail_type] 		- Create a jail folder for foo.cmg
+					  (types - data, home, portable)
+
+klik exec foo.cmg executable [args]	- Run application foo.cmg, executable
+					  is NOT optional
+					  
+klik prompt foo.cmg executable 		- force a dialogue to select application
+					  
+klik shell foo.cmg			- Start a shell with cmg union mounted
+
+klik unpack foo.cmg /foo/		- Unpack an application
+
+klik extract foo.cmg /foo.cfg foo.cfg	- Extract a single file from a cmg
+
+klik icon foo.cmg output.ico		- Extract the icon for the cmg (resizes icon)
+
+klik pack /foo/	foo.cmg			- Repack an application
+
+klik merge main.cmg add.cmg output.cmg
+
+klik (un)register foo.cmg [bar.cmg...]	- (un)register cmg list into desktop menu
+					  Options:
+						-f	- Force registration
+
+klik sync dir1 [dir2...]		- Synchronize application directories, looking
+					  for non-registered packages and packages
+					  registered but no longer existing
+"""
+
+# klik jail foo.cmg			- Run application moo.cmg
+
+if __name__ == "__main__":
+	try:
+
+		# Check not root
+		xdg = XdgUtils()
+
+		if xdg.is_root() == True:
+			print "Sorry, you should not run klik as root (or sudo)"
+			sys.exit(1)
+
+		# add bin/ folder to path if it isn't already in there
+		os.environ["PATH"] = sys.path[0] + ":" + os.environ["PATH"]
+
+		klik = KlikBase(sys.path[0])
+		integration = KlikIntegration(klik)
+		
+		command_options = set()
+
+		if len(sys.argv) > 2:
+
+			first_arg = sys.argv[1].lower()
+			second_arg = sys.argv[2]
+			args = sys.argv[3:]
+
+			if first_arg == "unpack":
+			
+				if len(args) == 0:
+					klik.unpack_cmg( second_arg, second_arg[:-4])
+				elif len(args) > 0:
+					klik.unpack_cmg( second_arg, args[0])
+				else:
+					usage()
+
+			elif first_arg == "extract":
+				if len(args) > 1:
+					result = klik.extract_file(second_arg, args[0], args[1])
+					if result:
+						sys.exit(0)
+					else:
+						sys.exit(1)
+				else:
+					usage()
+
+			elif first_arg == "icon":
+				result = True
+				if len(args) > 1:
+					result = klik.extract_icon(second_arg, args[0], args[1])
+				else:
+					result = klik.extract_icon(second_arg, args[0], -1)
+				if result:
+					sys.exit(0)
+				else:
+					sys.exit(1)
+
+			elif first_arg == "shell":
+				klik.execute_cmg_shell(second_arg)
+
+			elif first_arg == "pack":
+				if len(args) > 0:
+					klik.pack_cmg(second_arg, args[0])
+				else:
+					usage()
+
+			elif first_arg == "merge":
+				if len(args) > 0:
+					klik.merge(second_arg, args[0], args[1])
+				else:
+					usage()
+
+			elif first_arg == "register":
+				#import cProfile
+				#cProfile.run("integration.register(sys.argv[2:])")
+				if "-f" in sys.argv:
+					sys.argv.remove("-f")
+					command_options.add("f")
+				integration.register(sys.argv[2:], command_options)
+
+			elif first_arg == "unregister":
+				#import cProfile
+				#cProfile.run("integration.unregister(sys.argv[2:])")
+				integration.unregister(sys.argv[2:])
+
+			elif first_arg == "sync":
+				#import cProfile
+				#cProfile.run("klik.sync(sys.argv[2:])")
+				integration.sync(sys.argv[2:])
+
+			elif first_arg == "setup":
+				print "setup"
+
+			elif first_arg == "run":
+				if os.path.isfile(second_arg):
+					result, text = klik.execute_cmg(None, second_arg, args)
+					sys.exit(result)
+				elif len(args) > 0:
+					third_arg = sys.argv[3]
+					args = sys.argv[4:]
+					result, text = klik.execute_cmg(second_arg, third_arg, args)
+					sys.exit(result)
+				else:
+					usage()
+
+			elif first_arg == "jail":
+				if len(args) > 1:
+					third_arg = sys.argv[3]
+					klik.create_jailed_cmg(second_arg, third_arg)
+					sys.exit()
+				elif os.path.isfile(second_arg):
+					klik.create_jailed_cmg(second_arg)
+					sys.exit()
+				else:
+					usage()
+
+			elif first_arg == "exec":
+				if len(args) > 0:
+					third_arg = sys.argv[3]
+					args = sys.argv[4:]
+					result, text = klik.execute_cmg(third_arg, second_arg, args)
+					sys.exit(result)
+				else:
+					usage()
+
+			elif first_arg == "prompt":
+				result, text = klik.execute_cmg(None, second_arg, args, False, True)
+				sys.exit(result)
+
+			elif first_arg == "get":
+				result, text = klik.download_and_execute(second_arg, args)
+
+			elif first_arg == "settings":
+				klik.settings.print_settings( sys.argv[2:] )
+				
+			else:
+				usage()
+
+		elif len(sys.argv) > 1:
+			first_arg = sys.argv[1]
+			args = sys.argv[2:]
+
+			if first_arg in ("--help","-h"):
+				usage()
+			else:
+				result, text = klik.download_and_execute(first_arg, args )
+		else:
+			usage()
+
+	except Exception, inst:
+		print ("Error occurred: %s" % inst)
+		traceback.print_exc()

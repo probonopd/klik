@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<interface uri="http://klik.atekon.de/apt/recipe.gpg.php?package=snowballz" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+    <name>TeeWars</name>
+    <icon href="http://www.teewars.com/forum/img/avatars/7.png" />
+    <group main="teewars">
+        <implementation union="/" released="" stability="lsb" version="0.3.3" downloadsize="22.8kB">
+            <recipe>
+                <archive href="http://www.teewars.com/files/teewars-0.3.3-linux_x86.tar.gz" name="teewars" />
+                
+                <!-- Needs more deps alsa (asound), gl, glu and X11.-->
+                 <archive href="http://archive.ubuntu.com/ubuntu/pool/main/libx/libxfixes/libxfixes3_4.0.3-2_i386.deb" md5="424776ccb31799565ddf5ec1e20f7241" name="libxfixes3" />
+                <archive href="http://archive.ubuntu.com/ubuntu/pool/main/libd/libdrm/libdrm2_2.3.0-4ubuntu1_i386.deb" md5="6599cb4d9415d4a9a7a5fa717e99f546" name="libdrm2" />
+                <archive href="http://archive.ubuntu.com/ubuntu/pool/main/libx/libxdamage/libxdamage1_1.1.1-3_i386.deb" md5="e1e04acb1b20bf5cd6aca827dcd33e67" name="libxdamage1" />
+                <archive href="http://archive.ubuntu.com/ubuntu/pool/main/libx/libxxf86vm/libxxf86vm1_1.0.1-2_i386.deb" md5="0d0e085df061686ce559eac24e6103e5" name="libxxf86vm1" />
+                <archive href="http://archive.ubuntu.com/ubuntu/pool/main/m/mesa/libgl1-mesa-glx_7.0.1-1ubuntu3_i386.deb" md5="e90b95275854864448afe72e4b595902" name="libgl1-mesa-glx" />
+                <archive href="http://archive.ubuntu.com/ubuntu/pool/main/m/mesa/libglu1-mesa_7.0.1-1ubuntu3_i386.deb" md5="064cc14735b8db918bffedd475ef5648" name="libglu1-mesa" />
+                
+                <archive href="http://archive.ubuntu.com/ubuntu/pool/main/a/alsa-lib/libasound2_1.0.14-1ubuntu8_i386.deb" md5="de2048d64046da4b6320c28c9afa3b34" name="libasound2" />
+            </recipe>
+        </implementation>
+    </group>
+</interface>

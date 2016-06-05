@@ -1,0 +1,4 @@
+de - 61 translated messages, 13 fuzzy translations, 13 untranslated messages.
+es - 87 translated messages.
+fr - 87 translated messages.
+gl - 87 translated messages.

@@ -1,0 +1,89 @@
+#!/usr/bin/env python
+
+#
+# (c) 2008 Simon Peter <probono@myrealbox.com>
+# GPL v2
+#
+
+import sys, os, string
+from subprocess import *
+from xml.dom.minidom import *
+
+try:
+        import gtk
+        import gtk.glade
+except:
+        sys.exit(1)
+
+#
+# Define the about dialog
+#
+
+def showAbout(self):
+	dlg = gtk.AboutDialog()
+	dlg.set_version("0.0.1") 
+	dlg.set_name("ympclient")
+	icon = gtk.gdk.pixbuf_new_from_file("get_pack.png") 
+	dlg.set_logo(icon)
+	dlg.set_authors(["Simon Peter <probono@myrealbox.com>"])
+	dlg.set_comments('''Cross-distribution ymp client\nfor the openSUSE 1-Click Install''')
+	def close(w, res):
+		if res == gtk.RESPONSE_CANCEL:
+			w.destroy()
+	dlg.connect("response", close)
+	dlg.show()
+
+#
+# Parse the ymp file
+#
+
+try:
+        f = open(sys.argv[1], "r")
+        xml = f.read()
+        f.close()
+        document = parseString(xml)
+except:
+        print "Cannot parse ymp file"
+        exit()   
+
+package = document.getElementsByTagName("software")[0].getElementsByTagName("name")[0].firstChild.nodeValue
+description = document.getElementsByTagName("software")[0].getElementsByTagName("description")[0].firstChild.nodeValue
+repo = document.getElementsByTagName("repositories")[0].getElementsByTagName("url")[0].firstChild.nodeValue
+
+#
+# Show the main dialog
+#
+
+gladefile = os.path.join(sys.path[0],"ympclient.glade")  
+wTree = gtk.glade.XML(gladefile)                 
+window = wTree.get_widget("MainWindow")
+window.show()
+window.connect("destroy", exit)
+dic = { "on_OK_clicked" : gtk.main_quit, # continue with Python script
+	"on_cancel_clicked" : exit, # exit Python script
+	"on_about_clicked" : showAbout, # show about dialog
+	"on_MainWindow_destroy" : gtk.main_quit }
+wTree.signal_autoconnect(dic)
+strippeddescription = replace = string.replace(description, '\n', ' ')
+wTree.get_widget("TopLabel").set_text(package+": "+strippeddescription)
+wTree.get_widget("ExpanderLabel").set_text("Repository to be added: "+repo+"\n"+"Package to be installed: "+package+"\n")
+gtk.main() 
+
+#
+# Write sources.list and call apt-get
+#
+        
+sourceline = "deb "+repo+" ./" 
+
+# Write the install script
+myfile = file('/tmp/ymp.sh', 'w')
+myfile.write("echo '"+sourceline+"'> /etc/apt/sources.list.d/ymp.list"+"\n")
+myfile.write("apt-get update"+"\n")
+myfile.write("apt-get install "+package+"\n")
+myfile.write("rm -rf /etc/apt/sources.list.d/ymp.list"+"\n")
+myfile.write("sleep 5"+"\n")
+myfile.close()
+
+# Make install script executable and run it
+os.system("chmod u+x /tmp/ymp.sh")
+os.system("xterm -e sudo /tmp/ymp.sh")

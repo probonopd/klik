@@ -1,0 +1,476 @@
+# German translations for klik package.
+# Copyright (C) 2007 THE klik'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the klik package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: klik 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-03-01 17:16+0200\n"
+"PO-Revision-Date: 2007-11-27 00:59+0200\n"
+"Last-Translator:  <probono@myrealbox.com>\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../lib/klik/gtk/create.py:103
+#, python-format
+msgid "Download and run \"%s\"?"
+msgstr "\"%s\" herunterladen und starten?"
+
+#: ../lib/klik/gtk/create.py:122
+msgid "Packages:\n"
+msgstr "Pakete:\n"
+
+#: ../lib/klik/gtk/create.py:134
+msgid "This application is NOT trusted"
+msgstr "Dieser Download ist NICHT signiert"
+
+#: ../lib/klik/gtk/create.py:136
+msgid ""
+"You should be sure that applications are from a trustworthy source before "
+"running."
+msgstr ""
+"Sie sollten sicherstellen, dass dieser Download aus einer vertrauenswürdigen "
+"Quelle stammt."
+
+#: ../lib/klik/gtk/create.py:250
+msgid "Getting information..."
+msgstr "Informationen abrufen..."
+
+#: ../lib/klik/gtk/create.py:299
+#, python-format
+msgid "Downloading %s"
+msgstr "%s wird geladen"
+
+#: ../lib/klik/gtk/create.py:309
+msgid "Sending Feedback"
+msgstr "Rückmeldung senden"
+
+#: ../lib/klik/gtk/create.py:485
+msgid "Error Occurred"
+msgstr "Ein Fehler ist aufgetreten"
+
+#: ../lib/klik/create.py:123
+#, python-format
+msgid "Requesting : %s"
+msgstr "Anfordern: %s"
+
+#: ../lib/klik/create.py:128
+#, python-format
+msgid "Downloading : %s"
+msgstr "Herunterladen: %s"
+
+#: ../lib/klik/create.py:131
+#, python-format
+msgid "Error code %s %s"
+msgstr "Fehler %s %s"
+
+#: ../lib/klik/create.py:154
+#, python-format
+msgid ""
+"\n"
+"Checking MD5 Hash [%s] - "
+msgstr ""
+
+#: ../lib/klik/create.py:160
+msgid "Failed"
+msgstr ""
+
+#: ../lib/klik/create.py:161
+#, fuzzy, python-format
+msgid ""
+"Error occured while attempting to download, MD5 hash does NOT match file %s"
+msgstr "Beim Versuch %s herunterzuladen ist ein Fehler aufgetreten"
+
+#: ../lib/klik/create.py:162
+msgid "Success"
+msgstr ""
+
+#: ../lib/klik/create.py:164
+#, python-format
+msgid "Error occured while attempting to download %s"
+msgstr "Beim Versuch %s herunterzuladen ist ein Fehler aufgetreten"
+
+#: ../lib/klik/create.py:172
+msgid "Extracting Ingredients"
+msgstr "Zutaten auspacken"
+
+#: ../lib/klik/create.py:195
+msgid "No image set scanning for icon......"
+msgstr "Kein Icon definiert, suche Icon..."
+
+#: ../lib/klik/create.py:225
+#, python-format
+msgid "Icon Found : %s"
+msgstr "Icon gefunden: %s"
+
+#: ../lib/klik/create.py:258
+msgid "No recipe file found"
+msgstr "Kein Rezept gefunden"
+
+#: ../lib/klik/create.py:267
+#, fuzzy
+msgid "Compressing Application Image..."
+msgstr "Dateien komprimieren..."
+
+#: ../lib/klik/create.py:273
+msgid "Compressing..."
+msgstr "Komprimieren..."
+
+#: ../lib/klik/create.py:284
+#, fuzzy
+msgid "Generating Application Image"
+msgstr "CMG Programme-Verzeichnis"
+
+#: ../lib/klik/create.py:288
+msgid "Generating ISO... "
+msgstr "ISO erstellen..."
+
+#: ../lib/klik/create.py:310
+msgid "genisoimage failed. Is it installed?"
+msgstr "genisoimage funktioniert nicht. Ist es installiert?"
+
+#: ../lib/klik/create.py:314
+msgid "Embedding minirun..."
+msgstr "Minirun einbetten..."
+
+#: ../lib/klik/create.py:351
+#, fuzzy, python-format
+msgid "Move File : %s "
+msgstr "Datei kopieren: %s "
+
+#: ../lib/klik/create.py:359
+msgid "CMG creation complete"
+msgstr "CMG-Datei erstellt"
+
+#: ../lib/klik/create.py:366
+msgid "Unpack Packages : "
+msgstr "Zutaten auspacken: "
+
+#: ../lib/klik/create.py:402
+msgid ""
+"\n"
+"Moving File :"
+msgstr ""
+"\n"
+"DÃ©placement du fichier :"
+
+#: ../lib/klik/create.py:403
+#, python-format
+msgid "from - %s"
+msgstr "von - %s"
+
+#: ../lib/klik/create.py:404
+#, python-format
+msgid "to   - %s"
+msgstr "nach  - %s"
+
+#: ../lib/klik/create.py:411
+msgid ""
+"\n"
+"Deleting File :"
+msgstr ""
+"\n"
+"Datei löschen:"
+
+#: ../lib/klik/create.py:412 ../lib/klik/create.py:429
+#, python-format
+msgid "file - %s"
+msgstr "Datei - %s"
+
+#: ../lib/klik/create.py:419
+msgid ""
+"\n"
+"Creating Symlink :"
+msgstr ""
+"\n"
+"Lege Symlink an :"
+
+#: ../lib/klik/create.py:428
+msgid ""
+"\n"
+"Unzipping Archive :"
+msgstr ""
+"\n"
+"Archiv auspacken:"
+
+#: ../lib/klik/create.py:439
+#, python-format
+msgid "Error with script : %s"
+msgstr "Fehler im Skript: %s"
+
+#: ../lib/klik/create.py:442
+msgid "WARNING :: THE FOLLOWING SCRIPT WILL BE EXECUTED : "
+msgstr "ACHTUNG :: DAS FOLGENDE SKRIPT WIRD AUSGEFÜHRT : "
+
+#: ../lib/klik/create.py:446
+msgid "Executing..."
+msgstr "Starten..."
+
+#: ../lib/klik/integration.py:240
+#, python-format
+msgid "Registering %s"
+msgstr "Registrieren von %s"
+
+#: ../lib/klik/integration.py:243
+msgid "Package already registered"
+msgstr ""
+
+#: ../lib/klik/integration.py:305
+msgid "The following menu items have been added"
+msgstr "Folgende Menüeinträge wurden hinzugefügt"
+
+#: ../lib/klik/integration.py:306
+#, fuzzy
+msgid "To uninstall remove the file from your application folder"
+msgid_plural "To uninstall remove the files from your application folder"
+msgstr[0] ""
+"Zum Deinstallieren entfernen Sie die Datei aus dem Programme-Verzeichnis"
+msgstr[1] ""
+"Zum Deinstallieren entfernen Sie die Datei aus dem Programme-Verzeichnis"
+
+#: ../lib/klik/integration.py:324
+#, python-format
+msgid " ... and %d more"
+msgstr "... und %d weitere"
+
+#: ../lib/klik/integration.py:327
+msgid "CMG Application Folder"
+msgstr "CMG Programme-Verzeichnis"
+
+#: ../lib/klik/integration.py:349
+#, python-format
+msgid "Unregistering %s"
+msgstr "Registrierung von %s läsen"
+
+#: ../lib/klik/integration.py:381
+msgid "The following menu items have been removed:"
+msgstr "Folgende Menüeinträge wurden entfernt:"
+
+#: ../share/klik/klik.glade:44
+msgid ""
+"<span size=\"larger\" weight=\"bold\">Download and run \"Gran Paradiso Alpha "
+"1 (Firefox 3)\"?</span>"
+msgstr ""
+
+#: ../share/klik/klik.glade:73
+msgid "This application is from a trusted source."
+msgstr "Dieser Download stammt aus einer vertrauenswürdigen Quelle."
+
+#: ../share/klik/klik.glade:107
+msgid ""
+"<b>This application is not signed.</b> You should be sure that it is from a "
+"trustworthy source before running it."
+msgstr ""
+"<b>Dieses Rezept ist nicht signiert.</b> Sie sollten sicherstellen, dass es "
+"aus einer vertrauenswürdigen Quelle stammt, bevor Sie fortfahren."
+
+#: ../share/klik/klik.glade:128
+msgid "<b>Download Size:</b>"
+msgstr "<b>Downloadgrä§e:</b>"
+
+#: ../share/klik/klik.glade:140 ../share/klik/klik.glade:227
+#: ../share/klik/klik.glade:240
+msgid "unknown"
+msgstr "unbekannt"
+
+#: ../share/klik/klik.glade:171
+msgid "<b>Signed By:</b>"
+msgstr "<b>Signiert von:</b>"
+
+#: ../share/klik/klik.glade:185
+msgid "<b>unsigned</b>"
+msgstr "<b>nicht signiert</b>"
+
+#: ../share/klik/klik.glade:201
+msgid "<b>Summary:</b>"
+msgstr "<b>Zusammenfassung:</b>"
+
+#: ../share/klik/klik.glade:213
+msgid "<b>Version:</b>"
+msgstr "<b>Version:</b>"
+
+#: ../share/klik/klik.glade:277
+msgid ""
+"Gran Paradiso Alpha 1 is an early developer milestone for the next major "
+"version of Firefox that is being built on top of the next generation of "
+"Mozilla's layout engine, Gecko 1.9. Gran Paradiso Alpha 1 is being made "
+"available for testing purposes only, and is intended for web application "
+"developers and our testing community. Current users of Mozilla Firefox "
+"should not use Gran Paradiso Alpha 1."
+msgstr ""
+
+#: ../share/klik/klik.glade:285
+msgid "Description"
+msgstr "Beschreibung"
+
+#: ../share/klik/klik.glade:314
+msgid ""
+"Ingredients:\n"
+" - http://www.debian.co.nz/firefox.deb"
+msgstr ""
+"Zutaten:\n"
+" - http://www.debian.co.nz/firefox.deb"
+
+#: ../share/klik/klik.glade:328
+msgid "Ingredients"
+msgstr "Zutaten"
+
+#: ../share/klik/klik.glade:370
+msgid "Recipe"
+msgstr "Rezept"
+
+#: ../share/klik/klik.glade:390
+#, fuzzy
+msgid "<b>Overlay:</b>"
+msgstr "<b>Version:</b>"
+
+#: ../share/klik/klik.glade:402
+msgid ""
+"None\n"
+"Protect home folder\n"
+"Make application portable"
+msgstr ""
+
+#: ../share/klik/klik.glade:429 ../share/klik/klik.glade:1232
+#, fuzzy
+msgid "Options"
+msgstr "Weitere Optionen"
+
+#: ../share/klik/klik.glade:451 ../share/klik/klik.glade:1090
+msgid "Details"
+msgstr "Details"
+
+#: ../share/klik/klik.glade:533 ../share/klik/klik.glade:1303
+msgid "Run"
+msgstr "Start"
+
+#: ../share/klik/klik.glade:561
+msgid "klik"
+msgstr "klik"
+
+#: ../share/klik/klik.glade:583
+msgid "<big><big><b>Gran Paradiso Alpha 1 (Firefox 3)</b></big></big>"
+msgstr ""
+
+#: ../share/klik/klik.glade:601
+msgid "Did this application work as expected?"
+msgstr "Ist das heruntergeladene Programm wie erwartet gestartet?"
+
+#: ../share/klik/klik.glade:666
+msgid "Give feeedback to the klik developers. What worked/did not work?"
+msgstr ""
+
+#: ../share/klik/klik.glade:708
+#, fuzzy
+msgid "Comment"
+msgstr "Haben Sie einen Kommentar?"
+
+#: ../share/klik/klik.glade:726
+msgid "Information about your desktop"
+msgstr "Informationen über Ihren Desktop"
+
+#: ../share/klik/klik.glade:772
+#, fuzzy
+msgid "<i>System information</i>"
+msgstr "<i>Systeminformation</i>"
+
+#: ../share/klik/klik.glade:790
+msgid "Error (if any) returned by the application"
+msgstr "Vom Programm gemeldete Fehler (falls vorhanden)"
+
+#: ../share/klik/klik.glade:837
+#, fuzzy
+msgid "<i>Error report</i>"
+msgstr "<i>Fehlerbericht</i>"
+
+#: ../share/klik/klik.glade:855
+msgid "Attempt to detect any missing dependencies"
+msgstr "Versuch, fehlende Abhängigkeiten zu erkennen"
+
+#: ../share/klik/klik.glade:902
+#, fuzzy
+msgid "<i>Library trace</i>"
+msgstr "<i>Library Trace</i>"
+
+#: ../share/klik/klik.glade:920
+#, fuzzy
+msgid "You can help improve klik by sending <b>anonymous</b> feedback."
+msgstr ""
+"Bitte helfen Sie uns mit Ihren Rückmeldungen, diesen Service zu verbessern!"
+
+#: ../share/klik/klik.glade:972
+msgid "gtk-ok"
+msgstr ""
+
+#: ../share/klik/klik.glade:993
+msgid "Klik"
+msgstr "klik"
+
+#: ../share/klik/klik.glade:1030
+msgid ""
+"<span size=\"larger\" weight=\"bold\">Dowloading  \"Gran Paradiso Alpha 1 "
+"(Firefox 3)\"</span>"
+msgstr ""
+
+#: ../share/klik/klik.glade:1049
+msgid " "
+msgstr " "
+
+#: ../share/klik/klik.glade:1156
+msgid ""
+"This Compressed Application Image contains the following applications \n"
+"\n"
+"Select which application you would like to run"
+msgstr ""
+"Dieses Image enthält die folgenden Programme \n"
+"\n"
+"Bitte wählen Sie aus, welches Programm Sie starten mächten"
+
+#: ../share/klik/klik.glade:1204
+#, fuzzy
+msgid "<b>Jail:</b>"
+msgstr "<b>Version:</b>"
+
+#: ../share/klik/klik.glade:1216
+msgid ""
+"None\n"
+"Entire System\n"
+"Allow home folder access\n"
+"Make application portable"
+msgstr ""
+
+#: ../share/klik/klik.glade:1260
+msgid "gtk-about"
+msgstr ""
+
+#: ../share/klik/klik.glade:1351
+msgid "Compressed Applications Images that can be updated"
+msgstr "Images, die aktualisiert werden kännen"
+
+#~ msgid "Icon does not exist"
+#~ msgstr "Icon existiert nicht"
+
+#~ msgid "Desktop File Found : %s"
+#~ msgstr "Desktop-Datei gefunden: %s"
+
+#~ msgid "Error parsing desktop file"
+#~ msgstr "Desktop-Datei fehlerhaft"
+
+#~ msgid "Generating CMG"
+#~ msgstr "CMG erstellen"
+
+#~ msgid "Feedback Information (<b>All feedback is anonymous</b>)"
+#~ msgstr "Rückmeldungsinformationen (<b>Alle Angaben sind anonym</b>)"
+
+#~ msgid "Send"
+#~ msgstr "Senden"
+
+#~ msgid "Detail"
+#~ msgstr "Details"
+
+#~ msgid "Run application in a jail"
+#~ msgstr "Programm in Sandkasten starten"

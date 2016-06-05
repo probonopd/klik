@@ -1,0 +1,14 @@
+[Protocol]
+exec=klik '%u'
+protocol=klik
+input=none
+output=none
+helper=true
+listing=false
+reading=false
+writing=false
+makedir=false
+deleting=false
+icon=package
+Description=klik
+EOF

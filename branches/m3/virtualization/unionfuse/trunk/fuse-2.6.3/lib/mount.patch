@@ -1,0 +1,4 @@
+97c97
+<     execv(FUSERMOUNT_DIR "/" FUSERMOUNT_PROG, (char **) argv);
+---
+>     //execv(FUSERMOUNT_DIR "/" FUSERMOUNT_PROG, (char **) argv);

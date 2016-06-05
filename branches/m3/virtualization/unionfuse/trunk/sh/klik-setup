@@ -1,0 +1,208 @@
+#!/usr/bin/python
+
+#
+# "klik2" system setup and check
+# This sets up the system for use with klik
+# and gives very verbose messages in case it
+# finds some errors that make the system unusable for klik
+#
+# The packaged version of the client should do these things natively
+# without the need for this script
+#
+version = "20070821"
+# by probono at myrealbox dot com
+# GPLv2
+#
+
+import sys
+import os
+import stat # for calculating permissions
+
+#
+# Check whether we are root and quit if we are not
+#
+
+if os.getuid() != 0:
+    print ("You must be root in order to run "+sys.argv[0]+", exiting")
+    sys.exit(1)
+
+#
+# Make bin/ files executable
+#
+
+#(fixme)
+
+#
+# Check whether permissions for fusermount are set correctly
+#
+
+systemfusermountpath="/usr/bin/fusermount"
+privatefusermountpath = os.path.join(sys.path[0], "fusermount")
+
+# Check whether we can use the system-provided fusermount
+# Else, set permissions for our private fusermount
+
+def tryprivate():
+    if os.path.exists(privatefusermountpath):
+        print privatefusermountpath+" exists"
+    else:
+        print privatefusermountpath+" does not exist, exiting"
+        sys.exit(1)
+    print "Trying to setuid 4755 "+privatefusermountpath
+    try:
+        os.chown(privatefusermountpath,0,0)
+        os.system("chmod 4755 %s" %(privatefusermountpath,)) # python's chmod screws setuid bit
+        print privatefusermountpath+" can be used"
+    except:
+        print privatefusermountpath+" cannot be used due to wrong permissions, exiting"
+        sys.exit(1)
+
+if os.path.exists(systemfusermountpath):
+    print systemfusermountpath+" exists"
+    st = os.stat(systemfusermountpath)
+    mode = st[stat.ST_MODE]
+    permissions = oct(mode & 0777)
+    if permissions == 4755:
+        print systemfusermountpath+" can be used"
+    else:
+        print systemfusermountpath+" cannot be used due to wrong permissions, need to use our private copy"
+        tryprivate()
+else:
+    print systemfusermountpath+" does not exist"
+    tryprivate()
+
+#
+# Register cmg file format as a binary format
+#
+
+if os.path.exists("/usr/bin/apt-get"): # on deb-based systems
+    try:
+        print "Trying to install binfmt-support"
+        os.system("apt-get install binfmt-support")
+    except:
+        pass
+
+    
+# try to make this persistent
+runpath = sys.path[0]+"/klik-run"
+try:
+    binfmtspath = "/usr/share/binfmts/cmg"
+    binfmtsfile = file(binfmtspath, "w")
+    binfmtsfile.write("""\
+package cmg
+interpreter """+runpath+"""
+magic Compressed
+offset 16""")
+    binfmtsfile.close()
+    os.system("update-binfmts --import cmg")
+    os.system("update-binfmts --enable cmg")
+except:
+    print "Unable to write to "+binfmtspath
+    pass
+    
+#os.system("echo ':CMG2:M:16:Compressed::%s:' > /proc/sys/fs/binfmt_misc/register 2>/dev/null" %(runpath,))
+#if os.path.exists("/proc/sys/fs/binfmt_misc/CMG2"):
+#    print "Image format successfully registered as binary format"
+#else:
+#    print "Failed to register image format as binary format, maybe you need to mount /proc/sys/fs/binfmt_misc first. You will need to run application images with: "+runpath+" application" 
+
+#
+# Register cmg file format as a MIME type
+#
+
+print "Registering image format as MIME type"
+
+# fixme: put this file in share/mime subdirectory of klikclient and copy from there
+mimepath = "/usr/share/mime/"
+mimefile = file(mimepath+"packages/cmg.xml", "w")
+mimefile.write("""\
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-cmg">
+    <comment>Compressed Application Image</comment>
+    <magic priority="50">
+      <match value="Compressed" type="string" offset="16"/>
+    </magic>
+    <glob pattern="*.cmg"/>
+  </mime-type>
+</mime-info>
+""")
+mimefile.close()
+
+print "Updating MIME database"
+os.system("update-mime-database "+mimepath)
+
+# from this point on, cmg files should be recognized as "Compressed Application Image" in GNOME/KDE, and we can assign those to klik-run
+
+#
+# Assign cmg file format to open with klik-run in GNOME
+#
+
+runfile = sys.path[0]+"/klik-run"
+desktopfile = file("/usr/share/applications/klik-run.desktop", "w")
+desktopfile.write("""\
+[Desktop Entry]
+Encoding=UTF-8
+Name=klik-run
+MimeType=application/x-cmg;
+Exec='"""+runfile+"""'
+Type=Application
+Terminal=false
+NoDisplay=true
+""")
+desktopfile.close()
+
+print "Updating GNOME desktop database"
+os.system("update-desktop-database")
+
+#
+# Install the thumbnailer for GNOME
+#
+
+# Install the thumbnailer
+
+# Install the gconf schema
+print "Installing the gconf schema for the GNOME thumbnailer"
+gconfschema = "/tmp/thumbnailer.schema"
+gconfschemafile = file(gconfschema, "w")
+gconfschemafile.write("""
+<gconfschemafile>
+    <schemalist>
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@x-cmg/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@x-cmg/enable</applyto>
+            <owner>thumbnailer</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Thumbnailer for Compressed Application Images</short>
+                <long>Thumbnailer for Compressed Application Images</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@x-cmg/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@x-cmg/command</applyto>
+            <owner>thumbnailer</owner>
+            <type>string</type>
+            <default>"""+sys.path[0]+"""/klik-thumbnailer %u %o</default>
+            <locale name="C">
+                <short>Thumbnailer for Compressed Application Images</short>
+                <long>Thumbnailer for Compressed Application Images</long>
+            </locale>
+        </schema>
+    </schemalist>
+</gconfschemafile>
+""")
+gconfschemafile.close()
+os.system("export GCONF_CONFIG_SOURCE=$(gconftool-2 --get-default-source) && gconftool-2 --makefile-install-rule /tmp/thumbnailer.schema "+gconfschema+" >/dev/null")
+
+try:
+    os.symlink(sys.path[0]+"/klik","/usr/local/bin/klik")
+    os.system("chmod 755 /usr/local/bin/klik")
+except:    
+    print "Failed to symlink "+sys.path[0]+"/klik to /usr/local/bin"
+    pass    
+
+# Check whether our entry is in the "GNOME Registry", argh ;-(
+# gconftool-2 -g /desktop/gnome/thumbnailers/application@x-cmg
+# gconftool-2 -g /schemas/desktop/gnome/thumbnailers/application@x-cmg/command

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Klik
+MimeType=application/x-application-cmg;application/x-application-cmg-recipe;text/x-application-ticket
+Exec=klik
+Type=Application
+Terminal=false
+NoDisplay=true

@@ -1,0 +1,2 @@
+msgfmt kfile_cmg.fr.po -o kfile_cmg.mo
+cp kfile_cmg.mo $KDEDIR/share/locale/fr/LC_MESSAGES/

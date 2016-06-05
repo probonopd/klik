@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type="text/xsl" href="recipe.xsl.php" ?>
+<interface uri="http://klik.atekon.de/apt/recipe.gpg.php?package=firefox" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+
+    <name>firefox</name>
+    <summary>Mozilla Firefox web browser</summary>
+    <description>Firefox 3 beta1 (very unstable!)</description>    
+    <icon href='/firefox/icons/mozicon128.png'/> 
+    <category>
+	    <debtags>
+		<tag>use::browsing</tag>
+	    </debtags>  
+    </category>
+    <group main="/firefox/firefox">
+        <implementation union="/" released="" stability="lsb" version="3beta1" downloadsize="7M">
+            <recipe>
+		    <archive href="http://download.mozilla.org/?product=firefox-3.0b1&amp;os=linux&amp;lang=en-US" name="firefox" />
+		    <archive href="http://klik.atekon.de/get.php?http://mirrors.kernel.org/debian/pool/main/g/gcc-3.3/;libstdc++5_*_i386.deb" name="libstdc++5" />
+            </recipe>
+        </implementation>
+    </group>
+</interface>

@@ -1,0 +1,41 @@
+<gconfschemafile>
+    <schemalist>
+
+        <schema>
+            <key>/schemas/desktop/gnome/url-handlers/klik/command</key>
+            <applyto>/desktop/gnome/url-handlers/klik/command</applyto>
+            <owner>Protocol</owner>
+            <type>string</type>
+            <default>klik %s</default>
+            <locale name="C">
+                <short>klik protocol</short>
+                <long>klik protocol</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/desktop/gnome/url-handlers/klik/enabled</key>
+            <applyto>/desktop/gnome/url-handlers/klik/enabled</applyto>
+            <owner>Protocol</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>klik protocol</short>
+                <long>klik protocol</long>
+            </locale>
+        </schema>
+        
+        <schema>
+            <key>/schemas/desktop/gnome/url-handlers/klik/needs_terminal</key>
+            <applyto>/desktop/gnome/url-handlers/klik/needs_terminal</applyto>
+            <owner>Protocol</owner>
+            <type>bool</type>
+            <default>false</default>
+            <locale name="C">
+                <short>klik protocol</short>
+                <long>klik protocol</long>
+            </locale>
+        </schema>    
+
+    </schemalist>
+</gconfschemafile>

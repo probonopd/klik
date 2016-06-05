@@ -1,0 +1,37 @@
+<metapackage xmlns:os="http://opensuse.org/Standards/One_Click_Install" xmlns="http://opensuse.org/Standards/One_Click_Install">
+  <group>
+    <repositories>
+      <repository recommended="true">
+        <name>home:nadvornik:GQViewE</name>
+        <summary>Enhanced GQview</summary>
+        <description>This is a patched version GQview, with enhanced support for sorting photographs
+and other improvements.</description>
+        <url>http://download.opensuse.org/repositories/home:/nadvornik:/GQViewE/xUbuntu_7.10/</url>
+      </repository>
+      <repository recommended="false">
+        <name>Ubuntu:7.10</name>
+        <summary>Ubuntu 7.04 Gutsy Release</summary>
+        <description>This contains all packages from Ubuntu 7.10 &quot;main&quot;, this includes also the packages from KUbuntu, XUbuntu and Edubuntu.</description>
+        <url>http://download.opensuse.org/repositories/Ubuntu:/7.10/standard/</url>
+      </repository>
+    </repositories>
+    <software>
+      <item>
+        <name>gqviewe</name>
+        <summary>The gqviewe package</summary>
+        <description>Graphic File Browser Utility
+This is a patched version GQview, with enhanced support for sorting photographs
+and other improvements. The patches are not yet complete, this package
+however gives a good overview of the development direction.
+The binary is temporarily renamed to &quot;gqviewE&quot; to avoid conflicts
+with stable GQview and allow parallel installation.
+.
+For details see README.GQViewE in the package.
+.
+GQview is a browser for graphic files. It offers single click viewing
+of graphics files, including thumbnail view, zoom, filtering features,
+and external editor support.</description>
+      </item>
+    </software>
+  </group>
+</metapackage>

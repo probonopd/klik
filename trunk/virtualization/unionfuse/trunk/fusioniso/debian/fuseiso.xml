@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" [
+
+<!--
+
+Process this file with an XSLT processor: `xsltproc \
+-''-nonet /usr/share/sgml/docbook/stylesheet/xsl/nwalsh/\
+manpages/docbook.xsl manpage.dbk'.  A manual page
+<package>.<section> will be generated.  You may view the
+manual page with: nroff -man <package>.<section> | less'.  A
+typical entry in a Makefile or Makefile.am is:
+
+DB2MAN=/usr/share/sgml/docbook/stylesheet/xsl/nwalsh/\
+manpages/docbook.xsl
+XP=xsltproc -''-nonet
+
+manpage.1: manpage.dbk
+        $(XP) $(DB2MAN) $<
+    
+The xsltproc binary is found in the xsltproc package.  The
+XSL files are in docbook-xsl.  Please remember that if you
+create the nroff version in one of the debian/rules file
+targets (such as build), you will need to include xsltproc
+and docbook-xsl in your Build-Depends control field.
+
+-->
+
+  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
+  <!ENTITY dhfirstname "<firstname>FIRSTNAME</firstname>">
+  <!ENTITY dhsurname   "<surname>SURNAME</surname>">
+  <!-- Please adjust the date whenever revising the manpage. -->
+  <!ENTITY dhdate      "<date>may 31, 2007</date>">
+  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
+       allowed: see man(7), man(1). -->
+  <!ENTITY dhsection   "<manvolnum>1</manvolnum>">
+  <!ENTITY dhemail     "<email>d.paleino@gmail.com</email>">
+  <!ENTITY dhusername  "David Paleino">
+  <!ENTITY dhucpackage "<refentrytitle>FUSEISO</refentrytitle>">
+  <!ENTITY dhpackage   "fuseiso">
+
+  <!ENTITY debian      "<productname>Debian</productname>">
+  <!ENTITY gnu         "<acronym>GNU</acronym>">
+  <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
+]>
+
+<refentry>
+  <refentryinfo>
+    <address>
+      &dhemail;
+    </address>
+    <copyright>
+      <year>2007</year>
+      <holder>&dhusername;</holder>
+    </copyright>
+    &dhdate;
+  </refentryinfo>
+  <refmeta>
+    &dhucpackage;
+
+    &dhsection;
+  </refmeta>
+  <refnamediv>
+    <refname>&dhpackage;</refname>
+
+    <refpurpose>FUSE module to mount ISO filesystem images</refpurpose>
+  </refnamediv>
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>&dhpackage;</command>
+
+      <arg><option>-n</option></arg>
+      <arg><option>-p</option></arg>
+      <arg><option>-c <replaceable>iocharset</replaceable></option></arg>
+      <arg><option>-h</option></arg>
+      <arg>isofs_image_file</arg>
+      <arg>mount_point</arg>
+      <arg>FUSE library options</arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+  <refsect1>
+    <title>DESCRIPTION</title>
+
+    <para>This manual page documents briefly the
+      <command>&dhpackage;</command> command.</para>
+
+    <para>This manual page was written for the &debian; distribution
+      because the original program does not have a manual page.</para>
+
+    <para><command>&dhpackage;</command> provides a module to mount ISO 
+    filesystem images using FUSE.</para>
+    <para>With FUSE it is possible to implement a fully functional
+    filesystem in a userspace program.</para>
+
+    <para><command>fuseiso</command> can read ISO, BIN and NRG images
+    containing ISO9660 filesystems. Along with it, it supports some common
+    extensions, like Joliet, RockRidge and zisofs.</para>
+
+    <para>It also supports non-standard images, like CloneCD's .IMGs and
+    Alcohol 120%'s .MDFs, as their format looks exactly like .BIN images.
+    One major limitation of .BIN images is that <command>fuseiso</command>
+    does not handle .CUE files in any way, and thus can work with only the
+    first track of .BIN images.</para>
+
+    <para>Other formats like .CCD and .MDS are not supported, since their
+    format is not public and no one knows it.</para>
+  </refsect1>
+  <refsect1>
+    <title>OPTIONS</title>
+    <variablelist>
+      <varlistentry>
+        <term><option>-n</option></term>
+        <listitem>
+          <para>do NOT maintain file ~/.mtab.fuseiso.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-p</option></term>
+        <listitem>
+          <para>maintain mount point; create it if it does not exist and delete it 
+          on exit.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-c <replaceable>iocharset</replaceable></option></term>
+        <listitem>
+          <para>specify <replaceable>iocharset</replaceable> for Joliet filesystem.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+        <term><option>-h</option></term>
+        <listitem>
+          <para>prints an help screen.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+    <refsect2>
+      <title>Common FUSE library options</title>
+      <variablelist>
+        <varlistentry>
+          <term><option>-f</option></term>
+          <listitem>
+            <para>run in foreground, do not daemonize</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><option>-d</option></term>
+          <listitem>
+            <para>run in foreground, and print debug information</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term><option>-s</option></term>
+          <listitem>
+            <para>run single-threaded</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </refsect2>
+  </refsect1>
+  <refsect1>
+    <title>SEE ALSO</title>
+    <para>fusermount (1)</para>
+  </refsect1>
+  <refsect1>
+    <title>AUTHOR</title>
+    <para>This manual page was written by &dhusername; &dhemail; for
+      the &debian; system (but may be used by others).  Permission is
+      granted to copy, distribute and/or modify this document under
+      the terms of the &gnu; General Public License, Version 2 any 
+	  later version published by the Free Software Foundation.
+    </para>
+	<para>
+	  On Debian systems, the complete text of the GNU General Public
+	  License can be found in /usr/share/common-licenses/GPL.
+	</para>
+	<para><command>fuseiso</command> has been written by Dmitry Morozhnikov 
+	&lt;dmiceman@mail.ru&gt;, and is (C) 2005, Dmitry Morozhnikov.</para>
+  </refsect1>
+</refentry>
+

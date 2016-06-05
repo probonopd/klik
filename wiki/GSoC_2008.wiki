@@ -1,0 +1,181 @@
+#summary Google SoC 2008 klik project ideas.
+
+[https://lists.linux-foundation.org/pipermail/packaging/2008-February/000702.html Dan Kegel, Google] (on the LSB-'packaging' list):
+
+   _"Beware proposals for new package formats. That way lies madness. (Except for 
+   breakthrough ones like *klik*. Once their suckage is reduced, that kind of thing 
+   will be very useful.)"_
+
+
+= Google Summer of Code 2008 =
+
+Google is currently deciding about applications from mentoring organizations. The klik project applied on time. We are expecting to hear early next week if Google accepted us. 
+
+This page is for brainstorming GSoC project ideas around klik. Interested students should also look at our separate page with [http://code.google.com/p/klikclient/wiki/GSoC_Students advice for klik GSoC students]. (If you find references to 'klik2' in the following paragraphs, these are meant for the current klik development efforts to create The Real Thing, as opposed to 'klik1', our earlier proof-of-concept work.)
+
+
+== Project Ideas ==
+
+
+----
+=== klik2 Updater ===
+
+klik2 in its current, most basic incarnation leaves management of the downloaded and used application bundles entirely in the hand of the user's decision and action.
+
+However, it would be nice to have a "klik updater", implemented as a separate add-on to the klik client. It should be completely optional. If you decide to created it, just make it so good that every klik user feels it is a "must-have". But start small: a commandline application is good enough for a start. Just make it easy to add a GUI frontend in the 2nd stage of development. Different GUIs for Gtk, QT, ncurses, etc should be easy to create.
+
+The job of the updater should be to automatically crawl all locally stored .cmg app bundles, find out the versions of the ingredients used in their recipes, look up the various locations on the web for updates, and offer to the user to choose an automatic update of the selected bundles. (Make it an option to keep the current one, in case the update fails for some reason.)
+
+It should be also able to search and download and/or launch packages from a klik central database or any other trusted database (a feature I really miss, as sometimes I don't know how a packages is named).
+
+When updating, if the user has enabled the option of not conserving current CMGs (default), the current CMG could be unpackaged and merged only with the source ingredients that have been updated, saving bandwith and time.
+
+*Difficulty*: Easy to Medium
+
+*Required Skills*: Basic understanding about klik's architecture and inner workings (easy).
+
+*Language*: Most preferably Python (because the basic klik client is also written in Python)
+
+*References*:
+  * http://klik.atekon.de/wiki/index.php/Updater
+----
+
+
+=== klik2 Security Framework ===
+
+Analyze the current klik architecture in its completeness and identify any weak spots in its security. Look for a way to make klik totally secure and implement it. But start small: tackle the low hanging fruit first (if you find any). There are various fields to work on, and you will have the liberty to pick the one(s) you like most: from the klik client GUI and how it represents choices to the user, ...to the klik recipe itself, ...to the way a recipe is used to build the application bundle, ...to the way an application is run.
+
+Come up with a more detailed list of what you want to do, and convince us it is a worthwhile effort for GSoC 2008.
+
+Example: Recipes could be signed using SSL certificates (better than GPG keys, more flexible and powerful), but the main problem is how to check that a whole CMG is trusted.
+
+*Difficulty*: Medium/Advanced
+
+*Required Skills*: A very good understanding of security concerns.
+
+*Language*: Python for klik2
+
+*References*:
+  * http://en.wikipedia.org/wiki/GNU_Privacy_Guard
+  * http://en.wikipedia.org/wiki/X.509
+  * http://en.wikipedia.org/wiki/Openssl
+----
+
+
+=== Enhancement/Replacement for fakechroot ===
+
+Currently klik2 uses a combination of the ideas: "application file system hierarchy inside an ISO image", "fusemount the ISO image", "overlay (or unionmount) the ISO over the base system" and "fakechroot into the mountpoint" in order to "isolate" the application bundle from the rest of the system and to implement the "sandboxing" features klik2 supports.
+
+fakechroot isn't necessarily the best way (and surely not the most secure) way to achieve klik's goals; it was "good enough" and easy to use at the time we picked it. 
+
+This GSoC project would improve fakechroot itself ...or even replace it with a completely different, better solution for klik2, thereby increasing the number of applications that work with out modification.
+
+Feel free to evaluate the following alternatives to fakechroot and implement a way to use them for klik2: [http://sourceforge.net/projects/fakerootng/ fakeroot-ng], [http://plash.beasts.org/ plash], [http://plasticfs.sourceforge.net/ plasticfs], [http://teythoon.cryptobitch.de/0install/liboverlay.xml liboverlay], [http://klik.atekon.de/wiki/index.php/CLONE_NEWNS CLONE_NEWNS], [http://en.wikipedia.org/wiki/Bitfrost Bitfrost/OLPC], ... 
+
+*Difficulty*: Advanced
+
+*Required Skills*: Good understanding about virtualization, file systems and the LD_PRELOAD mechanism
+
+*Language*: Python for klik2; if any low-level coding is needed to patch one of the alternatives, it's probably C/C++
+
+*References*:
+  * http://code.google.com/p/klikclient/wiki/Fakechroot
+  * http://klik.atekon.de/wiki/index.php/Virtualization_Options
+  * http://mail.kde.org/pipermail/klik-devel/2008-March/000881.html
+----
+
+
+=== Packaging the klik2 client ===
+
+Create a universal way to build native klik2 client packages for all major distros via the openSUSE build service by means of a generic Makefile.
+
+*Difficulty*: Easy
+
+*Required Skills*: Basic Knowledge about packaging; willingness to learn usage of the OBS commandline utility.
+
+*Language*: Shell
+
+*References*:
+  * http://code.google.com/p/klikclient/wiki/deb
+  * https://build.opensuse.org/
+  * http://en.opensuse.org/Build_Service
+----
+
+
+
+=== Porting klik2 to `*`BSD and Opensolaris ===
+
+Evaluate the way to port the basic klik concepts to the BSD and openSolaris platforms. Arrive at least at a proof-of-concept implementation for one of the two.
+
+*Difficulty*: Medium
+
+*Required Skills*: enough Knowledge about at least one of these non-Linux platforms and their respective way of "packaging".
+
+*Language*: Python, C++
+----
+
+
+
+=== Automate klik Recipe Testing ===
+
+Create a framework that automates testing and QA of klik recipes on as many Linux distros as possible. (This may depend on the specific application family; you may need to come up with different methods for Qt-/KDE- or for Gtk-/Gnome applications...)
+
+*Difficulty*: Medium
+
+*Required Skills*: Basic understanding about klik's architecture and inner workings (easy); creative ideas about how to achieve this goal.
+
+*Language*: Shell + misc (negotiatable: Python?, Perl?, Ruby?, C/C++?, Java?,...)
+----
+
+
+
+=== Replacing Server-side APT with Server-side Smart ===
+
+klik2 is a toolkit to create self-contained application bundles for any application a user wants. The klik2 toolkit will create a single ISO image file that can be run with the help of the klik client (part of the toolkit), if the user writes his own recipe.
+
+However, most users don't write their own recipes. Therefore, one (very important) part of the historic 'klik1' and of the current klik2 development is its offering of a web service for users to browse available applications. Once selected, a recipe for the application will be automatically created by the klik web service.
+
+A mechanism that is behind this autocreation of klik recipes is automatically putting all direct dependencies (additional software packages required to run the selected application which can not be expected to be on the "base system"). This mechanism is currently based on what we call "Server-side APT". It uses Debian's APT, and a knowledge about Debian's package repository contents for dependency resolution and filling the list of required ingredients into the recipe.
+
+The task for this GSoC project is to evaluate the possibility to replace and extend the current mechanism (Server-Side APT) by another, more generic mechanism, such as "Server-side SmartPM". Arrive at least at a proof -of-concept implementation in real code.
+
+*Difficulty*: Medium
+
+*Required Skills*: Basic understanding of klik2 (easy); advanced understanding of packaging and dependency resolution (preferably good knowlege about RPM, urpmi, SmartPM, APT4RPM, PackageKit and similar projekts)
+
+*Language*: Shell, PHP, similar
+
+*References*:
+  * http://klik.atekon.de/wiki/index.php/Architecture
+  * http://labix.org/smart
+----
+
+=== Improve the performance of the iso layer ==
+
+KLIK2 use a forked version of fuseiso (called fusionsiso) to extract files from into a cmg image (which is a compressed iso image most of the time). We have produced as well an object library to deal with iso files, in order to ease the integration of klik2 into desktop like GNOME or KDE, from the same base code (cmginfo). Some tests have proved that our own cmginfo utility is not so powerful than isoinfo. We suspect that the iso part of fuseiso is not really optimized. Since we already have split the iso specific into our code, that should be interesting to try to replace the fuseiso base code from a new one derivated from isoinfo. The best would be to produce a library (C and/or C++) and improve fusioniso to support it. A lot of improvements could be expected.
+
+*Difficulty*: Medium
+
+*Required Skills*: Knowledge of the iso file format to be able to optimize the source code in order to improve the global behaviour of KLIK2. Basic understanding about klik's architecture.
+
+*Language*: C and/or C++
+
+*References*:
+  * http://code.google.com/p/klikclient/issues/detail?id=236&sort=-id
+----
+
+=== <Your idea here> ===
+
+We are looking forward listening to your ideas to make klik2 rock :)
+
+*References*:
+  * http://klik.atekon.de/wiki/index.php/Suggestions
+----
+
+
+
+== Links ==
+  * [GSoC_Students Advices for klik GSoC student candidates]
+  * [http://code.google.com/soc/2008 Google Summer of Code]
+  * [http://code.google.com/soc/2008/faqs.html#0.1_timeline FAQ - Deadlines]
+  * [http://code.google.com/soc/2008/faqs.html#0.1_mentoring_orgs FAQ - Mentoring organizations]

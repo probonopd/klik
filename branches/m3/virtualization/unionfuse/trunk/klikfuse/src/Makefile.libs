@@ -1,0 +1,12 @@
+
+test: isofs.o libfs.o
+	gcc -o test isofs.o libfs.o `pkg-config --libs glib-2.0` -lz
+
+isofs.o: isofs.c isofs.h
+	gcc -c -DHAVE_CONFIG_H -I. -I.. -D_LIB=1 -D_FILE_OFFSET_BITS=64 -D_ISOFS=1 `pkg-config --cflags glib-2.0` -Wall isofs.c
+
+libfs.o: libfs.c
+	gcc -c -DHAVE_CONFIG_H -I. -I.. -D_LIB=1 -D_FILE_OFFSET_BITS=64 -D_ISOFS=1 `pkg-config --cflags glib-2.0` -Wall libfs.c
+
+clean:
+	rm -f *.o test

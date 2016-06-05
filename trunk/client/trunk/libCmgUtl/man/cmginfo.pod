@@ -1,0 +1,58 @@
+# pod2man --section=1 --release="klik" --center=" " --date="12 May 2008"
+
+=head1 NAME
+
+cmginfo - Utility program for listing and extracting files from iso9660 images.
+
+=head1 DESCRIPTION
+
+Cmginfo is a utility to perform directory like listings of iso9660 images and
+for extracting files.
+
+Can be used to verify the integrity of an iso9660 image.
+
+This tool is part of the he klik2 project. Klik2 is the current working title of
+the next generation of klik (F<http://klik.atekon.de/>) which will focus on
+application virtualization.
+
+Klik creates applications that are encapsulated into a single file. This file in fact
+is a compressed file system image similar to the ISO image format that we know from
+burning data CDs. Hence, klik is the implementation of the "1 application == 1 file"
+principle.
+
+=head1 EXAMPLES
+
+Here is an example session with cmginfo.
+
+ $ cmginfo <cmgfile>
+ $ cmginfo -r -l / -f <cmgfile>
+ $ cmginfo -r -l / -f <cmgfile> -v
+ $ cmginfo -f <cmgfile> -e /recipe.xml
+
+=head1 LIMITATIONS
+
+=over
+
+=item o
+
+Can deal with ISO filesystem images (.iso, .nrg, .bin, .mdf and .img files).
+
+=item o
+
+Current support for plain ISO9660 Level 1 and 2, Rock Ridge, Joliet, and zisofs.
+
+=back
+
+=head1 COPYING
+
+Cmginfo is distributed under the terms of the GNU General Public License,
+Version 2 or any later version published by the Free Software Foundation.
+
+=head1 AUTHORS
+
+ Copyright (C) 2006-2008 by Lionel Tricon <lionel.tricon@gmail.com>
+ Derivated work from fuseiso written by Dmitry Morozhnikov <dmiceman@mail.ru>
+
+=head1 SEE ALSO
+
+isoinfo(1), fusioniso(1)

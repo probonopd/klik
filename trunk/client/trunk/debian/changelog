@@ -1,0 +1,195 @@
+klik (1.9.2) UNRElEASED; urgency=low
+
+  * Build cmginfo as part of client
+  * Stop depending on cmginfo
+  * Drop build-dep on docbook (all docs need overhaul)
+  * Build-dep on autotools-dev, zlib1g-dev, libattr1-dev for cmginfo
+  * Build kde thumbnailing helpers adds kdelibs-dev to builddepends
+  * add bash completion snippet
+  * Add usr/share/klik/settings.xml to debian/install
+  * Add install/gnome files to usr/share/klik
+  * Add gconftool-2 calls in postinst to configure gnome
+  * Try not to rely on xdg and gconf, install files to paths also
+  * Fix [ -x `which foo` ] stupidity
+  * Add klikd (automake, autoconf, autogen, libc6-dev in b-deps)
+  * Start to build up the debian/copyright info
+  * Depend on fusioniso rather then fuseiso
+  * Use main Makefile and hence simplify/remove debian/*rules
+  * Add libtool to build-deps for fakechroot
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Wed, 13 Feb 2008 19:36:39 +0000
+
+klik (0.0.866-1) UNRElEASED; urgency=low
+
+  [ Niall Walsh ]
+  * Move to using klik-svn2tar for orig.tar.gz
+  * still some cmg_kfile junk appearing in diff.gz :-(_really_ just debian dir added to svn
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Mon, 21 Jan 2008 03:35:34 +0000
+
+klik (0.0.866) UNRElEASED; urgency=low
+
+  * Possibly have some sane cleaning of fakechroot
+  * new svn layout makes life nicer
+  * cheating by deleting binaryparts
+  * Make fakechroot install to binaryparts instead of own debian
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Mon, 21 Jan 2008 00:17:37 +0000
+
+klik (0.0.849-1) experimental; urgency=low
+
+  * One client package (including fakechroot)
+  * Add python-nautilus to depends
+  * Add klikclient also to Conflicts while experimental
+  * Possibly fixed cleaning of klik's fakechroot on the way
+  * Only install klik's fakechroot library .so (probably wrong)
+  * Redefine the orig.tar.gz and provide a svn fetch script
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Sun, 20 Jan 2008 06:12:33 +0000
+
+klikclient (0.0.843-2) experimental; urgency=low
+
+  * Fix the Conflict to non deprecated format!
+  * Fix the rename to klikclient for the questionable debconf code
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Fri, 18 Jan 2008 09:53:28 +0000
+
+klikclient (0.0.843-1) experimental; urgency=low
+
+  * Add Conflicts klik2 <1.9.843 temporarily for anyone who pulled that
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Fri, 18 Jan 2008 04:59:12 +0000
+
+klikclient (0.0.843) experimental; urgency=low
+
+  [ Niall Walsh ]
+  * update to svn r835
+  * really fix that postinst problem on ubuntu/dash?
+  * update again
+  * change to klikclient dir as base (pulling in install)
+  * change package name and dependencies to sub packages
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Fri, 18 Jan 2008 04:31:34 +0000
+
+klik2 (1.9.830) experimental; urgency=low
+
+  * update version to use svn revision
+  * update to svn r830
+  * strip binfmt from prerm/postinst
+  * fix postinst useless () around $RET (dash/probono noticed)
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Thu, 17 Jan 2008 03:21:04 +0000
+
+klik2 (1.9.93) UNRELEASED; urgency=low
+
+  * Add libstdc++5 to the depends
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Wed, 16 Jan 2008 03:53:23 +0000
+
+klik2 (1.9.92) UNRELEASED; urgency=low
+
+  * Attempt a debconf prompt for adding users to fuse
+  * Make python depenency python-glade2|python-glade-1.2
+  * Clean out the errors from any failed which in postinst/prerm
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Wed, 16 Jan 2008 03:16:07 +0000
+
+klik2 (1.9.91) UNRELEASED; urgency=low
+
+  * Fix up dependencies.  Drop squashfs goof and change python-glade2 to python-glade-1.2
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Wed, 16 Jan 2008 02:11:01 +0000
+
+klik2 (1.9.90) UNRELEASED; urgency=low
+
+  * Initial attempt at klik 2 packaging
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Tue, 15 Jan 2008 23:51:34 +0000
+
+klik (0.6.9) unstable; urgency=low
+
+  * Translation thanks to RoEn
+
+ -- Joaquim Boura <x-un-i@sidux.com>  Tue, 18 Dec 2007 18:04:18 +0100
+
+klik (0.6.8) unstable; urgency=low
+
+  * update to Standards-Version 3.7.3, no changes necessary.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 03 Dec 2007 13:52:40 +0100
+
+klik (0.6.7) unstable; urgency=low
+
+  * add VCS control headers.
+  * update syntax for Vcs headers in debian/control
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Thu, 25 Oct 2007 18:46:13 +0200
+
+klik (0.6.6) unstable; urgency=low
+
+  * don't call dh_installmime twice.
+  * rename to *.schemas and fix gconf-schemas call.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Tue, 21 Aug 2007 15:36:30 +0200
+
+klik (0.6.5) unstable; urgency=low
+
+  * Update description to fix url typo (thanks Stefan Roediger)
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Tue, 21 Aug 2007 00:13:08 +0100
+
+klik (0.6.4) unstable; urgency=low
+
+  * only suggest browsers.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon, 06 Aug 2007 01:20:50 +0200
+
+klik (0.6.3) unstable; urgency=low
+
+  [ Niall Walsh ]
+  * Reorganise primarily to do common setup where possible
+  * Initial sync up to alexander_schier@yahoo.de ubuntu package sans fstab
+    prerm and postinst
+  * do a little rearranging for dh_installmime
+  * add docboo2x to Build-deps and iceweasel, binutils, binfmt-support and
+    rpm to recommends
+  * make it fusermount properly
+  * Make Recommends Depends (bar a browser)
+
+  [ Stefan Lippers-Hollmann ]
+  * depend on procps
+  * bump standards version to 3.7.2.
+  * debian/control cosmetics.
+  * fix dependencies.
+  * fix build dependencies.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Mon,  1 Jan 2007 19:29:39 +0100
+
+klik (0.6-2) unstable; urgency=low
+
+  [ Niall Walsh ]
+  * May be usable ... with a correct setup
+  * Resync back to standard klik client
+  * Fuse only mounting
+  * ssft dependency (instead of *dialog)
+  * klik-setup-* moved to /usr/share/doc/klik/setup
+  * programs now klik and zAppRun in /usr/bin/
+  * packaging simplified dropping all the root setup
+
+  [ Stefan Lippers-Hollmann ]
+  * remove cdbs auto-update feature.
+  * bump compat level to 5.
+
+ -- Stefan Lippers-Hollmann <s.l-h@gmx.de>  Sat, 11 Mar 2006 23:44:34 +0100
+
+klik (0.6-1) unstable; urgency=low
+
+  * NOT RELEASED
+  * PLEASE READ and/or TEST ONLY, DO NOT DEPLOY!
+  * Use KDEHOME instead of $HOME/.kde if present
+  * Report /etc/*-release if no /etc/*-version (suse anyway)
+  * Split into more files (may revert)
+  * Add initial support for config files
+
+ -- Niall Walsh <niallwalsh@users.berlios.de>  Tue, 23 Aug 2005 21:38:50 +0100
+

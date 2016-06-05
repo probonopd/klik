@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# klik client 0.2
+# GPL
+# point-and-klik KDE software installation
+# by probono at myrealbox dot com
+# thanks to bfree for non-KDE part
+
+export PATH=/sbin:$PATH # Fedora needs this
+
+# try to get the human-readable version of the host OS
+export VERSION=$(cat /etc/*-version 2>/dev/null | head -n 1)
+
+#
+# support different types of dialog, thanks bfree
+#
+
+if [ -z "$DIALOG" ] ; then
+# Determine which dialog to use in which situation:
+# Xdialog (in all other cases)
+DIALOG=Xdialog
+# kdialog (in case there is no console available and we are running KDE)
+pidof -x kdeinit >/dev/null && DIALOG=kdialog 
+# GNOME
+pidof -x gnome-panel >/dev/null && DIALOG=zenity 
+# dialog (in case there is a console available)
+GUIMODE=$(tty)
+( echo $GUIMODE | grep /dev/tty[:digit:] >/dev/null ) && DIALOG=dialog
+fi
+
+# by Alexey
+if test "$DISPLAY" == ""; then
+DIALOG=dialog
+fi
+
+export DIALOG
+
+# Setup defaults for whatever dialog we are using
+case $DIALOG in
+ kdialog)
+ DIALOG_OPTIONS=" --caption klik" ;
+ KLIKDIR=":klikdir" ;;
+ Xdialog|dialog)
+ DIALOG_H=12
+ DIALOG_W=60
+ DIALOG_OPTIONS=" $DIALOG_H $DIALOG_W" ;
+ KLIKDIR="~" ;;
+esac
+
+dmsgbox(){
+ $DIALOG --msgbox "$1" $DIALOG_OPTIONS
+}
+dyesno(){
+ $DIALOG --yesno "$1" $DIALOG_OPTIONS
+}
+dwarningyesno(){
+ case $DIALOG in
+ kdialog)
+  $DIALOG --warningyesno "$1" $DIALOG_OPTIONS 
+ ;;
+ Xdialog|dialog)
+  $DIALOG --yesno "Warning: $1" $DIALOG_OPTIONS 
+ ;;
+ esac
+}
+derror(){
+ case $DIALOG in
+ zenity)
+ zenity --error --text="$1" --title="klik"
+ ;;
+ kdialog)
+ $DIALOG --error "$1" $DIALOG_OPTIONS 
+ ;;
+ Xdialog|dialog)
+ $DIALOG --msgbox "ERROR: $1" $DIALOG_OPTIONS 
+ ;;
+ esac
+}
+dexistingdir(){
+ case $DIALOG in
+ kdialog)
+ $DIALOG --getexistingdirectory $KLIKDIR $DIALOG_OPTIONS 
+ ;;
+ Xdialog)
+ $DIALOG --dselect $KLIKDIR $DIALOG_OPTIONS 
+ ;;
+ dialog)
+ $DIALOG --fselect $KLIKDIR $DIALOG_OPTIONS
+ ;;
+ esac
+}
+
+# important to export those variables so that they can be accessed by the recipes
+##export SUSE=$(cat /etc/SuSE-release 2>/dev/null | head -n 1 | cut -d \( -f 1) 2>/dev/null
+UBUNTU=$(zcat /usr/share/doc/ubuntu-base/changelog.gz 2>/dev/null | head -n 1 | cut -d \; -f 1 ) 2>/dev/null
+export UBUNTU=$(echo ${UBUNTU/ubuntu-meta/Ubuntu})
+##export FEDORA=$(cat /etc/fedora-release 2>/dev/null | head -n 1)
+export FEDORA=$(cat /etc/*release 2>/dev/null | tr -d [[:cntrl:]] 2>/dev/null)
+export RUN=`echo $1 | sed s@klik:\/\/@@` && (wget -q http://134.169.172.48/apt/?package=$RUN -U "klik/0.1.3cli (`uname -a` @$VERSION$UBUNTU$SUSE$FEDORA@)" -O - | sed 's|^ln -s /usr/lib/libpcre|#|g; s/^intellipatch \$APPDIR$/#/g' | bash || derror "Error while trying to run $RUN" )
+

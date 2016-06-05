@@ -1,0 +1,56 @@
+To generate all needed binaries (to put under ~/klikruntime/bin/) :
+- fusecram
+- fusecram-d       <- debug version (change "#define TRACE 1" under klikfuse/src/fs.c)
+- fuseiso
+- fuseiso-d        <- debug version (change "#define TRACE 1" under klikfuse/src/fs.c)
+- fusermount
+- mkcramfs
+
+/*
+ *   fuse (2.6.3)
+ *   apply patches available under fuse-2.6.3 and recompile the libfuse.a and fusermount
+ *   only used if you want that fusermount load the fuse module on startup
+ */
+
+/*
+ *   fakechroot
+ *   based on fakechroot-2.5 (http://fakechroot.alioth.debian.org/)
+ */
+
+How to compile :
+
+$ ./configure
+$ cd src
+$ make
+$ cp .libs/libfakechroot.so ~/klikruntime/lib
+
+/*
+ *   klikfuse
+ *   based on fusecram-20051104 (the last version available) and
+ *   fuseiso-20061017 with backport from 20070708 (http://ubiz.ru/dm)
+ *   i merged both source code into a new one to ease devel
+ *
+ *   be careful : the following path are hard-linked into Makefile_cram and Makefile_iso
+ *   change it if you are not under Kubuntu 7.04 (useful to create static binaries)
+ *    - /usr/lib/libfuse.a <- replace it by the patched one (see above)
+ *    - /usr/lib/libglib-2.0.a
+ *    - /usr/lib/libz.a
+ */
+
+How to compile :
+
+$ ./configure
+$ cd src
+$ make
+$ cp fuseiso ~/klikruntime/bin
+$ cp fusecram ~/klikruntime/bin
+
+/*
+ *   mkcramfs
+ */
+
+How to compile :
+
+$ make
+$ cp mkcramfs ~/klikruntime/bin
+

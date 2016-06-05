@@ -1,0 +1,5 @@
+[General]
+watch_folders=~/Apps
+show_notifications=true
+integrate_mime=true
+integrate_categories=false

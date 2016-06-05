@@ -1,0 +1,323 @@
+#!/bin/bash
+# Version 20070923
+# Lionel Tricon <lionel.tricon at free dot fr>
+# probono <probono at myrealbox dot com>
+# thanks to bfree
+# GPL
+export PATH=/sbin:$PATH
+DIRNAME=`cd \`dirname $0\` && cd .. && pwd`
+CMG="$1"
+
+function unmount_properly()
+{
+  # We ask the application to exit properly
+  for process in `cat $MOUNT/mnt/pid`; do
+    test -d /proc/$process && kill -SIGTERM $process 2>&1 >/dev/null
+  done
+
+  # ask child processes to kill properly
+  for COUNT in 1 2 3; do
+    grep $MOUNT/mnt /proc/mounts 2>&1 >/dev/null || break
+    fuser -k -SIGTERM $MOUNT/mnt 2>&1 >/dev/null
+    sleep 1
+    $DIRNAME/bin/fusermount -u $MOUNT/mnt/ 2>&1 >/dev/null
+  done
+
+  # unmount and kill clean up
+  for COUNT in 1 2 3; do
+    grep $MOUNT/mnt /proc/mounts 2>&1 >/dev/null || break
+    fuser -k -SIGKILL $MOUNT/mnt 2>&1 >/dev/null
+    $DIRNAME/bin/fusermount -u $MOUNT/mnt/ 2>&1 >/dev/null
+    if (( $COUNT == 3 )); then
+      $DIRNAME/bin/fusermount -u -z $MOUNT/mnt/ 2>&1 >/dev/null
+      break
+    fi
+  done
+
+  # garbage collector
+  rm -f $MOUNT/image
+  rmdir $MOUNT/mnt
+  rmdir $MOUNT
+
+  if [ "$1" == "" ]; then exit 1; fi
+}
+
+# handler that performs a clean shutdown if we get the terminate signal
+trap unmount_properly SIGINT SIGTERM
+
+#
+# Determine which dialog to use in which situation:
+#
+test -z "$DISPLAY" && DESKTOP=console
+if [ -z "$DESKTOP" ] ; then
+  DESKTOP=x11
+  pidof -x gnome-panel > /dev/null && DESKTOP=gnome
+  pidof -x kdeinit >/dev/null && DESKTOP=kde
+fi
+
+# Check if a graphical selector is available
+case $DESKTOP in
+  kde)
+    DIALOG=dialog
+    test -z `which Xdialog 2>/dev/null` || DIALOG=Xdialog
+    test -z `which zenity  2>/dev/null` || DIALOG=zenity
+    test -z `which kdialog 2>/dev/null` || DIALOG=kdialog
+    test -z `which xterm   2>/dev/null` || SUEXEC=xterm
+    test -z `which gnomesu 2>/dev/null` || SUEXEC=gnomesu
+    test -z `which kdesu   2>/dev/null` || SUEXEC=kdesu
+    ;;
+  gnome)
+    DIALOG=dialog
+    test -z `which Xdialog 2>/dev/null` || DIALOG=Xdialog
+    test -z `which kdialog 2>/dev/null` || DIALOG=kdialog
+    test -z `which zenity  2>/dev/null` || DIALOG=zenity
+    test -z `which xterm   2>/dev/null` || SUEXEC=xterm
+    test -z `which kdesu   2>/dev/null` || SUEXEC=kdesu
+    test -z `which gnomesu 2>/dev/null` || SUEXEC=gnomesu
+    ;;
+  x11)
+    DIALOG=dialog
+    test -z `which zenity  2>/dev/null` || DIALOG=zenity
+    test -z `which kdialog 2>/dev/null` || DIALOG=kdialog
+    test -z `which Xdialog 2>/dev/null` || DIALOG=Xdialog
+    test -z `which xterm   2>/dev/null` || SUEXEC=xterm
+    test -z `which gnomesu 2>/dev/null` || SUEXEC=gnomesu
+    test -z `which kdesu   2>/dev/null` || SUEXEC=kdesu
+    ;;
+  console)
+    DIALOG=dialog
+    ;;
+esac
+
+# Check the availability of some binaries
+test -z `which $DIALOG 2>/dev/null` && DIALOG=none
+test -z `which $SUEXEC 2>/dev/null` && SUEXEC=none
+grep -i ubuntu /etc/*-release 2>&1 > /dev/null && SU_BIN="sudo"
+
+derror() {
+  case $DIALOG in
+    zenity)
+      zenity --error --title "Error" --text "$1" --title="klik"
+      ;;
+    kdialog)
+      kdialog --error "$1" --caption klik
+      ;;
+    Xdialog)
+      Xdialog --msgbox "ERROR: $1" DIALOG_H=12 DIALOG_W=60
+      ;;
+    dialog)
+      dialog --msgbox "ERROR: $1" 12 60
+      ;;
+    none)
+      echo "**"
+      echo "** ERROR: $1"
+      echo "**"
+      ;;
+  esac
+}
+
+su_exec() {
+  # Switch user
+  case $SUEXEC in
+    kdesu)
+      kdesu -d -c "chown root:root $DIRNAME/bin/fusermount && chmod 4755 $DIRNAME/bin/fusermount"
+      ;;
+    gnomesu)
+      gnomesu -c "chown root:root $DIRNAME/bin/fusermount"
+      gnomesu -c "chmod 4755 $DIRNAME/bin/fusermount"
+      ;;
+    xterm)
+      if [ "$SU_BIN" == "sudo" ]; then
+        xterm -title "Please type your password :" -e sudo chown root:root $DIRNAME/bin/fusermount && sudo chmod 4755 $DIRNAME/bin/fusermount
+      else
+        xterm -title "Please type the root password :" -e "su -c \"chown root:root $DIRNAME/bin/fusermount && chmod 4755 $DIRNAME/bin/fusermount\""
+      fi
+      ;;
+    none)
+      if [ "$SU_BIN" == "sudo" ]; then
+        echo "** Please type the root password :"
+        sudo chown root:root $DIRNAME/bin/fusermount && sudo chmod 4755 $DIRNAME/bin/fusermount
+      else
+        echo "** Please type your password :"
+        su -c "chown root:root $DIRNAME/bin/fusermount && chmod 4755 $DIRNAME/bin/fusermount"
+      fi
+      ;;
+  esac
+}
+
+su_dialog() {
+  # We are waiting a confirmation of the user
+  case $DIALOG in
+    kdialog)
+      kdialog --yesno "To finish the installation, some things are to be done under root.\nDo you want to continue ?" || return
+      ;;
+    Xdialog|dialog)
+      $DIALOG --yesno "To finish the installation, some things are to be done under root.\nDo you want to continue ?" 0 0 || return
+      ;;
+    zenity)
+      zenity --question --title "Question" --text="To finish the installation, some things are to be done under root. Do you want to continue ?" || return
+      ;;
+    none)
+      echo "To finish the installation, some things are to be done under root."
+      echo -n "Do you want to continue ? (yes/no) "
+      read result
+      test "$result" = "yes" || return
+      ;;
+  esac
+  su_exec
+}
+
+# We want to avoid to run this script under root
+if [ "`id -u`" == "0" ]; then
+  derror "Sorry, you cannot run this script under root"
+  exit 1
+fi
+
+# We check if fuse is available
+RETVAL=`cat /proc/filesystems | grep fuse`
+if [ "$RETVAL" == "" ]; then
+  test  -n `/sbin/modprobe -l fuse` || {
+    derror "Sorry, it seems that your kernel does not provide fuse"
+    exit 1
+  }
+fi
+
+# Check right permissions of ~/klikruntime/bin/fusermount
+OWNER=`stat -c %U:%G $DIRNAME/bin/fusermount`
+(test -u $DIRNAME/bin/fusermount && OWNER=="root:root") || {
+  su_dialog
+  (test -u $DIRNAME/bin/fusermount && OWNER=="root:root") || {
+    derror "Aborted !"
+    exit 1
+  }
+}
+
+# Make path to CMG absolute, thanks bfree
+case "$CMG" in
+  /*) ;; 
+  *) CMG="$(pwd)/$CMG" ;; 
+esac
+
+# Determine which filesystem is used as .cmg
+(file -i "$CMG" | grep "x-iso9660") >/dev/null && FS=iso
+(file "$CMG" | grep "Compressed ROM") >/dev/null && FS=cram
+test -z "$FS" && {
+  derror "$CMG does not appear to be either an iso9660 or a cramfs file"
+  exit 1
+}
+
+# Try to choose an unused directory
+MNTNUM="1"
+mkdir -p /tmp/app
+chmod 777 /tmp/app
+while true; do
+  [ -e "/tmp/app/$MNTNUM" ] || break
+  MNTNUM=$(($MNTNUM+1))
+done
+
+# check if we are running an old cmg file : We mount the cmg
+# file, check if the wrapper script is available and unmount it
+export PATH=$DIRNAME/bin:/sbin:$PATH
+export FAKECHROOT_EXCLUDE_PATHS=/tmp:/proc:/dev:/var/run
+MOUNT=/tmp/app/$MNTNUM
+mkdir -p $MOUNT/mnt || exit 1
+$DIRNAME/bin/fuse$FS -n "$CMG" $MOUNT/mnt/ -s 2>/dev/null
+test -e $MOUNT/mnt/wrapper || WRAPPER="-u"
+$DIRNAME/bin/fusermount -u $MOUNT/mnt || derror "Unable to mount $MOUNT"
+
+# check if we need to sandbox modifications
+DIRNAME=`cd \`dirname $0\` && cd .. && pwd`
+test -z "${WRAPPER}" || {
+
+  # List all available directories
+  LIST=`ls -d $HOME/Desktop/*.jail 2>/dev/null`
+  test -z $LIST || {
+    case $DIALOG in
+      kdialog) SANDBOX_PATH=`$DIALOG --title "Selection of a directory" --combobox "To sandbox your application, please choose a .jail directory" $LIST ""`;;
+      zenity) SANDBOX_PATH=`echo "$LIST" | $DIALOG --list --title "Selection of a directory" --text "To sandbox your application, please choose a .jail directory" --column "Directory"`;;
+      Xdialog)
+        for elt in $LIST; do
+          PARAM=" $PARAM $elt $elt"
+        done 
+        SANDBOX_PATH=`$DIALOG -stdout --no-tags --default-item 5 --menubox "To sandbox your application, please choose a .jail directory" 0 0 10 $PARAM`
+        ;;
+    esac
+  }
+
+  # Sandboxing
+  if [ "${SANDBOX_PATH}" != "" ]; then
+    SANDBOX_CMD="-b ${SANDBOX_PATH}"
+  fi
+}
+
+# Mount the cmg file
+ln -s "$CMG" $MOUNT/image || exit 1
+$DIRNAME/bin/fuse$FS -n ${SANDBOX_CMD} ${WRAPPER} $MOUNT/image $MOUNT/mnt/ -s 2>/dev/null || derror "Unable to mount $MOUNT"
+
+# We start kdeinit if we run under gnome
+# and that the application is kde based
+pidof -x gnome-panel > /dev/null && {
+  EXEC=`grep target $MOUNT/mnt/recipe.xml | grep KDE`
+  test -z "$EXEC" || (test -z `pidof kdeinit` && kdeinit)
+}
+  
+#
+# execute the wrapper
+# the wrapper should take care to keep running until its app closes
+#
+shift	# bypass the first argument
+
+# we need this so that on the cmdline, pipes etc work
+export APPLI_BASENAME=$MOUNT/mnt
+CMDLINE="yes"
+( tty | grep ^/dev/tty >/dev/null ) && CMDLINE=""
+( tty | grep ^/dev/pts >/dev/null ) && CMDLINE=""
+if [ "$CMDLINE" = "yes" ] ; then
+  if [ -e $MOUNT/mnt/wrapper ]; then
+    RESULT=$($MOUNT/mnt/wrapper $@ 2>&1) || derror "$RESULT" 
+  else
+    RESULT=$($DIRNAME/bin/wrapper $@ 2>&1) || derror "$RESULT"
+  fi
+else
+  if [ -e $MOUNT/mnt/wrapper ]; then
+    $MOUNT/mnt/wrapper $@
+  else
+    $DIRNAME/bin/wrapper $@
+  fi
+fi
+
+(cat $MOUNT/linker | grep "not found") > $MOUNT/linker.err
+test -s $MOUNT/linker.err && derror "This application requires some libraries which are not installed in your system. Please install them.\n`cat $MOUNT/linker.err`"
+rm -f $MOUNT/linker*
+unmount_properly 1
+
+##################
+# update klik menu
+
+CMGDIR=$(dirname "$CMG")
+[ x"$KDEHOME" = x ] && KDEHOME=$HOME/.kde
+mkdir -p ${KDEHOME}/share/applnk/klik
+
+# find cmg files
+CMGFILES=$(ls -1 $CMGDIR/*.cmg 2>/dev/null)
+	
+# remove old menu entries
+rm -f ${KDEHOME}/share/applnk/klik/*.cmg.desktop
+	
+# create new menu entries
+for CMGFILE in $CMGFILES; do
+  BASENAME=$(basename "$CMGFILE")
+  APPNAME=$(echo $BASENAME | sed 's/.cmg//g' | cut -d _ -f 1)
+  firstchar=${APPNAME:0:1}   # First character.
+  restchar=${APPNAME:1}       # Rest of string(s).
+  firstchar=$(echo "$firstchar" | tr a-z A-Z)
+  APPNAME=$firstchar$restchar
+  cat > $KDEHOME/share/applnk/klik/$BASENAME.desktop <<EOmooF
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+Exec=$DIRNAME/bin/klik-run $CMGFILE
+Icon=
+Name=$APPNAME
+EOmooF
+done

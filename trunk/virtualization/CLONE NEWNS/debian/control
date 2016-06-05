@@ -1,0 +1,16 @@
+Source: klik-overlay
+Section: admin
+Priority: extra
+Maintainer: Fabian Franz <klik@fabian-franz.de>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: klik-overlay
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Klik seamless application overlay.
+ This package contains a suid wrapper, which sets
+ up a new namespace and overlays the klik *.cmg via 
+ aufs or unionfs into this new namespace.
+ .
+ If you are paranoid about security, don't install this package.

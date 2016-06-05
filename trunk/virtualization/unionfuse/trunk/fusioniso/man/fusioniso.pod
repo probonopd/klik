@@ -1,0 +1,163 @@
+# pod2man --section=1 --release="klik" --center=" " --date="12 May 2008"
+
+=head1 NAME
+
+fusioniso - utility to mount ISO filesystem images with FUSE
+
+=head1 SYNOPSIS
+
+B<fusioniso>
+S<[-nputgh]>
+S<[-b|d|B <sandbox_path>]>
+S<[-c <iocharset>]>
+S<[I<isofs_image_file>]>
+S<[I<mount_point>]>
+S<[<FUSE library options>]>
+
+=head1 DESCRIPTION
+
+Fusioniso is a FUSE module to mount ISO filesystem images (.iso, .nrg, .bin, .mdf
+and .img files). It currently support plain ISO9660 Level 1 and 2, Rock Ridge,
+Joliet, and zisofs.
+
+Fusionsiso is a fork of fuseiso (F<http://sourceforge.net/projects/fuseiso/>) dedicated
+to the klik2 project. Klik2 is the current working title of the next generation of
+klik (F<http://klik.atekon.de/>) which will focus on application virtualization.
+
+Klik creates applications that are encapsulated into a single file. This file in fact
+is a compressed file system image similar to the ISO image format that we know from
+burning data CDs. Hence, klik is the implementation of the "1 application == 1 file"
+principle.
+
+The major difference between fusioniso and fuseiso is the ability to union mount the
+filesystem located into the iso image with the existing root file system. Used in
+conjunction with the kfakechroot(7) library, you are able to virtualize an application
+into the local filesystem from the application point of view.
+
+An another interresting feature is that fusioniso provides a fake sandbox to test
+bleeding-edge, unstable applications without messing with the base system, and even
+to test multiple versions of the same application on one and the same system without
+installation (F<experimental>).
+
+With the standard linux loader (ld-linux for ELF executable), all libraries will be
+searched for in the real root, rather than in the chrooted jail. This is really annoying
+if libraries are not available in the real root filesystem. Fusionsiso provides an
+option to change the path loader on the fly for elf binaries. Used in conjunction With
+a modified version of the ld.so loader, that fix this problem.
+
+=head1 FUSIONISO OPTIONS
+
+=over
+
+=item B<-n>
+
+Do NOT maintain file $HOME/.mtab.fusioniso.
+
+=item B<-p>
+
+Maintain mount point, create it if it does not exists and delete it on exit.
+
+=item B<-c I<iocharset>>
+
+Specify iocharset for Joliet filesystem.
+
+=item B<-t>
+
+Debug mode.
+
+=item B<-g>
+
+Change the loader on the fly to F<ld-klik2.so.2> [I<Experimental>].
+
+=item B<-u>
+
+Union mounting feature (forced if -b, -d or -B).
+
+=item B<-b I<path>>
+
+Sandbox feature, redirect all modification from $HOME user to I<path>.
+
+=item B<-d I<path>>
+
+Sandbox feature, redirect all modification from $HOME user dot files and folders to I<path>.
+
+=item B<-B I<path>>
+
+Sandbox feature, redirect all modification to I<path> [I<Experimental>].
+
+=back
+
+=head1 COMMON FUSE LIBRARY OPTIONS
+
+=over
+
+=item B<-f>
+
+Run in foreground, do not daemonize.
+
+=item B<-d>
+
+Run in foreground and print debug information.
+
+=item B<-s>
+
+Run single-threaded.
+
+=back
+
+=head1 EXAMPLES
+
+Here is an example session with fusioniso.
+
+ $ mkdir -p /tmp/klik/mnt
+ $ export PATH=/usr/local/lib:$PATH
+ $ export FAKECHROOT_EXCLUDE_PATH=/tmp:/proc:/dev:/var/run
+ $ fusioniso -n -p -t -u $HOME/Desktop/application.cmg /tmp/klik/mnt -s -d
+
+=head1 ENVIRONMENT
+
+=over
+
+=item B<FAKECHROOT_BASE_ROOT>
+
+Location where all mount points are located (by default, F</tmp/klik>).
+
+=item B<FAKECHROOT_EXCLUDE_PATH>
+
+List of directories we want to give direct access, usually F</tmp:/proc:/dev:/var/run>.
+
+=back
+
+=head1 LIMITATIONS
+
+=over
+
+=item B<Special files>
+
+In Unix-like operating systems, devices can be accessed via special files. Under FUSE,
+special files are not supported due to some security issues. That's the main reason why
+we allow direct access to a list of directories
+
+=item B<Root user access>
+
+By default, only the owner of the mount point can access data. To permit root or other
+users to access data inside the mount point, you have to specify options B<allow_other> or
+B<allow_root> into the FUSE library options. Such options are only allowed if
+B<user_allow_other> is set in I</etc/fuse.conf>
+
+=back
+
+=head1 COPYING
+
+Fusioniso is distributued under the terms of the GNU General Public License,
+Version 2 or any later version published by the Free Software Foundation.
+
+=head1 AUTHORS
+
+ Copyright (C) 2005-2006 by Dmitry Morozhnikov <dmiceman@mail.ru>
+ Copyright (C) 2006-2008 by Lionel Tricon <lionel.tricon@gmail.com>
+ Thanks to all contributors (see source files)
+
+=head1 SEE ALSO
+
+kfakechroot(7), fusermount(1), kchroot(1)

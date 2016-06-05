@@ -1,0 +1,37 @@
+--- lib/mount.c.old	2007-01-02 18:10:33.000000000 +0100
++++ lib/mount.c	2007-02-24 04:08:58.000000000 +0100
+@@ -234,7 +234,7 @@
+         fprintf(stderr, "fuse: missing mountpoint\n");
+         return -1;
+     }
+-
++#if 0
+     res = socketpair(PF_UNIX, SOCK_STREAM, 0, fds);
+     if(res == -1) {
+         perror("fuse: socketpair() failed");
+@@ -276,6 +276,25 @@
+     rv = receive_fd(fds[1]);
+     close(fds[1]);
+     waitpid(pid, NULL, 0); /* bury zombie */
++#endif
++    int sock;
++    char* env;
++    
++    env=getenv(FUSE_COMMFD_ENV);
++
++    if (env)
++    	sock=atoi(env);
++    
++
++    if (env == NULL || sock <= 0)
++    {
++    	perror("fuse: Need open socket in 'FUSE_COMMFD_ENV'");
++	return -1;
++    }
++
++    rv = receive_fd(sock);
++
++    close(sock);
+ 
+     return rv;
+ }

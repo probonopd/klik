@@ -1,0 +1,147 @@
+======================================
+ENOUGH WE ARE SWITCHING TO THE ISSUE TRACKER
+======================================
+
+Im going to leave this as is for now, please add new issues straight to issue tracker
+
+= Code =
+Ordered by importance: Fixing bugs before adding features
+== Bugs to be fixed ==
+ * Understand why fuseiso has 100% CPU usage in tuxpaint and fix it
+ * Understand why wireshark fails; /usr/lib/wireshark/... isn't mounted  despite it is there:
+{{{
+  /opt/klik/bin/isoinfo -f -i Desktop/wireshark_0.99.6rel-3.cmg | grep lib/wireshark/lib*
+}}}
+ * Understand why the following fails and fix it:
+{{{
+ klik http://klik.atekon.de/xml/picasa.xml
+}}}
+ * Understand why the following fails and fix it:
+{{{
+ klik http://klik.atekon.de/xml/wing.xml
+}}}
+ * (DONE; use a local path instead of an URL) ~~Urgently needed for debugging/developing recipes: support for running _"klik get file:/path/to/localdrive/somename-recipe.xml"_ (Right now, it yields the message _"only 0 bytes read from position 32768, 2048 required; is it really supported file? Error occurred: Error recipe could not be loaded does not appear to be valid XML"_)~~
+ * 'klik1' has a mechanism to run a non-default binary "bar" embedded in bundle "foo.cmg" (should more than one executable be embedded in the .cmg): _".zAppRun foo.cmg bar [options]"_. We need the analogous function for 'klik2'. *Example*: _"klik get gtklp"_ builds the GUI print command bundle _"gtklp"_ (a third party GUI print dialog for Gnome), which also includes _"gtklpq"_ but which doesn't work yet.
+ * (DONE; mkzftree added) ~~Understand why ISO cmg files are so large (e.g., picasa.cmg is 3x as large as the download). Maybe we need to go back to cramfs for some cmgs (to be determined what the exact criteria are. Or maybe we need to find totally different filesystem? The idea is that a cmg should not become smaller any more when being compressed to a tgz)~~
+ * Understand why ISO cmg files cannot be loop-mounted and fix the issue
+ * GPG checking. Currently, tampering is not detected and the message is still "This application is from a trusted source (klik recipe server). Even if the signature is incorrect or the file has been changed.
+ * (I think this is done verify) supersetup-new.py "sh: Can't open /home/ubuntu/trunk/utils/xdg-utils/xdg-desktop-menu"
+ * (DONE) We need to add /usr/sbin (e.g., for finding chroot on Fedora, Sidux) and /usr/games (e.g., for finding xvier on Fedora) to our path
+ * (Maybe should be per recipe...) Add ALL /usr/lib/pythonX.X/site-packages directories that are in the cmg (can be more than 1) to $PYTHONPATH. This should, e.g., fix gazpacho, which currently fails:
+{{{
+Copy File : /home/ubuntu/Desktop/gazpacho_0.7.1-1.cmg
+Traceback (most recent call last):
+  File "/tmp/klikMfPzHdexecute.ubuntu/usr/bin/gazpacho", line 67, in <module>
+    from gazpacho import main
+ImportError: No module named gazpacho
+}}}
+ * (DONE /tmp/klik/XXXX.execute.cmg_file_name.user_name, we need the XXX so you can run more than 1 copy of an application) Use "sane" directory as mountpoint, something legible (*pipitas:* yes, don't mount int /tmp/xyz -- mount in /tmp/klik/xyz or /tmp/app/xyz. And let xyz contain the appname and the username)
+ * (DONE) If a download fails, do we notice and display a good error message?
+ * (DONE) Fix: "which: no xdg-mime in (/usr/kerberos/bin:/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:/home/fedora/bin)"
+ * Use "new-style classes" in Python
+ * Move bin/klikclient to lib/klik for better LSB/FSH compliance
+ * Get rid of "finally:" statements, since this breaks on pre-python2.5 systems. "finally: (...) SyntaxError: invalid syntax"
+ * "klik run" should run command line apps appropriately (e.g., try with "klik get apg"). If env $TERM is empty, then we need to spawn gnome-terminal/konsole since we have been called from the GUI.- Check the recipe whether there is a "interface::x11" debtag. Also, check the binary with ldd whether it is linked to X (in case the recipe maker has forgotten the X debtag)
+ * We should get rid of the "fusermount: failed to open /etc/fuse.conf: Permission denied" message since it would make grandma think something is wrong, when in fact it is not.
+ * (DONE for ISO plz test) Using "magic" rather than .cmg extension, assign both ISO- and cramfs-cmg files the MIME type application/x-cmg (see supersetup.py for cramfs, needs to be done for ISO too)
+===Done===
+ * (DONE) ~~Merge supersetup.py into setup.py (or the other way around)~~
+ * (DONE) ~~Organize the directory structure inside http://klikclient.googlecode.com/svn/trunk/client/trunk so that it exactly reflects the file structure of a working klik client installation (except for the binary parts, which are kept in binaryparts). This will GREATLY simplify deployment to various distros during the development cycle. ~~
+ * (DONE) ~~Get rid of distutils.core in setup.py since it depends on too many things which are not present on all distros (e.g., python2.5/config/Makefile) and since no one really understands what it does and how it really works.~~ 
+ * (DONE plz test) Fix XFCE detection. It is apparently the reason for the "Error Occured: File not found" message.
+ * (DONE in supersetup.py) ~~setup.py should also install the "binaryparts"~~ 
+ * (DONE) ~~If klik is run as root, then give a nice warning (both in CLI and GUI) and exit~~ CLI warning only but dosn't run gtk
+ * (DONE) ~~If env LANG is empty (it is empty on openSUSE), then set it to english. Currently, we get: "Error Occured 'LANG'" and hang if one presses "cancel". ~~ -set to en_US.UTF-8
+ * (DONE) ~~Really kill the application (not just close the window) when clicking "Cancel" button in "download" progress dialog~~
+ * (DONE) ~~Make "klik get xvier" work when running from an alt-f2 window~~
+ * (DONE)  ~~Give nice warning and exit if the xml is invalid~~
+ * (DONE) ~~Handle local or http:// recipe.xml files correctly (see existing code in klik-get)~~
+ * (DONE) ~~Limit ALL temp files to /tmp/klik ~~
+ * (DONE) ~~Correct "summary" and "version" in the dialog~~
+ * (DONE) ~~"from a trusted source" but at the same time "not signed" --> unclear to grandma what that is supposed to mean. Don't display anything if the recipe is properly signed, and give a warning if that is NOT the case. If it is properly signed, then make the "Run" button the default.~~
+ * (DONE - we can change the icon it klik logo for now) ~~We should get rid of the "floppy disk" icon. (Update: The icon depends on what Gnome theme is selected. In the Ubuntu default icon theme, it's an ugly floppy. In other themes, it looks acutally good-looking download icon. Maybe we should ship our private copy of this icon.)
+  * *bSON*: No private icon please, we lose visual desktop integration then. It is the theme maintainer's responsibility to make the icons good-looking; semantically, the "Save" stock icon we are using perfectly fits.~~
+ * (DONE) ~~Handle URL redirects correctly. Example: klik://skype - ingredient URL redirects to a .deb, but client doesn't save it under a .deb file name, and hence fails to unpack it~~ - (DONE) ~~Note skype still didnt work missing libQtDBus.so.4~~
+ * (DONE) ~~Optimize progress indicator algorithm~~
+== Features to be added ==
+ * TOP PRIORITY: we need a debug mode where we can save/keep the downloaded packages for later check...
+ * Add transparent zisofs decompression to isoinfo. Both are written in C and sources are available, so it should be doable. Alternatively, write a small "zfcat" filter program based on zisofs sources.
+ * (DONE server-side) ~~Allow for wildcards in URLs, so that minor version changes don't break URLs in recipes. Example: http://archive.canonical.com/pool/main/r/realplay/realplay_10.*feisty*_i386.deb should get expanded to http://archive.canonical.com/pool/main/r/realplay/realplay_10.0.9-0feisty1_i386.deb ; test this with "klik get http://klik.atekon.de/xml/realplayer.xml"~~
+{{{
+import os, sys, string, urllib, re
+
+def expandWildcards(url):
+    """
+Takes a URL with * wildcards and expands it to a real URL
+"""
+    # TODO: Return immediately the original URL if it doesn't contain * and be done
+    parts = url.rsplit("/",1)
+    parent = parts[0]
+    searchpattern = parts[1]
+    try:
+        f = urllib.urlopen(parent)
+        page = f.read()
+        f.close()
+        searchpattern = searchpattern.replace(".","\\.")
+        searchpattern = searchpattern.replace("*",".*?")
+        foundurls = re.findall(searchpattern,page)
+        # TODO: Sort in a sane way, so that we get the highest possible version
+        foundurl = foundurls[0]
+        newurl = parent +"/"+ foundurl    
+        return newurl
+    except:
+        print "Could not expand "+url
+        return ""
+    
+print expandWildcards("http://archive.canonical.com/pool/main/r/realplay/realplay_10*feisty1_i386.deb")
+}}}
+
+ * When all packages are downloaded, the progress bar should be at 90%. Then, it should progress to 100% while creating the ISO.
+ * *pipitas:* I want a "show more details" button. (Should show all what you see when starting "klik get appname" in konsole. Especially on slow systems, where creating the ISo may take 2-3 minutes, it is somehow assuring if you see messages scrolling by, even if you dont understand them. Better than a seemingly frozen dialog...)
+ * IF the signature is ok, then no special mention should be made of it. The signature info should go to the "Signature" tab). IF the signature is NOT ok, then an extra warning is appropriate
+ * IF the signature is ok, then "Run" should be the default button.
+ * (IN PROGRESS) Gconf keys in setup.py, e.g., proper thumbnailer
+ * setup.py should ask whether to do things user-wide or system-wide (e.g., by recognizing prefix=) - I think XDG detects root and does "the right thing" not sure about python
+ * cmg creation inside the chroot (Lionel says that's possible)
+ * legacy cramfs execution = allow old "klik1" cmg files to run
+ * gettext for accepting easy translations
+ * feedback on first run, including any error messages the application might have sent to stderr
+ * (IN PROGRESS) Preinstall and postinstall scripts
+ * Optional checking of GPG signing (i.e., say "status of signature could not be verified" if we have no gpg on the system)
+ * Add mime for recipes so double clicking a recipe installs the app
+ * (?) Replace xdg-tools with python port http://www.freedesktop.org/wiki/Software/pyxdg
+
+=== Done ===
+ * (DONE) ~~GUI overhaul~~
+ * (DONE) ~~klik logo (blue down arrow button) should be used in window title bar (but not as the large icon in the upper left of the window)~~
+ * (DONE) ~~embed "minirun" bash script into the leading 000s of the cmg ISO~~
+ * (DONE) ~~IF the recipe specifies a download size, THEN display it~~
+
+= Wording =
+For overall consistency and ease-of-communication, we'd suggest to use some standard terminology throughout the klik code, comments, GUI, screen output, website, etc.
+ * "klik" (not "Klik")
+ * "Compressed Application Image" (not "klik CMG" or something like that)
+  * *bSON*: "Application Image" is shorter -- *probono*: Maybe, but it is known as the "Compressed Application Image" format since years and I think we should not change the name or lose information.
+ * "Error: The recipe for xvier is broken. Someone needs to fix it." (not "Error Occured Error recipe could not be loaded does not appear to be valid XM")
+ * All klik windows should have the title: "klik - xvier" (xvier being an example only)
+  * *bSON:* Dialogs should not have any title. Please look in the [http://developer.gnome.org/projects/gup/hig/2.0/ GNOME Human Interface Guidelines] before making GUI suggestions. *probono*: In Gnome, press Alt-F2 (the "Run Application" dialog). Is it only me or does it say "Run Application" in the title? Of course every window should have a title text, otherwise no one knows which app a window belongs to. (It might be a different story if there is an underlying application window open, which is not the case in klik. The progress dialog is the only klik window open at that time.) By the way,"Downloading package files", "Applying changes" are window titles used in Ubuntu's apt-get GUI. So all klik windows should have the title: "klik - xvier".
+ * "recipe" (not: "recipie", not: "application recipe",...)
+  * *bSON:* "Recipe" on it's own is clearly not associated with computing, but with coooking. I would strongly suggest the less ambiguous term "application recipe" and use "recipe" only in a context where the meaning is true. Which is NOT the case in a window just saying "Dowloading recipe". -- *probono*: Everyone knows what a recipe is, and everyone can imagine what it is within the context of downloading software from the web. No one would say (when talking) "the download recipe is broken". Let's call it "Recipe". *pipitas*: bSON, new types of applications/technologies require (and warrant) new terms (or giving familiar terms a new meaning). Yes, we use terms for klik stuff that are 'unusual'. But this serves the purpose to hammer home that klik is something new not necessarily known (nor easily grasped) by or familiar to traditional Un*x gearheads... Once klik is really popular, this 'problem' will resolve itself (yes, the Chefs will have to justify to their apprentices the word 'recipe' then, hehe).
+ * "ingredients" (not: sources,...)
+ * "archives" (not: debs, rpms,...)
+
+= Organisational =
+ * rebrand?
+ * web site upgrade?
+
+== Braninstorming ==
+With more and more things like freespire's CNR, ubuntu's apt:// and openSUSE's 1-click-install, we should distinguish our project by focusing communications on "1 app = 1 file" and "application virtualization". Ideas: onefile, onefileapp, in1file, appiso,... projectcmg
+
+Need to target developers with applications (games etc) that don't have good distro coverage or want easier cross distro support or applciations that move so fast a 6 month old version in a distro is not much help, also technology previews alphas etc.. they can host there own recipe file or register a klik://
+
+== Development screenshots ==
+=== openSUSE 10.2 Live DVD === 
+http://img239.imageshack.us/img239/7011/snapshot1bd7.png
+
+==Distribution==
+http://pyinstaller.python-hosting.com/

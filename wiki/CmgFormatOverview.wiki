@@ -1,0 +1,39 @@
+#summary Overview of klik2 CMG
+
+= Introduction =
+
+CMG is not a package management system and is only suitable (in general) for desktop user applications.
+
+A CMG contains an application in one file, there is no install required the CMG its self is executable.  
+
+Each CMG is a self contained file system containing all the applications dependencies less the LSB3.1 Desktop.
+
+CMG strives to follow as many existing standards as possible, to that end a CMG archive is a fully standard ISO with a transparent-compression ( a zisofs/RockRidge compressed) file system.
+
+== Format==
+
+CMG's can be manipulated using the standard tools available in most linux desktop distributions. ie mount, genisoimage, isoinfo etc
+
+== Creation ==
+
+CMG's are built from deb's/rpm's and zipped binaries however debs can be 'installed' on rpm based distros and vice versa
+
+== Execution == 
+
+Each CMG contains a file system that is union mounted over top of the existing file system.
+
+This is the same method that distro live cd's use to union mount a read/write layer over the CD file system.  
+
+This insures separation of application and system insures that the base distro is never effected by the application (NOTE: in most cases home can still be accessed as a writeable location).
+
+CMG's can be executed from any location including CD, DVD flash drive and hard drives.
+
+== Non Standard ==
+
+Embedded in the header of the ISO is a small script to make the CMG self executable (This header does invalidate the ISO). This is not a requirement and is a compromise upon the goal of a fully self contained executing application in one file.
+
+= Links =
+
+  * ISO http://en.wikipedia.org/wiki/ISO_9660
+  * freedesktop menus http://standards.freedesktop.org/menu-spec/latest/
+  * LSB desktop - http://www.linux-foundation.org/en/DesktopRelease

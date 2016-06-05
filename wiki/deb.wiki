@@ -1,0 +1,254 @@
+#summary This page describes how to deb packages for the klik client and its dependencies.
+
+= How to make deb, source deb, and "quick&dirty" rpm  =
+This creates source deb, dsc, orig.tar.gz files. It is intended to be run automatically on a *buntu Live CD.
+
+After building the deb, a rpm is created using alien. Note that dependencies must be specified in the rpm spec file. We give alternative names for the dependencies, so that the resulting rpm is intended to install on both Fedora and openSUSE.
+
+As root:
+
+{{{
+#
+# Switch to English
+#
+
+unset LANG
+unset LOCALE
+
+#
+# exit on errors 
+#
+
+set -e
+
+#
+# Prepare build environment - tested on (K)ubuntu Gutsy
+#
+
+apt-get update
+apt-get -y install subversion pbuilder dpkg-dev cdbs fakeroot debhelper autotools-dev zlib1g-dev libattr1-dev kdelibs-dev gettext g++ autogen autoconf automake libtool alien
+svn co http://klikclient.googlecode.com/svn/trunk/client/trunk/
+
+#
+# Put SVN number into version strings and compile
+#
+
+export SVNVERSION=$(svnversion trunk/)
+export KLIKVERSION=1.9.2.$SVNVERSION
+svn export trunk klik-${KLIKVERSION}
+cd klik-*
+perl -pi -e 's|klik \(.*?\)|klik ('$KLIKVERSION')|' debian/changelog
+perl -pi -e 's|version = \".*?\"|version = \"'$KLIKVERSION'\"|g' klikclient/lib/klik/settings.py
+REV=$(LANG=C svn info | awk '/Last Changed Rev/{print $4}') # bfree
+echo $REV > klikclient/share/klik/svnversion  # bfree
+dpkg-buildpackage -rfakeroot
+cd -
+rm -r klik-*
+
+#
+# Generate a spec file and everything that's needed to create an RPM (fixme: do properly)
+#
+
+alien -vvrcg klik_*_i386.deb || exit 1
+
+#
+# Make Fedora RPM
+#
+
+perl -pi -e 's@Group@Requires: binutils fusioniso zisofs-tools fuse genisoimage gnupg pygtk2-libglade xdg-utils\nGroup@g' klik-*/klik*spec 
+rpmbuild -bb klik-*/klik*spec
+mkdir fedora
+mv ../klik*rpm fedora/
+
+#
+# Make openSUSE RPM (change package name of dependency and kde3 path)
+#
+
+perl -pi -e 's@pygtk2-libglade@python-gtk@g' klik-*/klik*spec # on openSUSE, package has a different name :-(
+cd klik-*
+
+mkdir -p opt/kde3/lib/kde3
+mv usr/lib/kde3/* opt/kde3/lib/kde3/
+rm -rf usr/lib/kde3/
+find . -type f | xargs perl -i -p -e 'print STDERR "changed $val values on line $. of $ARGV\n" if($val = s@usr/lib/kde3@opt/kde3/lib/kde3@g)'
+
+mkdir -p opt/kde3/share/mimelnk
+mv usr/share/mimelnk/* opt/kde3/share/mimelnk/
+rm -rf usr/share/mimelnk/
+find . -type f | xargs perl -i -p -e 'print STDERR "changed $val values on line $. of $ARGV\n" if($val = s@usr/share/mimelnk@opt/kde3/share/mimelnk@g)'
+
+mkdir -p opt/kde3/share/applnk
+mv usr/share/applnk/* opt/kde3/share/applnk/
+mv usr/share/applnk/.hidden opt/kde3/share/applnk/
+rm -rf usr/share/applnk/
+find . -type f | xargs perl -i -p -e 'print STDERR "changed $val values on line $. of $ARGV\n" if($val = s@usr/share/applnk@opt/kde3/share/applnk@g)'
+
+mkdir -p opt/kde3/share/services
+mv usr/share/services/* opt/kde3/share/services/
+rm -rf usr/share/services/
+find . -type f | xargs perl -i -p -e 'print STDERR "changed $val values on line $. of $ARGV\n" if($val = s@usr/share/services@opt/kde3/share/services@g)'
+
+cd -
+rpmbuild -bb klik-*/klik*spec
+mkdir opensuse103
+mv ../klik*rpm opensuse103/
+
+#
+# Clean up
+#
+
+rm -r klik-*
+
+#
+# Make fusioniso
+#
+
+apt-get -y install libfuse-dev xsltproc docbook-xsl docbook-xml
+svn co http://klikclient.googlecode.com/svn/trunk/virtualization/unionfuse/trunk/klikfuse
+cd klikfuse/
+dpkg-buildpackage -rfakeroot
+cd -
+rm -rf klikfuse/
+alien -vvrc fusioniso*deb
+
+#
+# Compress for upload
+#
+
+mkdir all-$KLIKVERSION
+mv klik* fusioniso* fedora opensuse103 all-$KLIKVERSION/
+tar cfvj all-$KLIKVERSION.tbz2 all-$KLIKVERSION/
+rm -rf all-$KLIKVERSION/
+}}}
+
+Note that after installing the deb/rpm, you need to:
+{{{
+mkdir /tmp/klik ; mount -t tmpfs tmpfs /tmp/klik # on openSUSE Live CD
+groupadd fuse # is not automatically done on openSUSE
+modprobe fuse # is not automatically done on openSUSE
+chown root:fuse /dev/fuse
+/usr/sbin/usermod -G fuse YOURUSERNAME # sbin is not in $PATH on Fedora
+}}}
+Then you need to log out and log in again.
+
+Mandriva 2008 (not really working):
+{{{
+su
+urpmi.addmedia main ftp://ftp.proxad.net/pub/Distributions_Linux/MandrivaLinux/official/2008.0/i586/media/main/release
+# download the Fedora rpms for klik and klikfuse
+urpmi Desktop/*rpm --allow-nodeps
+# does not find pygtk2-libglade # it's called pygtk2.0-libglade
+urpmi pygtk2.0-libglade cdrkit-isotools # we need isoinfo
+/usr/sbin/usermod -G fuse guest # "guest" is the name of the live CD user
+modprobe fuse # /dev/fuse doesn't exist by default
+chown root:fuse /dev/fuse # isn't done by default, Mandriva bug?
+# log out and in
+}}}
+
+*everything below this line is probably outdated now and should be removed*
+
+= How to make klik deb packages =
+
+You can just build packages straight from client/trunk and virtualization/unionfuse/trunk/klikfuse in the googlecode svn.
+
+Here are the original instructions slightly updated so they will still work half sanely for now (they should be rewritten or deleted with this message soon, 21 Jan 2008).
+
+Very quick real instructions, get the relevant part of the svn (see above) and use pbuilder to build them, or look in debian/control to see what it build-depends on, install those packages (plus the dpkg-dev and fakeroot packages) and then run dpkg-buildpackage -rfakeroot as before.
+
+We might release some tar.gz files instead soon to make writing and doing this easier ;-)
+
+{{{
+#!/bin/bash -x  
+
+mkdir klikbuild_temp
+cd klikbuild_temp
+
+grep "deb-src http://intercalc" /etc/apt/sources.list || echo "deb-src http://intercalc.net/niall/tmp/klik/ ./" >> /etc/apt/sources.list
+
+apt-get update
+apt-get -y install dpkg-dev fakeroot
+
+PACKAGES='klik klikfuse' 
+
+for PACKAGE in $(echo $PACKAGES) ; do
+        apt-get -y source $PACKAGE
+        apt-get -y build-dep $PACKAGE
+        cd $PACKAGE-*
+        dpkg-buildpackage -rfakeroot
+        cd -
+done
+
+cd -
+}}}
+
+= README =
+
+No thumbnailers included yet in binary packages or build scripts
+
+No real gnome support included yet in build scripts
+
+Licensing, Documentation and all other nicities outstanding!
+
+  probono: licenses are just like the upstream projects plus GPLv2 for the rest
+
+Primative hacked dh_make (sub) config for fakechroot is probably a little dodgy!
+
+Nothing has been rebuilt using pbuilder yet!   Update: built with pbuilder for sid, lenny and etch!
+
+klikclient depends on libstdc++5!   As this is in lsb-cxx and only needed to run fetched programs and not for klik itself leave it to the lsb recommends.
+
+= Questions =
+
+Where and how should we split packages if at all?   Should we be combining these into one klik package?
+
+  probono: yes. makes installation possible without having to change sources.list
+
+  probono: klikd is strictly optional and as such a separate package which klikclient suggests
+
+  bfree: so are the thumbnailers "strictly optional" :-P 
+
+  probono:  no, they are part of klikclient :-)
+
+How should fuseiso and fusecram be packaged?
+
+  probono: that's a question for lionel. i _think_ he is the official maintainer of these now, but i'm not sure. if he is, we can assume that the "klik modifications" will flow into ubuntu's,... official packages. ...snip... until they are, we should call ours fusioniso and fusioncram indeed
+  bfree: I've actually gone for replacing fuseiso and fusecram ... for the initial commit anyway
+
+How should libfakechroot be handled?
+
+  probono: we should rename it something klik specific and make it part of klikclient
+  bfree: done?   It's in /usr/lib/klik/libfakechroot.so so only we should pick it up.   Perhaps we should go further though.   We could also look at how uniwue and how much of a patched libfakechroot it is and see if we can't make it an external build dependency?
+
+Should debian dirs go in googlecode?
+
+  probono: yes
+  bfree: started (klik and klikfuse)
+
+Nothing has been built on a suitably old generic platform (etch perhaps).
+
+  probono: i successfully built them on freespire 2
+  bfree: I just managed to get an etch (and lenny, sid) pbuilder to build r875, 21 Jan 2008
+
+klikclient pulls in the install dir, otherwise the current few packages divide up nicely out of the svn?
+
+  probono: what's currently inside install/ is a total mess imho. 
+  inside install/ things should have the same structure as usr/ normally has 
+  e.g., install/lib, install/share, install/lib etc.
+ 
+  i've suggested that to KillerKiwi2005 and he's ok with it, someone just needs to do this and change the install.py accordingly. this will hopefully make it much smaller and cleaner
+
+klikclient depends on rpm!   It should leave it to lsb to drag it in?
+
+  probono:  rpm is needed by klik itself, not for the apps installed with klik. so probably consistent with our logic, we'd have to keep it. but to be honest, i don't like it as a requirement. ideally we would find a python-only solution for unpacking rpms
+
+debconf must die?   kill the debconf fuse stuff and instead slap the user in the face with a message if they try and run klik without fuse rights!
+
+  probono:  debconf: i'd really prefer to have it as it is now
+  bfree: I know killerkiwi agreed, but for now (first commit) it is commented out in postinst/prerm and the debconf files are missing (I didn't intend to leave it half broken).
+
+Should we be depending on anything like a browser?   I would say no, recommending is fine.   Wouldn't/couldn't a klik'd browser support klik'ing new apps?
+
+  probono:  klik works well on the CLI ... so no browser
+
+killerkiwi: Add python-nautilus as a suggests for nautilus property page to work
+bfree: done

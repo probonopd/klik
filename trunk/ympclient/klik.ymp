@@ -1,0 +1,27 @@
+<metapackage xmlns:os="http://opensuse.org/Standards/One_Click_Install" xmlns="http://opensuse.org/Standards/One_Click_Install">
+  <group>
+    <repositories>
+      <repository recommended="true">
+        <name>home:probono</name>
+        <summary>klik</summary>
+        <description>klik is a distribution mechanism for portable, virtualized applications. It  follows the &quot;1 app = 1 file&quot; approach. It uses ISO files to bundle all requirements together with the application.</description>
+        <url>http://download.opensuse.org/repositories/home:/probono/xUbuntu_7.10/</url>
+      </repository>
+      <repository recommended="false">
+        <name>Ubuntu:7.10</name>
+        <summary>Ubuntu 7.04 Gutsy Release</summary>
+        <description>This contains all packages from Ubuntu 7.10 &quot;main&quot;, this includes also the packages from KUbuntu, XUbuntu and Edubuntu.</description>
+        <url>http://download.opensuse.org/repositories/Ubuntu:/7.10/standard/</url>
+      </repository>
+    </repositories>
+    <software>
+      <item>
+        <name>klik</name>
+        <summary>The klik package</summary>
+        <description>Web based software installer
+This package provides the client programs needed to use the
+http://klik.atekon.de site to run software using klik2.</description>
+      </item>
+    </software>
+  </group>
+</metapackage>tapackage>

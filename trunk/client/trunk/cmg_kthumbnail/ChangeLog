@@ -1,0 +1,25 @@
+2004-03-18  Heiko Schaefer  <zxmpl18@MonaMin>
+
+	* configure.in, configure.in.in, doc/Makefile.in, doc/en/Makefile.in, src/Makefile.in, src/wmfthumbcreator.cpp, src/wmfthumbnail.desktop, src/wmfthumbnail.lsm, wmfthumbnail.kdevelop, wmfthumbnail.spec, ChangeLog, Makefile.in, TODO, configure:
+	* Bumped to version 0.2
+
+	* Makefile.am, Makefile.in, doc/Makefile.in, doc/en/Makefile.in, src/Makefile.in, src/wmfthumbcreator.cpp, src/wmfthumbcreator.h, src/wmfthumbnail.cpp, src/wmfthumbnail.desktop, wmfthumbnail.spec:
+	* Adaptions to make it more KDE-conform
+
+	* admin/ChangeLog, admin/Doxyfile.am, admin/acinclude.m4.in, admin/am_edit, admin/bcheck.pl, admin/conf.change.pl, admin/config.guess, admin/config.pl, admin/config.sub, admin/configure.in.bot.end, admin/configure.in.min, admin/cvs-clean.pl, admin/cvs.sh, admin/debianrules, admin/detect-autoconf.sh, admin/install-sh, admin/libtool.m4.in, admin/ltmain.sh, admin/missing, admin/mkinstalldirs, admin/nmcheck, admin/ylwrap:
+	Imported using TkCVS
+
+	* admin/ChangeLog, admin/Doxyfile.am, admin/acinclude.m4.in, admin/am_edit, admin/bcheck.pl, admin/conf.change.pl, admin/config.guess, admin/config.pl, admin/config.sub, admin/configure.in.bot.end, admin/configure.in.min, admin/cvs-clean.pl, admin/cvs.sh, admin/debianrules, admin/detect-autoconf.sh, admin/install-sh, admin/libtool.m4.in, admin/ltmain.sh, admin/missing, admin/mkinstalldirs, admin/nmcheck, admin/ylwrap:
+	New file.
+
+	* AUTHORS, COPYING, ChangeLog, Doxyfile, INSTALL, Makefile.am, Makefile.cvs, Makefile.in, acinclude.m4, admin/Doxyfile.global, admin/Makefile.common, admin/compile, admin/depcomp, config.h.in, configure, configure.files, configure.in, configure.in.in, doc/Makefile.am, doc/Makefile.in, doc/en/Makefile.am, doc/en/Makefile.in, doc/en/index.docbook, src/Makefile.am, src/Makefile.in, src/wmfthumbcreator.cpp, src/wmfthumbcreator.h, src/wmfthumbnail.cpp, src/wmfthumbnail.desktop, src/wmfthumbnail.lsm, stamp-h.in, subdirs, wmfthumbnail.kdevelop, wmfthumbnail.kdevelop.pcs:
+	Imported using TkCVS
+
+	* AUTHORS, COPYING, ChangeLog, Doxyfile, INSTALL, Makefile.am, Makefile.cvs, Makefile.in, acinclude.m4, admin/Doxyfile.global, admin/Makefile.common, admin/compile, admin/depcomp, config.h.in, configure, configure.files, configure.in, configure.in.in, doc/Makefile.am, doc/Makefile.in, doc/en/Makefile.am, doc/en/Makefile.in, doc/en/index.docbook, src/Makefile.am, src/Makefile.in, src/wmfthumbcreator.cpp, src/wmfthumbcreator.h, src/wmfthumbnail.cpp, src/wmfthumbnail.desktop, src/wmfthumbnail.lsm, stamp-h.in, subdirs, wmfthumbnail.kdevelop, wmfthumbnail.kdevelop.pcs:
+	New file.
+
+	* NEWS, README, TODO, aclocal.m4, wmfthumbnail.kdevses:
+	Imported using TkCVS
+
+	* NEWS, README, TODO, aclocal.m4, wmfthumbnail.kdevses: New file.
+

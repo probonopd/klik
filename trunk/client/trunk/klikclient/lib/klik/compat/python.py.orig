@@ -1,0 +1,52 @@
+import os
+import sys
+
+class KlikCompatPython(object):
+	# All patches we need to run python applications in a cross distro manner
+	
+	def __init__(self, klik):
+		self.klik = klik
+	
+	def init_enviroment(self, cmg):
+
+		# PYTHON MODULES FROM DEBIAN RECIPES
+		
+		# fix python path for unregistered modules... note we arn't byte compiling...!!
+		# this makes emma work
+		paths = cmg.find_sub_directories("/usr/share/pycentral")
+		for path in paths:
+			# for each folder add folder/site-packages to python path
+			path = os.path.join(cmg.mount_point_path, path[1:], "site-packages")
+			if os.getenv("PYTHONPATH") == None:
+				# remember to prepend existing paths
+				os.environ["PYTHONPATH"] =   ":".join(sys.path) + ":"+ path
+			else:
+				os.environ["PYTHONPATH"] =  os.environ["PYTHONPATH"] + ":" + path
+			
+			# check for pth files
+			for pth in os.listdir(path):
+				pth = os.path.join(path, pth)
+				if os.path.isfile( pth ) and pth.endswith("pth"):
+					f = open(pth, "r")
+					pth = os.path.join(path, f.read().strip())
+					f.close()
+					os.environ["PYTHONPATH"] =  os.environ["PYTHONPATH"] + ":" + pth
+
+		# this makes istanbul work
+		paths = cmg.find_sub_directories("/usr/share/python-support")
+		for path in paths:
+			# for each folder add folder/site-packages to python path
+			if os.getenv("PYTHONPATH") == None:
+				# remember to prepend existing paths
+				os.environ["PYTHONPATH"] =   ":".join(sys.path) + ":"+ path
+			else:
+				os.environ["PYTHONPATH"] =  os.environ["PYTHONPATH"] + ":" + path
+				
+			# check for pth files
+			for pth in os.listdir(path):
+				pth = os.path.join(path, pth)
+				if os.path.isfile( pth ) and pth.endswith("pth"):
+					f = open(pth, "r")
+					pth = os.path.join(path, r.read().strip())
+					f.close()
+					os.environ["PYTHONPATH"] =  os.environ["PYTHONPATH"] + ":" + os.path.join(path, pth)

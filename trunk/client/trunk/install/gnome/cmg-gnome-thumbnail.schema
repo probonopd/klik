@@ -1,0 +1,29 @@
+<gconfschemafile>
+    <schemalist>
+
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@x-application-cmg/enable</key>
+            <applyto>/desktop/gnome/thumbnailers/application@x-application-cmg/enable</applyto>
+            <owner>Thumbnailer</owner>
+            <type>bool</type>
+            <default>true</default>
+            <locale name="C">
+                <short>Enable thumbnailing of cmg</short>
+                <long>Enable thumbnailing of cmg</long>
+            </locale>
+        </schema>
+
+        <schema>
+            <key>/schemas/desktop/gnome/thumbnailers/application@x-application-cmg/command</key>
+            <applyto>/desktop/gnome/thumbnailers/application@x-application-cmg/command</applyto>
+            <owner>Thumbnailer</owner>
+            <type>string</type>
+            <default>klik icon %i %o</default>
+            <locale name="C">
+                <short>Create thumbnail for cmg</short>
+                <long>Create thumbnail for cmg</long>
+            </locale>
+        </schema>
+
+    </schemalist>
+</gconfschemafile>

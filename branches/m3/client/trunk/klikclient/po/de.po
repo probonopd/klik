@@ -1,0 +1,303 @@
+# German translations for klik package.
+# Copyright (C) 2007 THE klik'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the klik package.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: klik 2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-27 00:59+0200\n"
+"PO-Revision-Date: 2007-11-27 00:59+0200\n"
+"Last-Translator:  <probono@myrealbox.com>\n"
+"Language-Team: German\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Download and run \"%s\"?"
+msgstr "\"%s\" herunterladen und starten?"
+
+msgid "Packages:\n"
+msgstr "Pakete:\n"
+
+msgid "This application is NOT trusted"
+msgstr "Dieser Download ist NICHT signiert"
+
+msgid ""
+"You should be sure that applications are from a trustworthy source before "
+"running."
+msgstr "Sie sollten sicherstellen, dass dieser Download aus einer vertrauenswürdigen Quelle stammt."
+
+msgid "Getting information..."
+msgstr "Informationen abrufen..."
+
+msgid "Downloading %s"
+msgstr "%s wird geladen"
+
+msgid "Sending Feedback"
+msgstr "Rückmeldung senden"
+
+msgid "Error Occurred"
+msgstr "Ein Fehler ist aufgetreten"
+
+msgid "Requesting : %s"
+msgstr "Anfordern: %s"
+
+msgid "Downloading : %s"
+msgstr "Herunterladen: %s"
+
+msgid "Error code %s %s"
+msgstr "Fehler %s %s"
+
+msgid "Error occured while attempting to download %s"
+msgstr "Beim Versuch %s herunterzuladen ist ein Fehler aufgetreten"
+
+msgid "Extracting Ingredients"
+msgstr "Zutaten auspacken"
+
+msgid "Desktop File Found : %s"
+msgstr "Desktop-Datei gefunden: %s"
+
+msgid "Error parsing desktop file"
+msgstr "Desktop-Datei fehlerhaft"
+
+msgid "No image set scanning for icon......"
+msgstr "Kein Icon definiert, suche Icon..."
+
+msgid "Icon Found : %s"
+msgstr "Icon gefunden: %s"
+
+msgid "No recipe file found"
+msgstr "Kein Rezept gefunden"
+
+msgid "Compressing Files..."
+msgstr "Dateien komprimieren..."
+
+msgid "Compressing..."
+msgstr "Komprimieren..."
+
+msgid "Generating CMG"
+msgstr "CMG erstellen"
+
+msgid "Generating ISO... "
+msgstr "ISO erstellen..."
+
+msgid "genisoimage failed. Is it installed?"
+msgstr "genisoimage funktioniert nicht. Ist es installiert?"
+
+msgid "Embedding minirun..."
+msgstr "Minirun einbetten..."
+
+msgid "Copy File : %s "
+msgstr "Datei kopieren: %s "
+
+msgid "CMG creation complete"
+msgstr "CMG-Datei erstellt"
+
+msgid "Unpack Packages : "
+msgstr "Zutaten auspacken: "
+
+msgid ""
+"\n"
+"Moving File :"
+msgstr "\nDÃ©placement du fichier :"
+
+msgid "from - %s"
+msgstr "von - %s"
+
+msgid "to   - %s"
+msgstr "nach  - %s"
+
+msgid ""
+"\n"
+"Deleting File :"
+msgstr "\n"
+"Datei löschen:"
+
+msgid "file - %s"
+msgstr "Datei - %s"
+
+msgid ""
+"\n"
+"Creating Symlink :"
+msgstr "\n"
+"Lege Symlink an :"
+
+msgid ""
+"\n"
+"Unzipping Archive :"
+msgstr "\nArchiv auspacken:"
+
+msgid "Error with script : %s"
+msgstr "Fehler im Skript: %s"
+
+msgid "WARNING :: THE FOLLOWING SCRIPT WILL BE EXECUTED : "
+msgstr "ACHTUNG :: DAS FOLGENDE SKRIPT WIRD AUSGEFÜHRT : "
+
+msgid "Executing..."
+msgstr "Starten..."
+
+msgid "Registering %s"
+msgstr "Registrieren von %s"
+
+msgid "Icon does not exist"
+msgstr "Icon existiert nicht"
+
+msgid "The following menu items have been added"
+msgstr "Folgende Menüeinträge wurden hinzugefügt"
+
+msgid "To uninstall remove the file from your application folder"
+msgstr "Zum Deinstallieren entfernen Sie die Datei aus dem Programme-Verzeichnis"
+
+msgid " ... and %d more"
+msgstr "... und %d weitere"
+
+msgid "CMG Application Folder"
+msgstr "CMG Programme-Verzeichnis"
+
+msgid "Unregistering %s"
+msgstr "Registrierung von %s läsen"
+
+msgid "The following menu items have been removed:"
+msgstr "Folgende Menüeinträge wurden entfernt:"
+
+msgid ""
+"<span size=\"larger\" weight=\"bold\">Download and run \"Gran Paradiso Alpha "
+"1 (Firefox 3)\"?</span>"
+msgstr ""
+
+msgid "This application is from a trusted source."
+msgstr "Dieser Download stammt aus einer vertrauenswürdigen Quelle."
+
+msgid ""
+"<b>This application is not signed.</b> You should be sure that it is from a "
+"trustworthy source before running it."
+msgstr "<b>Dieses Rezept ist nicht signiert.</b> Sie sollten sicherstellen, dass es aus einer vertrauenswürdigen Quelle stammt, bevor Sie fortfahren."
+
+msgid "<b>Download Size:</b>"
+msgstr "<b>Downloadgrä§e:</b>"
+
+msgid "unknown"
+msgstr "unbekannt"
+
+msgid ""
+"Gran Paradiso Alpha 1 is an early developer milestone for the next major "
+"version of Firefox that is being built on top of the next generation of "
+"Mozilla's layout engine, Gecko 1.9. Gran Paradiso Alpha 1 is being made "
+"available for testing purposes only, and is intended for web application "
+"developers and our testing community. Current users of Mozilla Firefox "
+"should not use Gran Paradiso Alpha 1."
+msgstr ""
+
+msgid "Description"
+msgstr "Beschreibung"
+
+msgid ""
+"Ingredients:\n"
+" - http://www.debian.co.nz/firefox.deb"
+msgstr "Zutaten:\n - http://www.debian.co.nz/firefox.deb"
+
+msgid "Ingredients"
+msgstr "Zutaten"
+
+msgid "Recipe"
+msgstr "Rezept"
+
+msgid "<b>Version:</b>"
+msgstr "<b>Version:</b>"
+
+msgid "<b>Summary:</b>"
+msgstr "<b>Zusammenfassung:</b>"
+
+msgid "<b>unsigned</b>"
+msgstr "<b>nicht signiert</b>"
+
+msgid "<b>Signed By:</b>"
+msgstr "<b>Signiert von:</b>"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "Run"
+msgstr "Start"
+
+msgid "klik"
+msgstr "klik"
+
+msgid "<big><big><b>Gran Paradiso Alpha 1 (Firefox 3)</b></big></big>"
+msgstr ""
+
+msgid "Did this application work as expected?"
+msgstr "Ist das heruntergeladene Programm wie erwartet gestartet?"
+
+msgid "gtk-yes"
+msgstr ""
+
+msgid "gtk-no"
+msgstr ""
+
+msgid "Any comment?"
+msgstr "Haben Sie einen Kommentar?"
+
+msgid "Information about your desktop"
+msgstr "Informationen über Ihren Desktop"
+
+msgid "<i>System Information</i>"
+msgstr "<i>Systeminformation</i>"
+
+msgid "Error (if any) returned by the application"
+msgstr "Vom Programm gemeldete Fehler (falls vorhanden)"
+
+msgid "<i>Error Report</i>"
+msgstr "<i>Fehlerbericht</i>"
+
+msgid "Attempt to detect any missing dependencies"
+msgstr "Versuch, fehlende Abhängigkeiten zu erkennen"
+
+msgid "<i>Library Trace</i>"
+msgstr "<i>Library Trace</i>"
+
+msgid "Feedback Information (<b>All feedback is anonymous</b>)"
+msgstr "Rückmeldungsinformationen (<b>Alle Angaben sind anonym</b>)"
+
+msgid "You can help us improve this service by sending us feedback!"
+msgstr "Bitte helfen Sie uns mit Ihren Rückmeldungen, diesen Service zu verbessern!"
+
+msgid "Send"
+msgstr "Senden"
+
+msgid "Klik"
+msgstr "klik"
+
+msgid ""
+"<span size=\"larger\" weight=\"bold\">Dowloading  \"Gran Paradiso Alpha 1 "
+"(Firefox 3)\"</span>"
+msgstr ""
+
+msgid " "
+msgstr " "
+
+msgid "Detail"
+msgstr "Details"
+
+msgid ""
+"This Compressed Application Image contains the following applications \n"
+"\n"
+"Select which application you would like to run"
+msgstr "Dieses Image enthält die folgenden Programme \n\nBitte wählen Sie aus, welches Programm Sie starten mächten"
+
+msgid "Run application in a jail"
+msgstr "Programm in Sandkasten starten"
+
+msgid "Advanced Options"
+msgstr "Weitere Optionen"
+
+msgid "gtk-close"
+msgstr ""
+
+msgid "Compressed Applications Images that can be updated"
+msgstr "Images, die aktualisiert werden kännen"
+
+msgid "gtk-apply"
+msgstr ""

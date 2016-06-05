@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Exec=konqueror http://klik.atekon.de?from=profile
+Icon=package_network
+Name=Install more software...
+Name[de]=Weitere Software installieren...
+Name[ru]=Инсталляция дополнительных ПО

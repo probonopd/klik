@@ -1,0 +1,4 @@
+#!/bin/bash
+BINPATH=`readlink \`which klik\``
+export KLIK_BIN_PATH=`dirname $BINPATH`
+/bin/bash --rcfile ${KLIK_BIN_PATH}/.bashrc -i $*

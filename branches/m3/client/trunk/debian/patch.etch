@@ -1,0 +1,52 @@
+Index: debian/control
+===================================================================
+--- debian/control	(revision 1162)
++++ debian/control	(working copy)
+@@ -2,7 +2,7 @@
+ Section: web
+ Priority: optional
+ Maintainer: Niall Walsh <niallwalsh@users.berlios.de>
+-Build-Depends: cdbs, debhelper (>= 5), autotools-dev, zlib1g-dev, libattr1-dev, kdelibs-dev, gettext, autoconf, automake, autogen, libtool
++Build-Depends: cdbs, debhelper (>= 5), autotools-dev, zlib1g-dev, libattr1-dev, kdelibs-dev, gettext, autoconf, automake, autogen, libtool, inotify-tools
+ Standards-Version: 3.7.3
+ Vcs-Svn: https://klikclient.googlecode.com/svn/trunk/client/trunk/
+ Vcs-Browser: http://klikclient.googlecode.com/svn/trunk/client/trunk/
+Index: debian/changelog
+===================================================================
+--- debian/changelog	(revision 1162)
++++ debian/changelog	(working copy)
+@@ -1,3 +1,9 @@
++klik (1.9.2-etch1) UNRElEASED; urgency=low
++
++  * klikd needs to be patched for etch to use inotifytools
++
++ -- Niall Walsh <niallwalsh@users.berlios.de>  Mon, 18 Feb 2008 22:29:06 +0000
++
+ klik (1.9.2) UNRElEASED; urgency=low
+ 
+   * Build cmginfo as part of client
+Index: klikd/trunk/src/inotify-cxx.h
+===================================================================
+--- klikd/trunk/src/inotify-cxx.h	(revision 1162)
++++ klikd/trunk/src/inotify-cxx.h	(working copy)
+@@ -33,7 +33,7 @@
+ 
+ // Please ensure that the following headers take the right place
+ #include <sys/syscall.h>
+-#include <sys/inotify.h>
++#include <inotifytools/inotify.h>
+ 
+ // Use this if syscalls not defined
+ #ifndef __NR_inotify_init
+Index: klikd/trunk/src/Makefile.am
+===================================================================
+--- klikd/trunk/src/Makefile.am	(revision 1162)
++++ klikd/trunk/src/Makefile.am	(working copy)
+@@ -1,6 +1,6 @@
+ bin_PROGRAMS = klikd
+ klikd_SOURCES = KlikdConfig.cpp  inotify-cxx.cpp  klikd.cpp
+-AM_CPPFLAGS = -g3 -Wall -Werror
++AM_CPPFLAGS = -g3 -Wall
+ klikd_LDFLAGS = -lpthread -lrt
+ 
+ run: all

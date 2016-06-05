@@ -1,0 +1,21 @@
+Umview support for fusioniso
+----------------------------
+
+Checkout latest umview code from svn on sourceforge.net and configure it with:
+$ ./configure --disable-vde --disable-lwip --disable-python
+$ make
+$ sudo make install
+
+To compile fusioniso as a library for umview :
+$ make
+$ gcc -D_FILE_OFFSET_BITS=64 -I/usr/include/fuse -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -Wall -g -O2 -lpthread fusioniso-debug.o fusioniso-fusemain.o fusioniso-fs.o fusioniso-isofs.o -shared -nostartfiles -o umfuse_fusioniso.so /usr/lib/libglib-2.0.so -lz
+
+Then, copy the new .so module to /usr/local/lib/umview/modules/
+
+To test a cmg application :
+$ klik get kalzium
+$ umview bash
+$ um_add_service umfuse
+$ mount -t umfuse_fusioniso -o pre='-u' -o except=/proc,except=/dev,except=/var/run,except=`kde-config --localprefix` $HOME/Desktop/kalzium_43.5.8-0p1.cmg /
+$ kalzium
+

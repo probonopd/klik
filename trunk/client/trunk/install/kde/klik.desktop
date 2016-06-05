@@ -1,0 +1,23 @@
+[Desktop Entry]
+Encoding=UTF-8
+ServiceTypes=application/x-application-cmg,application/x-application-cmg-recipe,text/x-application-ticket
+Actions=runApp;runShellApp;unpackApp;
+
+[Desktop Action runApp]
+Name=Klik : Launch the application
+Name[fr]=Klik : Lancer l'application
+Icon=exec.png
+Exec=klik '%f'
+
+[Desktop Action runShellApp]
+Name=Klik : Launch the application under a shell
+Name[fr]=Klik : Accéder à l'application sous un shell
+Icon=terminal.png
+Exec=xterm -e "klik shell '%f'"
+
+[Desktop Action unpackApp]
+Name=Klik : Unpack the application
+Name[fr]=Klik : Extraire l'arborescence de l'application
+Icon=cab_extract.png
+Exec=klik unpack '%f'
+

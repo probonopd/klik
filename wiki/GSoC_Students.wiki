@@ -1,0 +1,108 @@
+#summary Advice and hints for students who want to participate in GSoC with a klik project.
+#labels Phase-Design
+
+
+= Advice for Students in "GSoC with klik" =
+
+So you ponder to participate in Google's _"Summer of Code"_? 
+
+Please realize that this is more than a mere formality. You are required to produce working code for klik. You are working for 3 months (mainly June+July+August 2008) on the klik project: you'll do so at least in a part-time, if not full-time capacity (see also section _"Timeline"_ below for more information). Your participation will also take some serious resources away from the klik developers, because they will dedicate a portion of their own time to mentor you in order to make you successful. Therefore, we prefer to select candidates who are committed to helping klik, and who can convince us that they are the right person for the job.
+
+However, you don't need to be an already-proven developer. In fact, this whole program is meant to facilitate joining the klik and the general Free Software and Open Source communities. However, experience in coding and/or prior experience with FOSS projects certainly isn't an obstacle either and is very welcome. 
+
+Please start familiarizing yourself with the components that you plan to work on even before the official GSoC start date. klik developers are available on mailing lists and on IRC (#klik on Freenode.net) for help. Note that the timeline from Google reserves a lot of time for bonding periods: make use of them!
+
+
+== Instructions common to all participants ==
+
+You should take a look at the [http://code.google.com/p/google-summer-of-code/ Summer of Code Program Wiki] every now and then. This page will keep you informed about updates and advices. It is also important to read the [http://code.google.com/soc/2008/faqs.html Summer of Code FAQ]. The FAQ contains more useful information.
+
+As a participant you will need a Google account in order to join the program. You'll save some time if you create one now.
+
+
+== Timeline ==
+
+For the 2008 edition of Summer of Code, the program timeline is as follows (this was extracted from [http://code.google.com/soc/2008/faqs.html Google's official timeline] - refer there for updates and more information):
+
+  * *March 12:* Mentoring organization application deadline.
+  * *March 17:* List of accepted mentoring organizations published on code.google.com .
+  * _Interim Period_: Potential students start contacting the communities they wish to work on, reading the suggested project ideas and drafting their own project proposals.
+  * *March 24:* *_Student application period opens_*.
+  * *March 31:* *_Student application deadline_*.
+  * _Interim Period_: Mentoring organizations review and rank student proposals; where necessary, mentoring organizations may request further proposal detail from the student applicant.
+  * *April 14:* List of accepted student applications published on code.google.com .
+  * _Interim Period_: Community bonding period: students start to get to know their mentors and the community they have been selected for.
+  * *May 26:* *_Students begin coding for their GSoC projects_*; Google begins issuing initial student payments.
+  * *July 7:* Students upload code to code.google.com/hosting; mentors begin mid-term evaluations.
+  * *July 14:* *_Mid-term evaluation deadline_*; Google begins issuing mid-term student payments.
+  * *August 11:* Students stop the brunt of their coding and add the finishing touches.
+  * *August 18:* Mentors begin final evaluations; students begin final program evaluations.
+  * *September 1:* *_Final evaluation deadline_*; Google begins issuing student and mentoring organization payments.
+  * *September 3:* Students upload code to code.google.com/hosting .
+
+[http://www.google.com/calendar/ical/gsummerofcode%40gmail.com/public/basic.ics Full timeline in iCal format]
+
+
+== Licensing =
+
+Code for Summer of Code projects must respect the general klik licensing policy. We use GPL v2 or later for our codebase.
+
+The only restriction that Google places is that the license be one of the [http://www.opensource.org/licenses/ Open Source Initiative approved licenses]. GPLv2 or later matches that requirement.
+
+
+== General Instructions ==
+
+Please read the read this page completely and also the [http://code.google.com/soc/2008/faqs.html Summer of Code FAQ]. Pay special attention to the *_Eligibility_* section of the FAQ.
+
+Next, read the [http://code.google.com/p/google-summer-of-code/wiki/AdviceforStudents Google advices for students] page.
+
+
+== Recommended Steps ==
+
+  # Read the [http://groups.google.com/group/google-summer-of-code-announce/web/guide-to-the-gsoc-web-app-for-student-applicants instructions] for participating.
+  # Take a look at the [http://code.google.com/p/klikclient/wiki/GSoC_2008 klik list of ideas].
+  # Come up with a project that you're interested in.
+  # Write a first draft of your proposal and get someone to review it for you.
+  # Submit it using the [http://code.google.com/soc/student_step1.html web interface].
+
+Coming up with an interesting idea in relation to klik is probably the most difficult part of all. It should be something interesting for klik, or for one or all of the major Linux distros and Open Source in general, and also for you. Most importantly: it has to be something that you can realistically achieve in the time available to you.
+
+Find out what the most pressing issues in the current klik development is a good start. You can optionally join the developer mailing list, or just drop by in the IRC channel and start talking to us. Make acquaintance with klik developers and your potential mentor. Start looking at our current codebase. We recommend strongly doing that and we will look favourably on applications from students who have started to act like Open Source developers.
+
+
+== GSoC Student Proposal Guidelines ==
+
+Your project proposal is what you will be judged upon. So, as a general recommendation, write a clear proposal on what you plan to do, what your project is and what it is not, etc. Several websites now contain hints and other useful information on writing up such proposals.
+
+klik does not require a specific format or specific list of information. But in any case, here are some specific points that are a good idea for you to address:
+
+  * Who are you? What are you studying?
+  * What exactly do you intend to do? What will *_not_* be done?
+  * Why are you the right person for this task?
+  * To what extent are you familiar with the software you're proposing to work with? Have you used it? Have you read the source? Have you modified the source?
+  * How many hours are you going to work on this every week? 10? 20? 30? 40? 
+  * Do you already foresee a period of "vacation" for you? 1 week? 2 weeks? 3? When exactly?
+  * Do you have other commitments that we should know about? If so, please suggest a way to compensate if it will take much time away from your Summer of Code work.
+  * Are you comfortable working independently under a supervisor or mentor who is several thousand miles away, not to mention 12 time zones away? How will you work with your mentor to track your work? Have you worked in this style before?
+  * If your native language is not English, are you comfortable working closely with a supervisor whose native language is English? What is your native language, as that may help us find a mentor who has the same native language?
+  * Where do you live? (Can we even assign a mentor who is local to you so you can meet in a coffee shop for lunch?)
+
+After you have written your proposal, you should get it reviewed. Do not rely on the klik mentors to do it for you via the web interface: they will only send back a proposal if they find it lacking. Instead, ask a colleague, a friend or another developer to do it for you.
+
+
+== Specific Hints for your Proposal ==
+
+*Submit your proposal early*: early submissions get more attention from developers for the simple fact that they have more time to dedicate to reading them. The more people see it, the more it'll get known.
+
+*Do not leave it all to the last minute*: while it is Google that is operating the webserver, it would be wise to expect a last-minute overload on the server. So, make sure you send your application before the final rush. Also, note that the applications submitted very late will get the least attention from mentors, so you may get a lower vote because of that.
+
+*Keep it simple*: we don't need a 10-page essay on the project and on you (Google won't even let you submit a text that long). You just need to be concise and precise.
+
+*Know what you are talking about*: the last thing we need is for students to submit ideas that cannot be accomplished realistically or ideas that aren't even remotely related to klik. If your idea is unusual, be sure to explain why you have chosen klik to be your mentoring organisation.
+
+*Aim wide*: submit more than one proposal, to different areas of klik. You may want to submit to more than one mentoring organisation too. This will increase your chances of being chosen.
+
+The PostgreSQL project has released a [http://www.postgresql.org/developer/summerofcodeadvice.html list of hints]. Take a look there as well.
+
+----
+<!-- ,,(inspiration and wording for this page 'stolen' from the KDE/GSoC wiki page on techbase.kde.org),, -->

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/x-application-cmg">
+		<magic priority="50">
+			<match value="# Compressed Application Image" type="string" offset="16"/>
+			<!-- Obsolete -->
+			<match value="# KLIK2 ISO" type="string" offset="16"/>
+		</magic>
+		<comment>Compressed Application Image (ISO)</comment>
+		<glob pattern="*.cmg"/>
+	</mime-type>
+</mime-info>

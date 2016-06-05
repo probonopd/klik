@@ -1,0 +1,55 @@
+#summary Klik2 Recipe Files
+
+THIS DOCUMENT IS NOT YET COMPLETE
+
+= Introduction =
+
+A klik2 recipe describes which archives (deb, rpm, zip etc) to be used and any commands that will need to be executed
+
+Klik2 recipes are based on the zero install http://0install.net/interface-spec.html, this document will only descibe we we differ from this base spec
+
+== Application Commands ==
+
+The <group main="usr/share/games/wrapper"> command is optional and specifies which command to run when a cmg is executed its recommended to use existing desktop files, this command will override all other methods
+
+By default klik will read and execute desktop files as described by the freedesktop.org spec
+http://standards.freedesktop.org/desktop-entry-spec/latest/
+
+If there is only 1 desktop application file then execution is transparent, if there are multiple desktop files a prompt dialogue will be displayed (cli will need to specify commands manually).  If there are no desktop files klik will check for a debian menu file
+http://olympus.het.brown.edu/cgi-bin/dwww?type=file&location=/usr/share/doc/menu/html/ch3.html
+
+== Deb Tags ==
+
+Deb tags are entirly optional, they can help define an applications context if no desktop file exists.
+
+== Actions ==
+
+There are several action sections that are executed at differnt times
+
+All actions execute in the order they occur within the XML recipe
+
+=== Pre-Flight ==
+Pre flight occurs after ingredients (deb, rpm, zip etc) are downloaded but before the file system tree is created
+
+* Current path during pre flight is the directory containing the archives
+
+==== unpack ====
+Unpack extracts an archive, this is useful when a collection of rpm's or debs have been provided as a zip archive, the zip file can be extracted and the resulting rpm, debs etc can be used as ingredients
+
+==== move ====
+Moves files, only really useful if unpack creates a folder structure as only archives in the pre flight root are used as ingredients
+
+=== Post-Flight ===
+Post Flight occurs after the file system tree has been created but before the cmg is compressed into 1 file
+
+* Current path during post flight is the directory that will become the root of the cmg
+
+==== symlink ====
+Creates a symlink in the file tree... all symlinks should be relative not absolute
+
+==== script ====
+sh script that will be executed, its recommended to use other commands if at all possible
+
+= Signing =
+
+* NOTE: You should have no white space at the end on the recipe before signing

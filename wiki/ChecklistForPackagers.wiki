@@ -1,0 +1,38 @@
+#summary A checklist that packagers can use to check whether their klik client package works properly
+
+= Introduction =
+
+This page is meant as a checklist that packagers can use to check whether their klik client package works properly
+Please add to it.
+
+= Test procedure =
+
+Preparation:
+  # Install your newly-built package following exactly the instructions you have (hopefully) written for it
+  # Log out from your session and log in again
+
+On a (non-X) console:
+  # Does invoking `klik apg`show the correct klik version number including the SVN revision (1.9.0.XXX)  (among the first lines of output)?
+  # Does `klik apg` produce apg.cmg?
+  # Does `klik Desktop/apg*cmg` run apg? Does it produce output on screen?
+
+In KDE:
+  # Press Alt-F2, enter: `klik xvier` - does it produce and successfully launch xvier?
+  # Press Alt-F2, enter: `klik://xvier` - does it produce and successfully launch xvier?
+  # Do the cmg files on the desktop have the (colorful yellow-red-blue) xvier icon? (Also test this for firefox which has a png icon)
+  # When double-clicked, do they launch properly?
+  # Press Alt-F2, enter: `konsole`. There, enter: `klik apg`. apg should run inside _that_ konsole window.
+  # Press Alt-F2, enter: `klik apg`. apg should run inside a _newly opened_ konsole window. (CURRENTLY BROKEN)
+  # Press Alt-F2, enter: `konsole`. There, enter: `klik sync Desktop/`. Inside the KDE games menu, you should have a working xvier entry with icon. 
+
+In GNOME:
+  # Press Alt-F2, enter: `klik xvier` - does it produce and successfully launch xvier?
+  # Press Alt-F2, enter: `klik://xvier` - does it produce and successfully launch xvier?
+  # Do the cmg files on the desktop have the (colorful yellow-red-blue) xvier icon? (Also test this for firefox which has a png icon)
+  # When double-clicked, do they launch properly?
+  # Press Alt-F2, enter: `gnome-terminal`. There, enter: `klik apg`. apg should run inside _that_ gnome-terminal window.
+  # Press Alt-F2, enter: `klik apg`. apg should run inside a _newly opened_ gnome-terminal window. 
+  # Press Alt-F2, enter: `gnome-terminal`. There, enter: `klik sync Desktop/`. Inside the GNOME games menu, you should have a working xvier entry with icon.
+
+In Firefox:
+  # As the URL, enter `klik://xvier` and press enter. Does klik launch?

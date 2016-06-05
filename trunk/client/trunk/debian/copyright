@@ -1,0 +1,27 @@
+This package was debianized by Niall Walsh <niallwalsh@users.berlios.de> on
+Sun, 20 Jan 2008
+
+It was downloaded from http://klikclient.googlecode.com/svn/trunk/client/trunk
+
+Copyright 2005-2008:
+Simon Peter <probono@myrealbox.com>
+Jason Taylor <KillerKiwi2005@gmail.com>
+Lionel Tricon <lionel.tricon AT free.fr>
+Ismael Barros <razielmine@gmail.com>
+Dmitry Morozhnikov <dmiceman AT mail.ru>
+Ryan Thomas
+UNKNOWN iso_fs.h rock.h from linux kernel!
+ASSUMED cmg_kthumbnail/src/isofsthumbnail.cpp is Lionel?
+Piotr Roszatycki <dexter@debian.org>
+Lukas Jelinek <lukas@aiken.cz>
+Free Software Foundation
+Niall Walsh <niallwalsh@users.berlios.de>
+
+License:
+klikclient is GPL-2 (or later)
+CIsoUtl, cmg_kfile, cmg_kthumbnail are under GPL-2 (or later)
+fakechroot is under LGPL 2.1 (or later)
+inotify-c++ is under LICENSE-X11 or LICENSE-LGPL V2.1 or LICENSE-GPL V2
+klikd licensing appears to be GPL V2 thanks to COPYING file
+GPL-2 see /usr/share/common-licenses
+

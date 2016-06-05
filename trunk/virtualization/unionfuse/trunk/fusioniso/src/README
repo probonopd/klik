@@ -1,0 +1,22 @@
+By default, only the dynamic binary is generated.
+To generate both dynamically but also staticaly linked binaries, you shoud issue the following command :
+$ make -f Makefile.klik2
+
+Umview support for fusioniso
+----------------------------
+
+Checkout latest umview code from svn on sourceforge.net and configure it with:
+$ ./configure --disable-vde --disable-lwip --disable-python
+$ make
+$ sudo make install
+
+To compile fusioniso as a library for umview :
+$ gcc -D_FILE_OFFSET_BITS=64 -I/usr/include/fuse -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -Wall -g -O2 -lpthread fusemain.o fs.o isofs.o -shared -nostartfiles -o umfuse_fusioniso.so /usr/lib/libglib-2.0.so -lz
+
+Then, copy the new .so module to /usr/local/lib/umview/modules/
+
+To test a cmg application :
+$ umview bash
+$ um_add_service umfuse
+$ mount -t umfuse_fusioniso -o pre='-u' -o except=/proc,except=/dev,except=/var/run,except=`kde-config --localprefix` $HOME/kalzium_43.5.8-0p1.cmg /
+$ kalzium

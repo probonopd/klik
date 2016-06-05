@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Compressed Application Image (klik)
+ServiceTypes=ThumbCreator
+MimeTypes=application/x-application-cmg
+X-KDE-Library=isofsthumbnail
+CacheThumbnail=true

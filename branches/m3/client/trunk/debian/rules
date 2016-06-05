@@ -1,0 +1,15 @@
+#!/usr/bin/make -f
+include /usr/share/cdbs/1/rules/debhelper.mk
+
+clean::
+	${MAKE} distclean
+
+build/klik::
+	${MAKE} daemon
+	${MAKE} chroot
+	${MAKE} cmginfo
+	${MAKE} cmg_kde
+	${MAKE} copy
+	mkdir -p $(CURDIR)/debian/klik/
+	cp -a release/* $(CURDIR)/debian/klik/
+

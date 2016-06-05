@@ -1,0 +1,8 @@
+[Desktop Entry]
+Comment=Compressed Application Image (ISO)
+Hidden=false
+MimeType=application/x-application-cmg
+Patterns=*.cmg
+Type=MimeType
+Icon=application-x-application-cmg
+

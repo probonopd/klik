@@ -1,0 +1,16 @@
+#!/bin/bash
+t=$(mktemp -d klik-source.XXXXXXXX)
+echo "building klik (client) source archive in $t"
+svnroot=http://klikclient.googlecode.com/svn/trunk/client/trunk/
+rev=$(svn export ${svnroot} $t/klik | grep '^Exported' | awk '{print int($3)}')
+[ $rev -gt 0 ] || ( echo "svn export failed to detect revision (got \"${rev}\")" && rm -rf $t && exit 1 )
+mv $t/klik $t/klik-0.0.${rev}
+pushd $t
+  tar -czf klik_0.0.${rev}.tar.gz klik-0.0.${rev}
+  rm -rf klik-0.0.${rev}/binaryparts
+  tar -czf klik_0.0.${rev}.orig.tar.gz klik-0.0.${rev}
+popd
+# cp $t/klik_0.0.${rev}.*.tar.gz ./
+echo "klik_0.0.${rev}.orig.tar.gz (and source orig.tar.gz) built, deleting $t/klik-0.0.${rev}"
+rm -rf "$t/klik-0.0.${rev}"
+

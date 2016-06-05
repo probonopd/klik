@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<interface uri="http://klik.atekon.de/apt/recipe.gpg.php?package=xvier" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+
+    <name>xvier</name>
+    <summary>a "Four in a row" game</summary>
+    <description>Xvier is a simple X game where you and your opponent alternately throw stones into free columns. The stones pile up in the columns, and the goal is to get four stones in a row, in a column or diagonally. Package: xvier Xvier is a simple X game where you and your opponent alternately throw stones into free columns. The stones pile up in the columns, and the goal is to get four stones in a row, in a column or diagonally. </description>    
+    <category>
+    <debtags>
+        <tag>game::board</tag>
+
+        <tag>interface::x11</tag>
+        <tag>role::program</tag>
+        <tag>use::gameplaying</tag>
+        <tag>x11::application</tag>
+    </debtags>  
+    </category>
+
+    <group main="xvier">
+
+        <implementation union="/" released="" stability="lsb" version="1.0-7.3" downloadsize="22.8kB">
+            <recipe>
+                <archive href="http://debian.tu-bs.de/debian/pool/main/x/xvier/xvier_1.0-7.3_i386.deb" name="xvier" />
+                <klik-preflight>
+
+                </klik-preflight>
+                <klik-postflight>
+		    <symlink source="/test" destination="/home" />
+                </klik-postflight>
+            </recipe>
+        </implementation>
+    </group>
+</interface>

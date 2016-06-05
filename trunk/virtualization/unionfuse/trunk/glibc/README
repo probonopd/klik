@@ -1,0 +1,11 @@
+Download glibc source code from http://ftp.gnu.org/gnu/glibc/
+uncompress the targeted version into your home directory
+
+create a standlone directory, for exemple glibc
+go into this directory
+
+then type :
+$ export CFLAGS='-g -O2 -fno-stack-protector'
+$ ~/glibc-[version]/configure --prefix=/
+
+the file that interrest us is : elf/ld.so

@@ -1,0 +1,24 @@
+#summary Dev meeting about a beta release
+= Introduction =
+
+We'd like to schedule a developer meeting  Saturday, April 27, 9pm CET (please contact killerkiwi if this time/day wont suit)
+
+= Agenda =
+
+The basic idea is to do a google... we are saying this works, use it, it 'might' break its only a beta.
+
+What we need for klik2 beta:
+
+  * Uninstaller - this is a must
+  * Website
+    * Focus on games (other apps still available, just market the games aspect)?
+    * Are wine apps working right now? A set of packaged free windows games that work with a click would be great publicity. [ `lionel : not for the moment, still a work in progress` ]
+    * Develop benchmarks of games/hdd intensive apps (people is very worried about cmg speed and space)
+  * Complete Merge? or drop it
+  * Feature freeze - We will not be adding any new features at this point if anything we will cut features to get a stable working release out of the door.
+  * Drop reusable process (for now)
+  * fix unpack/pack to be logical in file paths
+  * create beta branch
+  * package beta release
+
+Please add important items you may have to the list

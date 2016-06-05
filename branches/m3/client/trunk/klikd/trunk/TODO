@@ -1,0 +1,11 @@
+Make it compatible with freedesktop standards
+
+Implement a GUI configuration tool. I'd implement it as a general klik configuration tool, inside klik program ("klik config"?)
+
+Work on the autorun system so every user gets klikd running automatically. Try to make this as distro-independant as possible (freedesktop blah blah blah)
+
+Make sure it builds on every system
+
+Make klikd aware of configuration changes to motify its behaviour on the fly (maybe a inotify watch to the configuration files?)
+
+Python prototype to check footprint impact

@@ -1,0 +1,12 @@
+#!/usr/bin/make -f
+
+DEB_MAKE_CLEAN_TARGET	:= distclean
+DEB_MAKE_BUILD_TARGET	:= default
+DEB_MAKE_INSTALL_TARGET	:= copy DESTDIR=$(CURDIR)/debian/klik
+DEB_MAKE_CHECK_TARGET	:=
+
+export prefix=/usr
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/makefile.mk
+

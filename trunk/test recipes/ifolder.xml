@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type="text/xsl" href="recipe.xsl.php" ?>
+
+<interface xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+    <name>ifolder</name>
+    <summary></summary>
+    <description></description>    
+    <category>
+    <debtags>
+        <tag></tag>
+    </debtags>  
+    </category>
+
+    <group main="/opt/novell/ifolder3/bin/ifolder">
+        <implementation union="/" released="" stability="lsb" version="" downloadsize="21M">
+            <recipe>
+                <archive href="http://forgeftp.novell.com/ifolder/client/3.4/20061026-0535/linux/SLED10-i586/rpms/ifolder3-3.4.6228.1-17.i586.rpm" name="ifolder" />
+                <archive href="http://forgeftp.novell.com/ifolder/client/3.4/20061026-0535/linux/SLED10-i586/rpms/simias-1.4.6228.1-17.i586.rpm" name="simias" />
+
+            </recipe>
+        </implementation>
+    </group>
+    
+</interface>

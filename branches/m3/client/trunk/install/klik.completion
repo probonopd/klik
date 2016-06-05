@@ -1,0 +1,54 @@
+#   klik completion
+#   Copyright (C) 2008  Ismael Barros Barros (RazZziel) - razielmine@gmail.com
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+
+_klik() {
+    local cur
+    
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    cmd=${COMP_WORDS[1]}
+    
+    case "$cur" in
+	-*)
+	    COMPREPLY=( $( compgen -W '-lol' -- $cur ) )
+	    ;;
+	*)
+	    ext='@(cmg|CMG|xml|XML)'
+	    if [ $COMP_CWORD -eq 1 ]; then
+		COMPREPLY=( $( compgen -W 'get run jail exec shell unpack extract \
+                                           icon pack merge register unregister sync' -- $cur ) )
+		_filedir $ext
+	    else
+		case "$cmd" in
+                    -@(run|jail|exec|shell|unpack|extrack|icon|pack|merge|register))
+                        _filedir $ext
+		        ;;
+
+		    *)
+			_filedir
+			;;
+                    
+		esac
+		
+	    fi
+    esac
+    
+    return 0
+    
+}
+complete -F _klik -o filenames klik

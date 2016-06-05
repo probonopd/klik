@@ -1,0 +1,52 @@
+Fusioniso is a fork of fuseiso dedicated for the klik2 project
+
+Usage:
+
+    fusioniso [-n] [-p] [-u] [-b|d|B <sandbox_path>] [-c <iocharset>] [-h] <isofs_image_file> <mount_point> [<FUSE library options>]
+
+mounts image, while fusermount shipped with FUSE library can be used to unmount:
+
+    fusermount -u <mountpoint>
+
+fusioniso options are:
+
+    -n                       -- do NOT maintain file $HOME/.mtab.fusioniso
+    -p                       -- maintain mount point;
+                                create it if it does not exists and delete it on exit
+    -c <iocharset>           -- specify iocharset for Joliet filesystem
+    -h                       -- print this screen
+    -t                       -- debug mode
+    -u                       -- union mounting feature for klik2 (forced if -b, -d or -B)
+    -b <path>                -- sandbox feature for klik2 (redirect all modification from $HOME user to <path>)
+    -d <path>                -- sandbox feature for klik2 (redirect all modification from $HOME user dot files and folders to <path>)
+    -B <path>                -- sandbox feature for klik2 (redirect all modification to <path>) [Experimental]
+
+Common FUSE library options are:
+
+    -f     -- run in foreground, do not daemonize
+    -d     -- run in foreground and print debug information
+    -s     -- run single-threaded
+
+Please consult with FUSE documentation for more information
+
+fusioniso supports plain ISO images (created by mkisofs for example), BIN and NRG images 
+containing ISO9660 filesystem. Along with standard ISO9660 filesystem it support some common extensions: 
+
+Joliet              Common in windows world. Allow long filenames stored in unicode.
+RockRidge           Common in unix world. Allow long filenames, deep directories, symbolic links and permission bits to be stored.
+zisofs              Compressed filesystem, drastically increases capasity of standard CDROM.
+
+In fact i found what CCD (CloneCD) .IMG files along with .MDF (Alcohol 120%) images 
+can be mounted without problems because their format looks exactly as .BIN image file format. 
+So currently fusioniso supports disk images with following extensions: 
+
+.iso
+.img
+.bin
+.mdf
+.nrg
+
+Although, BIN images support have now major limitation -- fusioniso does not handle .CUE files in any way 
+and thus can work only with first track of the BIN image. I don`t know if this is important 
+to support .CUE files properly. Please email me if you need it. Support for other types of media  
+descriptors like .ccd and .mds looks more difficult task because no one know it`s format.

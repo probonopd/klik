@@ -1,0 +1,265 @@
+# Traduction for kfile_cmg
+# Copyright (C) 2007 KLIK2
+# This file is distributed under the same license as the PACKAGE package.
+# Lionel Tricon <lionel.tricon@gmail.com>, 2007
+
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-24 16:34+0100\n"
+"PO-Revision-Date: 2007-11-24 16:36+0100\n"
+"Last-Translator:  Lionel Tricon <lionel.tricon@gmail.com>\n"
+"Language-Team: French\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "CMG Information"
+msgstr "Informations sur le fichier CMG"
+
+msgid "Application"
+msgstr "Application"
+
+msgid "Homepage"
+msgstr "Site web"
+
+msgid "Category"
+msgstr "Catégorie"
+
+msgid "Summary"
+msgstr "Résumé"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Arts"
+msgstr "Art"
+
+msgid "Astronomy"
+msgstr "Astronomie"
+
+msgid "Aviation"
+msgstr "Aviation"
+
+msgid "Biology"
+msgstr "Biologie"
+
+msgid "Bioinformatics"
+msgstr "Bio-informatique"
+
+msgid "Molecular biology"
+msgstr "Biologie moléculaire"
+
+msgid "Structural biology"
+msgstr "Biologie structurale"
+
+msgid "Chemistry"
+msgstr "Chimie"
+
+msgid "Electronics"
+msgstr "Electronique"
+
+msgid "Financial"
+msgstr "Finance"
+
+msgid "Genealogy"
+msgstr "Généalogie"
+
+msgid "Geography"
+msgstr "Géographie"
+
+msgid "Geology"
+msgstr "Géologie"
+
+msgid "Linguistics"
+msgstr "Linguistique"
+
+msgid "Mathematics"
+msgstr "Mathématique"
+
+msgid "Medicine"
+msgstr "Médecine"
+
+msgid "Medical Imaging"
+msgstr "Imagerie médicale"
+
+msgid "Physics"
+msgstr "Physique"
+
+msgid "Religion"
+msgstr "Religion"
+
+msgid "Statistics"
+msgstr "Statistique"
+
+msgid "Analysing"
+msgstr "Analyse"
+
+msgid "Browsing"
+msgstr "Navigation"
+
+msgid "Chatting"
+msgstr "Discussion"
+
+msgid "Compressing"
+msgstr "Compression de données"
+
+msgid "Data Conversion"
+msgstr "Conversion de données"
+
+msgid "Downloading"
+msgstr "Téléchargement"
+
+msgid "Editing"
+msgstr "Edition"
+
+msgid "Entertaining"
+msgstr "Divertissement"
+
+msgid "Learning"
+msgstr "Logiciel éducatif"
+
+msgid "Monitoring"
+msgstr "Surveillance"
+
+msgid "Data Organisation"
+msgstr "Organisation de données"
+
+msgid "Playing Media"
+msgstr "Lire un média"
+
+msgid "Printing"
+msgstr "Impression"
+
+msgid "Proxying"
+msgstr "Passerelle"
+
+msgid "Searching"
+msgstr "Recherche"
+
+msgid "Synchronisation"
+msgstr "Synchronisation"
+
+msgid "Text Formatting"
+msgstr "Formattage de texte"
+
+msgid "Time and Clock"
+msgstr "Horloge"
+
+msgid "Typesetting"
+msgstr "Composition de données"
+
+msgid "Data Visualization"
+msgstr "Visualisation de données"
+
+msgid "Adventure"
+msgstr "Jeu d'aventure"
+
+msgid "Action and Arcade"
+msgstr "Jeu d'action"
+
+msgid "Board"
+msgstr "Jeu de société"
+
+msgid "Chess"
+msgstr "jeu d'échecs"
+
+msgid "Card"
+msgstr "jeu de cartes"
+
+msgid "Demo"
+msgstr "Démo"
+
+msgid "First person shooter"
+msgstr "Jeu de tir subjectif"
+
+msgid "Multiplayer RPG"
+msgstr "Jeux de rôle multi-joueurs"
+
+msgid "Platform"
+msgstr "Jeu de plateforme"
+
+msgid "Puzzle"
+msgstr "Puzzle"
+
+msgid "Role-playing"
+msgstr "Jeux de rôle"
+
+msgid "Rogue-Like RPG"
+msgstr "Rogue-Like RPG"
+
+msgid "Simulation"
+msgstr "Jeu de simulation"
+
+msgid "Sport games"
+msgstr "Sport"
+
+msgid "Racing"
+msgstr "jeu de course"
+
+msgid "Strategy"
+msgstr "Jeu de stratégie"
+
+msgid "Tetris-like"
+msgstr "Jeu de type Tetris"
+
+msgid "Toy or Gimmick"
+msgstr "Jouet"
+
+msgid "Typing Tutor"
+msgstr "Dactylographie"
+
+msgid "Arcade games"
+msgstr "Jeu d'arcade"
+
+msgid "3D games"
+msgstr "Jeu 3D"
+
+msgid "Metapackages"
+msgstr "Méta-données"
+
+msgid "Finance"
+msgstr "Finance"
+
+msgid "Groupware"
+msgstr "Travail de groupe"
+
+msgid "Presentation"
+msgstr "Présentation"
+
+msgid "Project management"
+msgstr "Gestion de projet"
+
+msgid "Spreadsheet"
+msgstr "Tableur"
+
+msgid "Blog Software"
+msgstr "Logiciel de blog"
+
+msgid "Browser"
+msgstr "Navigateur"
+
+msgid "Sound compression"
+msgstr "Compression (son)"
+
+msgid "MIDI Software"
+msgstr "Logiciel MIDI"
+
+msgid "Sound mixing"
+msgstr "Mixage (son)"
+
+msgid "Sound playback"
+msgstr "Lecture (son)"
+
+msgid "Sound recording"
+msgstr "Enregistrement (son)"
+
+msgid "MIDI Sequencing"
+msgstr "Séquenceur MIDI"
+
+msgid "Speech Synthesis"
+msgstr "Synthèse vocale"
+
+msgid "Not available"
+msgstr "Non disponible"

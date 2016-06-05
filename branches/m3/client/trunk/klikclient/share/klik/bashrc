@@ -1,0 +1,6 @@
+[ -f /etc/bash.bashrc ] && . /etc/bash.bashrc
+alias ldd='LD_TRACE_LOADED_OBJECTS=1'
+OLD_PS1="${PS1}"
+export PS1="[klik2 shell] ${OLD_PS1}"
+cd
+

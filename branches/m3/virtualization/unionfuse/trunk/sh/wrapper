@@ -1,0 +1,72 @@
+#!/bin/bash
+# Version 20070923
+# Lionel Tricon <lionel.tricon at free dot fr>
+# GPL
+DIRNAME=`cd \`dirname $0\` && cd .. && pwd`
+
+# parse the /recipe.xml file
+LIST=`${DIRNAME}/bin/parser ${APPLI_BASENAME}/recipe.xml x86`
+for elt in $LIST; do
+  SEP=`expr index "${elt:2}" \;`
+  if [ $SEP -gt 0 ]; then
+    VARIABLE=${elt:2:$(($SEP-1))}
+    VALUE=${elt:$(($SEP+2))}
+  fi
+  case ${elt:0:1} in
+    a)
+      if [ "$VARIABLE" == "LD_LIBRARY_PATH" ]; then
+        export $VARIABLE=`printenv $VARIABLE`:${DIRNAME}$VALUE
+      else
+        export $VARIABLE=`printenv $VARIABLE`:$VALUE
+      fi
+      ;;
+    r)
+      export $VARIABLE=$VALUE
+      ;;
+    u)
+      VARIABLE=${elt:2}
+      unset $VARIABLE
+      ;;
+    *)
+      ;;
+  esac
+done
+
+# run the application in background
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/X11R6/bin:/usr/local/sbin:/usr/local/bin:/usr/games:$PATH
+export FAKECHROOT_EXCLUDE_PATHS=/tmp:/proc:/dev:/var/run
+export FAKECHROOT_BASE=$APPLI_BASENAME
+export KDE_FORK_SLAVES=1
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${DIRNAME}/lib:$APPLI_BASENAME/lib:$APPLI_BASENAME/usr/lib/:$APPLI_BASENAME/opt/kde3/lib:$APPLI_BASENAME/usr/X11R6/lib/
+
+# determine the binary to run
+export KLIK_APPRUN=`echo ${KLIK_APPNAME} | cut -d ":" -f 2`
+export KLIK_APPNAME=`echo ${KLIK_APPNAME} | cut -d ":" -f 1`
+
+# run the application
+export LD_PRELOAD=libfakechroot.so
+export KLIK_APPNAME=`which $KLIK_APPNAME`
+export KLIK_APPRUN=`which $KLIK_APPRUN | tr -s /`
+export LD_TRACE_LOADED_OBJECTS=1
+$APPLI_BASENAME/${KLIK_APPNAME} > ${APPLI_BASENAME}/../linker
+unset LD_TRACE_LOADED_OBJECTS
+$APPLI_BASENAME/${KLIK_APPNAME} "$@" &
+unset LD_PRELOAD
+
+# we expect that the application start under 5 seconds
+COUNT=0
+while [ $COUNT != 5 ]; do
+  test -s ${APPLI_BASENAME}/pid && break
+  COUNT=$(($COUNT+1))
+  sleep 1
+done
+
+# check if the application is still running
+cat ${APPLI_BASENAME}/pid > /dev/null
+while [ 1 ]; do
+  sleep 1
+  cat ${APPLI_BASENAME}/pid > /dev/null
+  test -s ${APPLI_BASENAME}/pid || break
+done
+
+exit 0

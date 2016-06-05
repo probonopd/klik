@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<interface uri="http://klik.atekon.de/apt/recipe.gpg.php?package=snowballz" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+
+    <name>Snowballz</name>
+    <group main="snowballz">
+
+        <implementation union="/" released="" stability="lsb" version="1.0-7.3" downloadsize="22.8kB">
+            <recipe>
+                <archive href="http://http.us.debian.org/debian/pool/main/s/snowballz/snowballz_0.9.4-1_all.deb" name="snowballz" />
+                <archive href="http://http.us.debian.org/debian/pool/main/r/rabbyt/python-rabbyt_0.7.5-1_i386.deb" name="python-rabbyt" />
+                
+                <archive href="http://http.us.debian.org/debian/pool/main/t/ttf-indic-fonts/ttf-tamil-fonts_0.5.0_all.deb" name="ttf-tamil-fonts" />
+            </recipe>
+
+        </implementation>
+    </group>
+</interface>

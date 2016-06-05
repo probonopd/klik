@@ -1,0 +1,146 @@
+# pod2man --section=7 --release="klik" --center=" " --date="12 May 2008"
+
+=head1 NAME
+
+libkfakechroot.so - gives a fake chroot environment
+
+=head1 DESCRIPTION
+
+kfakechroot runs a command in an environment were is additional possibility to
+use chroot(8) command without root privileges. This is useful for allowing
+users to create own chrooted environment with possibility to install another
+packages without need for root privileges.
+
+kfakechroot is a fork of fakechroot (F<http://fakechroot.alioth.debian.org/>) dedicated
+to the klik2 project. Klik2 is the current working title of the next generation of
+klik (F<http://klik.atekon.de/>) which will focus on application virtualization.
+
+Klik creates applications that are encapsulated into a single file. This file in fact
+is a compressed file system image similar to the ISO image format that we know from
+burning data CDs. Hence, klik is the implementation of the "1 application == 1 file"
+principle.
+
+kfakechroot replaces more library functions (chroot(2), open(2), etc.) by ones
+that simulate the effect the real library functions would have had, had the
+user really been in chroot. These wrapper functions are in a shared library
+F</usr/lib/kfakechroot/libkfakechroot.so> which is loaded through the
+B<LD_PRELOAD> mechanism of the dynamic loader. (See ld.so(8))
+
+=head1 EXAMPLES
+
+Here is an example session with kfakechroot.
+
+ $ export PATH=/usr/local/lib:$PATH
+ $ export FAKECHROOT_EXCLUDE_PATH=/tmp:/proc:/dev:/var/run
+ $ export LD_PRELOAD=/usr/local/lib/kfakechroot/libkfakechroot.so
+ $ /usr/local/bin/kchroot /tmp/klik/mnt
+
+=head1 SECURITY ASPECTS
+
+kfakechroot is a regular, non-setuid program. It does not enhance a user's
+privileges, or decrease the system's security.
+
+=head1 FILES
+
+=over
+
+=item F</usr/local/lib/kfakechroot/libkfakechroot.so>
+
+The shared library containing the wrapper functions.
+
+=item F</usr/local/bin/kchroot>
+
+Run command or interactive shell with special root directory.
+
+=back
+
+=head1 ENVIRONMENT
+
+=over
+
+=item B<FAKECHROOT_DEBUG>
+
+Only for debugging purpose.
+
+=item B<FAKECHROOT_BASE>
+
+The root directory for fake chroot environment.
+
+=item B<FAKECHROOT_BASE_ROOT>
+
+Location where all fake chroot environments are located (by default, F</tmp/klik>).
+
+=item B<FAKECHROOT_WORKING_DIRECTORY>
+
+Change the current directory to this value (only when a shell script is called).
+
+=item B<FAKECHROOT_EXCLUDE_PATH>
+
+List of directories to exclude from the jail, usually F</tmp:/proc:/dev:/var/run>.
+
+=item B<FAKECHROOT_SU_ROOT>
+
+Change the identity of the current user to root (F<experimental>).
+
+=item B<LD_LIBRARY_PATH>, B<LD_PRELOAD>
+
+Kfakechroot is implemented by wrapping system calls. This is accomplished by
+setting LD_LIBRARY_PATH=/usr/lib/kfakechroot and
+LD_PRELOAD=libkfakechroot.so. That library is loaded before the
+system's C library, and so most of the library functions are intercepted by
+it. If you need to set either B<LD_LIBRARY_PATH> or B<LD_PRELOAD> from within
+a fakechroot environment, it should be set relative to the given paths, as in
+LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/foo/bar/
+
+=back
+
+=head1 LIMITATIONS
+
+=over
+
+=item o
+
+F</lib/ld-linux.so.2> is always loaded from real environment. This path is
+hardcoded by linker for all binaries.
+
+=item o
+
+Statically linked binaries doesn't work, especially ldconfig(8), so you have to
+wrap this command with dummy version and i.e. set the dpkg diversion, see:
+dpkg-divert(8).
+
+=item o
+
+ldd(1) also doesn't work. You have to use F<alias ldd='LD_TRACE_LOADED_OBJECTS=1'> instead.
+
+=item o
+
+The full screen applications hangs up if F</dev/tty> file is not a real
+device. Link F</dev/tty> file or whole F</dev> directory to the real one or
+remove it from fake chroot environment.
+
+=item o
+
+lckpwdf() and ulckpwdf() are ignored so passwd(1) command should work
+
+=item o
+
+Your real uid should exist in F</etc/passwd>. Create it with adduser --uid
+I<realuid> I<realuser>.
+
+=back
+
+=head1 COPYING
+
+kfakechroot is distributed under the GNU Lesser General Public License (LGPL
+2.1 or greater).
+
+=head1 AUTHORS
+
+ (c) 2003-2007 Piotr Roszatycki <dexter@debian.org>
+ (c) 2007      Mark Eichin <eichin@metacarta.com>
+ (c) 2006-2008 Lionel Tricon <lionel.tricon@gmail.com>
+
+=head1 SEE ALSO
+
+fakeroot(1), dpkg-buildpackage(1), debuild(1), debootstrap(8)

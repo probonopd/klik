@@ -1,0 +1,35 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=cmg Info
+Name[br]=Titouriñ diwar-benn cmg
+Name[ca]=Informació cmg
+Name[da]=cmg info
+Name[es]=Información de cmg
+Name[et]=cmg info
+Name[eu]=cmg informazioa
+Name[fr]=Informations sur cmg
+Name[ga]=Eolas faoi cmg
+Name[hu]=cmg jellemzői
+Name[it]=Informazioni su cmg
+Name[pl]=Informacje dla cmg
+Name[pt]=Informação do cmg
+Name[pt_BR]=Informações de cmg
+Name[ru]=Информация о cmg
+Name[sl]=Informacije o cmg
+Name[sr]=Информације за cmg
+Name[sr@Latn]=Informacije za cmg
+Name[sv]=cmg information
+Name[ta]=cmg தகவல்
+Name[tg]=Маълумот дар бораи cmg 
+Name[uk]=Інформація про cmg
+Name[xx]=xxcmg Infoxx
+Name[zh_CN]=cmg的信息
+ServiceTypes=KFilePlugin
+X-KDE-Library=kfile_cmg
+MimeType=application/x-application-cmg
+# change PreferredGroups here! (example: FolderInfo)
+PreferredGroups=
+# change PreferredItems here! (example: Items;Size)
+PreferredItems=
+X-Ubuntu-Gettext-Domain=desktop_kdevelop

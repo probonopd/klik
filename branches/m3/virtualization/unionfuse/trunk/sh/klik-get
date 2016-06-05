@@ -1,0 +1,200 @@
+#!/usr/bin/python
+
+#
+# Minimalistic "klik2" cmg generator
+version = "20070822"
+# by probono at myrealbox dot com
+# GPLv2
+#
+
+#
+# Import (keep all imports in the top section)
+#
+
+import sys # for argv
+import os # for many things
+from xml.dom.minidom import * # easier than libxml2
+import urllib2 # for fetching the recipe from the http server
+import urllib # for downloading the archives
+import shutil # for recursive delete
+import string # for finding stuff in strings
+import platform # for detecting the platform we are running on
+
+#
+# Check whether we are root and quit if we are 
+#
+
+if os.getuid() == 0:
+    print (sys.argv[0]+" cannot be run by root, exiting")
+    sys.exit(1)
+
+#
+# Find out the platform we are running on
+#
+
+# Distribution and release
+fp = open("/etc/issue")
+issue1 = fp.readline().strip().strip(";")
+issue2 = fp.readline().strip().strip(";")
+fp.close()
+issue = issue1 + issue2
+
+# Platform (e.g., Linux i686)
+platf = platform.system()+" "+platform.machine()
+
+# Desktop environment (e.g., KDE or GNOME)
+DE = "unknown"
+try:
+    position = os.environ.keys().index("GNOME_DESKTOP_SESSION_ID")
+    DE = "GNOME"
+except:
+    pass
+
+try:
+    position = os.environ.keys().index("KDE_FULL_SESSION")
+    DE = "KDE"
+except:
+    pass
+
+# language
+try:
+    lang = os.environ['LANG']
+except:
+    lang = "en_EN"
+# term
+term = os.environ['TERM']
+
+# Python
+pyvers = "Python/"+platform.python_version()
+
+useragent = "klik/"+str(version)+" ("+term+"; "+platf+"; "+lang+"; "+DE+") "+pyvers+" ("+issue+")"
+
+print useragent
+
+#
+# Download the recipe from the server
+#
+
+if len(sys.argv) < 2:
+    print("    Usage: "+sys.argv[0]+" applicationname")
+    print("    Example: "+sys.argv[0]+" xvier")
+    exit(1)
+
+if string.find(sys.argv[1],".xml")>-1: # if a local xml file is specified   
+    if os.path.exists(sys.argv[1]):
+        print "Local xml file found, using it"
+        my_file = open(sys.argv[1])
+        data = my_file.read()
+    else:
+        print "No such xml file found, exiting"
+        exit(1)
+else: # if the xml file should be downloaded from klik
+    print "Downloading recipe"
+    request = urllib2.Request("http://klik.atekon.de/apt/recipe.gpg.php?package="+sys.argv[1])
+    request.add_header('User-Agent',useragent) 
+    opener = urllib2.build_opener()
+    data = opener.open(request).read()
+
+# print data # prints the recipe.xml 
+
+#
+# Parse the XML
+#
+
+try:
+    domobject = parseString(data)
+except:
+    print "Unable to parse XML file (maybe it is invalid), exiting"
+    exit(1)
+
+# get the (first; FIXME) name of the binary 
+appname = domobject.getElementsByTagName("group")[0].getAttribute("main")
+
+# get the (first; FIXME) version 
+version = domobject.getElementsByTagName("implementation")[0].getAttribute("version")
+
+#
+# Create the appdir, get the archives and unpack them there
+#
+
+appdir = "/tmp/klik/"+appname+"_"+version
+
+# Make appdir and go there
+if os.path.exists(appdir):
+    shutil.rmtree(appdir)
+
+os.makedirs(appdir)
+os.makedirs(appdir+"/etc")
+
+oldcwd=os.getcwd()
+os.chdir(appdir)
+
+# Download
+total = len(domobject.getElementsByTagName("archive"))
+downloadsize = domobject.getElementsByTagName("implementation")[0].getAttribute("downloadsize")
+print "Downloading "+str(total)+" archive(s) "+downloadsize
+
+n = 0
+for archive in domobject.getElementsByTagName("archive"):
+    n = n+1
+    url = archive.getAttribute("href")
+    i = url.rfind('/')
+    file = appdir+"/"+url[i+1:]
+    # print url, "->", file
+    urllib.urlretrieve(url, file)
+    print str(100*n/total)+"%" # percentage done
+
+# Preinstall (FIXME: Parse the XML in a better way)
+for script in domobject.getElementsByTagName("script"):
+    if script.parentNode.tagName == "klik-preinstall":
+        os.system(script.firstChild.nextSibling.data)
+
+# Unpack archives (fixme: should be done inside python)
+print("Converting archive(s) to image")
+os.system("UNP=$(find %s/*.tgz 2>/dev/null) && for UN in $UNP; do tar zxf $UN ; done" % (appdir))
+os.system("UNP=$(find %s/*.tar.gz 2>/dev/null) && for UN in $UNP; do tar zxf $UN ; done" % (appdir))
+os.system("UNP=$(find %s/*.tbz 2>/dev/null) && for UN in $UNP; do bunzip2 -c $UN | tar -xf - ; done" % (appdir))
+os.system("UNP=$(find %s/*.tar.bz2 2>/dev/null) && for UN in $UNP; do bunzip2 -c $UN | tar -xf - ; done" % (appdir))
+os.system("UNP=$(find %s/*.tbz2 2>/dev/null) && for UN in $UNP; do bunzip2 -c $UN | tar -xf - ; done" % (appdir))
+os.system("UNP=$(find %s/*.deb 2>/dev/null) && for UN in $UNP; do ar p $UN data.tar.gz | zcat | tar x ; done" % (appdir))
+os.system("UNP=$(find %s/*.rpm 2>/dev/null) && for UN in $UNP; do rpm2cpio < $UN | cpio -i -d ; done" % (appdir))
+os.system("UNP=$(find %s/*.zip 2>/dev/null) && for UN in $UNP; do unzip $UN ; done" % (appdir))
+
+# Delete archives (fixme: should be done inside python)
+os.system("rm -rf *.tgz *.tar.gz *.tbz *.tar.bz2 *.tbz2 *.deb *.rpm *.zip")
+
+# Postinstall (FIXME: Parse the XML in a better way)
+for script in domobject.getElementsByTagName("script"):
+    if script.parentNode.tagName == "klik-preinstall":
+        os.system(script.firstChild.nextSibling.data)
+
+# Go back ("cd -")
+os.chdir(oldcwd)
+
+#
+# Write the recipe to etc/
+#
+
+# Write the real one
+f = open(appdir+"/recipe.xml","w+")
+f.write(data)
+f.close()
+
+#
+# Generate the cmg
+#
+
+image = os.getenv("HOME")+"/Desktop/"+appname+"_"+version
+
+print "Generating image "+image
+# "cmg200708" is used as the "magic" embedded name for "klik2"-style cmg files; can be used for filetype magic
+os.system("/sbin/mkfs.cramfs -n cmg200708 \"%s\" \"%s\" 2>/dev/null" % (appdir, image))
+os.chmod(image,0755)
+os.system("ls -lh \"%s\"" % (image))
+
+#
+# Delete the appdir
+#
+
+#if os.path.exists(appdir):
+#    shutil.rmtree(appdir)

@@ -1,0 +1,181 @@
+#!/bin/sh
+#
+# klik-overlay - Simple script to setup a fairly secure overlay sandbox.
+#
+#       Copright (c) 2007 by Fabian Franz.
+#
+# License: GPL, v2
+#
+# version: 0.5
+
+CMD=$1
+KLIK_NR=$2
+KUSER=""
+[ -n "$3" ] && KUSER=$(getent passwd $3 | cut -d: -f1)
+[ -n "$4" ] && _FUSE_COMMFD="$4"
+
+#
+# Check for overlay module.
+#
+
+LIVE=""
+MODULE=""
+
+egrep -q "^unionfs" /proc/modules && MODULE="unionfs"
+egrep -q "^fuse" /proc/modules && MODULE="fuse"
+egrep -q "^aufs" /proc/modules && MODULE="aufs"
+
+if [ -z "$MODULE" ]
+then
+	echo "Error: No suitable overlay found." 1>&2
+	echo "       Need either aufs or fuse (funionfs) or unionfs." 1>&2
+	exit 1
+fi
+
+# This is needed for live cds like KNOPPIX, where we already have an overlay on /
+
+[ -d "/UNIONFS" -a -d "/KNOPPIX" ] && LIVE=1
+
+#
+# check for all overlayed dirs
+#
+
+if [ ! -d /tmp/app_rw/$KLIK_NR ]
+then
+	echo "Error: /tmp/app_rw/$KLIK_NR does not exist." 1>&2
+	exit 1
+fi
+
+if [ ! -d /tmp/app/$KLIK_NR ]
+then
+	echo "Error: /tmp/app/$KLIK_NR does not exist." 1>&2
+	exit 1
+fi
+
+#
+# Setup the overlay
+#
+
+mkdir -p /klik_overlay
+BRANCHES="/tmp/app_rw/$KLIK_NR=rw:/tmp/app/$KLIK_NR=ro"
+
+if [ -n "$LIVE" ]
+then
+	mkdir -p /KNOPPIX2
+	BRANCHES="$BRANCHES:/ramdisk=ro:/KNOPPIX=ro:/KNOPPIX2=ro"
+else
+	BRANCHES="$BRANCHES:/=ro"
+fi
+
+
+[ "$CMD" == "prepare" -a $MODULE != "fuse" ] && exit 0
+
+# do the overlaying
+
+if [ $MODULE = "fuse" ]
+then
+	export _FUSE_COMMFD
+	if [ "$CMD" == "prepare" ]
+	then
+		# FIXME: This should be unnecessary here, but mkdir -p did not work below.
+		mkdir -p /klik_run_${KLIK_NR}
+		# FIXME: Fix funionfs_klik and remove single thread behaviour
+		funionfs_klik none /klik_overlay -o dirs=$BRANCHES -s &
+		PID=$!
+		disown $PID
+		LC_ALL=C sleep 0.2
+		# if we are still there we have succeeded
+		kill -0 $PID 2>/dev/null
+	else
+		/bin/mount -n -t fuse -o allow_other,default_permissions,nosuid,nodev "fusermount" /klik_overlay
+	fi
+else
+	BR="br"
+	[ $MODULE = "unionfs" ] && BR="dirs"
+
+	/bin/mount -n -t $MODULE -o nosuid,nodev,$BR=$BRANCHES $TYPE /klik_overlay
+fi
+
+[ $? -ne 0 ] && exit 1
+
+# End of preparations
+[ "$CMD" == "prepare" ] && exit 0
+
+#
+# Fix mounts in overlay
+#
+
+# pivot_root into our new directory
+
+cd /klik_overlay
+mkdir -p old
+pivot_root . old
+
+# move all mounts into the right place
+
+# we do this manually as it is of vital importance that no suid,dev filesystems
+# are mounted.
+
+# move /proc
+mount -n --move /old/proc/ /proc
+
+# move /sys if mounted
+egrep -q "/sys /old/sys sysfs" /proc/mounts && mount -n --move /old/sys/ /sys
+
+# move /dev if mounted
+
+if cut -d" " -f2 /proc/mounts | egrep -q "^/old/dev"
+then
+	# move it
+	mount -n --move /old/dev /dev
+else
+	# bind mount it
+	[ -z "$LIVE" ] && mount -n --bind /old/dev /dev
+fi
+
+# move all mounts with nosuid,nodev
+
+for i in $(cat /proc/mounts | grep "nosuid,nodev" | cut -d" " -f2 | grep ^/old/)
+do
+	[ -d "$i" ] || continue
+	mkdir -p $(echo "$i" | sed 's|^/old||')
+	mount -n --move "$i" $(echo "$i" | sed 's|^/old||')
+done
+
+#
+# Fix sockets like X11 ...
+#
+
+# move /ramdisk for the X11 fix to work
+
+if [ -n "$LIVE" ]
+then
+	mkdir -p /ramdisk
+	mount -n --move /old/ramdisk /ramdisk
+fi
+
+# do not union /tmp/.X11-unix/
+mount -n --bind /old/tmp/.X11-unix/ /tmp/.X11-unix/
+
+# do not union /tmp/.ICE-unix/
+mount -n --bind /old/tmp/.ICE-unix/ /tmp/.ICE-unix/
+
+# do not union /tmp/ksocket-$KUSER
+[ -n "$KUSER" -a -d "/old/tmp/ksocket-$KUSER/" ] && mount -n --bind "/old/tmp/ksocket-$KUSER/" "/tmp/ksocket-$KUSER/"
+
+# do not union /tmp/orbit-$KUSER
+[ -n "$KUSER" -a -d "/old/tmp/orbit-$KUSER/" ] && mount -n --bind "/old/tmp/orbit-$KUSER/" "/tmp/orbit-$KUSER/"
+
+# move it back
+[ -n "$LIVE" ] && mount -n --move /ramdisk /old/ramdisk
+
+#
+# Umount all potentially suid mounted filesystems
+#
+
+# lazy umount /old, because we are still using it
+umount -n -l /old
+
+# ABSOLUTE hack to let pidof -x / killall -0 in klik wrapper work correctly.
+mkdir -p /klik_run_${KLIK_NR}
+mount -n --bind / /klik_run_${KLIK_NR}

@@ -1,0 +1,32 @@
+<settings>
+
+	<!-- Destination to save newly created cmgs -->
+	<!--<destination>~/Desktop</destination>-->
+
+	<!-- Size that preview icons should be resized to by default -->
+	<desktop_icon_size>48</desktop_icon_size>
+
+	<debug>False</debug>
+
+	<!-- Cache downloads to /tmp -->
+	<temp_cache_downloads>False</temp_cache_downloads>
+
+	<!-- Show notifications when application folder changes -->
+	<application_folder_notify>True</application_folder_notify>
+
+	<!-- Change default behaviour to always ask which application to run -->
+	<always_show_app_chooser>False</always_show_app_chooser>
+
+	<!-- Directories that klikd should treat as application folders -->
+	<application_folders>
+		<folder>~/Applications</folder>
+	</application_folders>
+	
+	<!-- Default jail options 
+		2 - portable, make home portable
+		1 - home, only home folder
+		0 - none
+	-->
+	<default_jail_type>0</default_jail_type>
+
+</settings>

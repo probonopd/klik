@@ -1,0 +1,23 @@
+Under root :
+
+# updated to new locations
+
+# as root:
+install binaryparts/lib/kde3/* /usr/lib/kde3/
+install -m 644 binaryparts/share/services/* /usr/share/services/
+install binaryparts/share/locale/es/LC_MESSAGES/kfile_cmg.mo /usr/share/locale/es/LC_MESSAGES/
+install binaryparts/share/locale/fr/LC_MESSAGES/kfile_cmg.mo /usr/share/locale/fr/LC_MESSAGES/
+ldconfig -n /usr/lib/kde3
+
+# Under local user :
+
+kwriteconfig --group "PreviewSettings" --key MaximumSize 101816730
+kwriteconfig --group "PreviewSettings" --key UseFileThumbnails true
+LIST=`kreadconfig --group "Desktop Icons" --key "Preview" --file kdesktoprc`
+if [ $LIST == "" ]; then
+  kwriteconfig --group "Desktop Icons" --key "Preview" --file kdesktoprc isofsthumbnail
+else
+  (echo $LIST | grep isofsthumbnail) || kwriteconfig --group "Desktop Icons" --key "Preview" --file kdesktoprc "$LIST,isofsthumbnail"
+fi
+dcop kdesktop MainApplication-Interface quit && kdesktop
+

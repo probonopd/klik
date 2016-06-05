@@ -1,0 +1,293 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+#   klik2
+#   Copyright (C) 2008  Jason Taylor - killerkiwi2005@gmail.com
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+import sys
+import os
+import traceback
+import subprocess
+
+import gettext
+
+os.environ["PATH"] = "/sbin:" + os.getenv("PATH")  # FEDORA PATH
+os.environ["PATH"] = sys.path[0] + ":" + os.environ["PATH"] # add bin/ folder to path if it isn't already in there
+
+# Add klik libraries to the module search path.
+sys.path.insert(1, os.path.join(sys.path[0], os.path.pardir, "lib"))
+
+# klik libs
+from klik.base import KlikBase
+from klik.create import KlikCreate
+from klik.settings import KlikSettings
+from klik.integration import KlikIntegration
+from klik.utils.xdg import XdgUtils
+from klik.cmg import KlikCmg
+
+gettext.install( 'klikclient' )
+
+def get_help(mode):
+		      #......... ......... ......... ......... ......... ......... ......... .........#
+	if not mode:
+		print "Running applications:\n"
+
+	if not mode or mode == "run" or mode not in ["jail", "prompt", "shell", "get",
+						     "info", "pack", "unpack", "extract",
+						     "icon", "register", "unregister", "sync"]:
+		print "  klik [opts] foo[.(recipe|ticket)] [args]	Download and execute foo from a package name,"
+		print "  						a recipe or a ticket."
+		print "  klik [opts] foo.cmg [args]			Run package foo.cmg."
+		print "  klik [opts] run [executable] foo.cmg [args]	Run package foo.cmg, optionally specifying"
+		print "  						the program inside the CMG to execute."
+		print "  						Options:"
+		print "  						   -p       - Force a dialogue to select application."
+		print "  						   -s       - Start a shell with cmg union mounted."
+		print "  						   -j type  - Execute inside a jail of the type:"
+		print "  						        data      - <TODO:description>"
+		print "  						        home      - <TODO:description>"
+		print "  						        portable  - <TODO:description>"
+		print "-------------------------------TODO: implement options, way more flexible"
+	#if not mode or mode == "jail":
+	#	print "  klik jail [jail_type] foo.cmg [args]		Create a jail folder for foo.cmg."
+	#	print "-------------------------------TODO: remove"
+	if not mode or mode == "prompt":
+		print "  klik prompt foo.cmg [args]			Force a dialogue to select application."
+		print "-------------------------------TODO: remove"
+	if not mode or mode == "shell":
+		print "  klik shell foo.cmg				Start a shell with cmg union mounted."
+		print "-------------------------------TODO: remove"
+
+	if not mode:
+		print "\nOperations with the repository:\n"
+
+	if not mode or mode == "get":
+		print "  klik get foo [bar...]				Download a recipe and create a cmg file for the"
+		print "  						package foo, bar..."
+	if not mode or mode == "info":
+		print "  klik info foo[.(cmg|recipe|ticket)]		Get information from a CMG or from a package."
+
+	if not mode:
+		print "\nOperations with CMG files:\n"
+
+	if not mode or mode == "pack":
+		print "  klik pack /foo/ foo.cmg			Repack a CMG."
+	if not mode or mode == "unpack":
+		print "  klik unpack foo.cmg /foo/			Unpack a CMG."
+	if not mode or mode == "extract":
+		print "  klik extract foo.cmg /foo.cfg foo.cfg		Extract a single file from a CMG."
+	if not mode or mode == "icon":
+		print "  klik icon foo.cmg output [size]		Extract the icon for the CMG into output."
+		print "  						If size is specified, resizes the icon."
+
+	#if not mode or mode == "merge":
+	#	print "  klik merge main.cmg add.cmg out.cmg		<TODO>."
+
+	if not mode:
+		print "\nDesktop integration:\n"
+
+	if not mode or mode == "register":
+		print "  klik register [opts] foo.cmg [bar.cmg...]	Register given CMGs with the desktop."
+		print "  						Options:"
+		print "  						   -f   - Force registration"
+	if not mode or mode == "unregister":
+		print "  klik unregister foo.cmg [bar.cmg...]		Unregister given CMGs with the desktop."
+	if not mode or mode == "sync":
+		print "  klik sync dir1 [dir2...]			Synchronize application directories,"
+		print "  						looking for non-registered packages"
+		print "  						and packages registered but no longer"
+		print "  						existing."
+
+def version():
+        print "klik %s" %klik.settings.version
+
+def usage(mode=None):
+
+	if not mode:
+		print "klik %s - Web based software installer" %klik.settings.version
+		print
+	print "Usage:"
+
+	get_help(mode)
+
+	s = KlikSettings()
+
+	if not mode:
+
+		print "Documentation by :"
+		print "  " + "\n  ".join(s.documenters)
+
+		print ""
+
+		print "Created by :"
+		print "  " + "\n  ".join(s.authors)
+
+
+		print ""
+		print "Website : " + s.website
+
+
+if __name__ == "__main__":
+
+
+
+	first_arg = None
+	result = False
+
+	try:
+		# Check not root
+		xdg = XdgUtils()
+		if xdg.is_root():
+			print "Sorry, you should not run klik as root (or sudo)"
+			exit(1)
+
+		klik = KlikBase(sys.path[0])
+
+		# Verbose... else it apears like we are spewing error messages all the time
+		if klik.settings.debug:
+			print "WARNING: Debug mode is on!"
+
+		sanity = klik.is_system_sane()
+		"""if False in sanity:
+			print "System is not sane, aborting"
+			if not sanity[0]: print " - sudo modprobe fuse"
+			if not sanity[1]: print " - sudo gpasswd -a %s fuse" % subprocess.Popen("whoami",
+				gtk				stdout=subprocess.PIPE).communicate()[0].strip()
+			if not sanity[2]: print " - sudo chmod a+rw /dev/fuse"
+			exit(1)"""
+
+		integration = KlikIntegration(klik)
+
+		command_options = set()
+
+		if len(sys.argv) == 1:
+			usage()
+
+		else:
+
+			first_arg = sys.argv[1]
+			args = sys.argv[2:]
+
+			# Try to detect if we are executing a .cmg before parsing other options
+
+			# Detect if we are providing a command for the CMG
+			_command = None
+			if first_arg == "run":
+				if not klik.is_valid_cmg(sys.argv[2]):
+					if len(sys.argv) < 3:
+						raise Exception("run")
+					_command = sys.argv[2]
+					sys.argv.remove(sys.argv[2])
+				sys.argv.remove(first_arg)
+
+			if klik.is_valid_cmg(sys.argv[1]):
+				cmg = KlikCmg( klik, sys.argv[1] )
+				result, text = cmg.execute(sys.argv[2:], command=_command)
+
+			# Option parsing
+
+			elif first_arg == "unpack":
+				if len(args) == 1:
+					klik.unpack_cmg( args[0], args[0][:-4] )
+				else:
+					klik.unpack_cmg( args[0], args[1] )
+
+			elif first_arg == "extract":
+				result = klik.extract_file(args[0], args[1], args[2])
+
+			elif first_arg == "icon":
+				cmg = KlikCmg( klik, args[0] )
+				if len(args) > 2:
+					result = cmg.extract_icon(args[1], resize=int(args[2]))
+				else:
+					result = cmg.extract_icon(args[1], -1)
+				if not result:
+					print "Error: Could not extract icon"
+
+			elif first_arg == "shell":
+				cmg = KlikCmg( klik, args[0] )
+				cmg.execute_shell()
+
+			elif first_arg == "pack":
+				klik.pack_cmg(args[0], args[1])
+
+			elif first_arg == "merge":
+				klik.merge(args[0], args[1], args[2])
+
+			elif first_arg == "register":
+				#import cProfile
+				#cProfile.run("integration.register(args)")
+				if "-f" in sys.argv:
+					sys.argv.remove("-f")
+					command_options.add("f")
+				integration.register(args, command_options)
+
+			elif first_arg == "unregister":
+				#import cProfile
+				#cProfile.run("integration.unregister(args)")
+				integration.unregister(args)
+
+			elif first_arg == "sync":
+				#import cProfile
+				#cProfile.run("klik.sync(args)")
+				integration.sync(args)
+
+			elif first_arg == "jail":
+				if len(args) > 2:
+					klik.create_jailed_cmg(args[0], args[1])
+				elif os.path.isfile(args[0]):
+					klik.create_jailed_cmg(args[0])
+				else:
+					raise Exception("main.jail")
+
+			elif first_arg == "prompt":
+				cmg = KlikCmg( klik, args[0] )
+				if cmg.is_valid_cmg():
+					result, text = cmg.execute(args[1:], force_prompt=True)
+				else:
+
+					print "Error : No file found"
+					raise Exception("main.prompt")
+
+			elif first_arg == "get":
+				result, text = klik.download(args)
+
+			elif first_arg == "info":
+				print "TODO"
+
+			elif first_arg == "settings":
+				klik.settings.print_settings( args )
+
+			elif first_arg in ("version", "--version", "-v"):
+				version()
+
+			elif first_arg in ("help", "--help", "-h"):
+				usage()
+
+			else:
+				# klik foo[.(recipe|ticket)]
+				result, text = klik.download_and_execute(first_arg, args)
+
+
+	except Exception, inst:
+		usage( first_arg )
+		if klik.settings.debug:
+			print "DEBUG - Error occurred:", inst
+			traceback.print_exc()
+		exit(1)
+
+	sys.exit( 1 - int(result) )

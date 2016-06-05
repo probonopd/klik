@@ -1,0 +1,41 @@
+#labels Phase-QA
+= Updated klik2 development roadmap =
+
+*Next: Milestone 3 --> May 2008*
+
+Each milestone, once achieved, will be announced in a suitable way. For each milestone we'll also provide a few representative screencasts and publish them via !YouTube/Google.
+
+Underneath is the updated roadmap, divided by milestones. Subject to changes, of course.
+
+
+*~~October 2007: Milestone 1~~ <== PASSED!* [MileStone1 (click for details)]
+           * ~~1 application (xvier)~~
+           * ~~Basic klik2 client written in Python~~
+           * ~~Beginnings of a Gtk-based client GUI~~
+
+
+*~~Jan 13, 2008: Milestone 2~~ <== PASSED!* [MileStone2 (click for details)]
+           * ~~5 applications (initially: xvier, gobby, glade, hardinfo, xchat)~~
+           * ~~3 distros: Ubuntu Gutsy, Fedora Core 8, openSUSE 10.2~~
+           * ~~Add PGP-based signature to secure the recipe.xml~~
+           * ~~Gnome apps only~~
+           * ~~should work on top of Gnome as well as KDE~~
+           * ~~Gtk-based GUI~~
+           * ~~CLI options: klik get, klik run~~
+           * ~~Screencasts: gobby, glade, xchat~~
+
+_*May 2008: Milestone 3* [MileStone3 (click for details)] *<== NEXT!*
+           * 7 klik subcommands: klik get, klik run, klik prompt, klik shell, klik extract, klik unpack, klik pack
+           * 30 applications: 3dchess, ace-of-penguins, acroread8, apg, glade-3, gobby, grisbi, gtklp, hardinfo, htmldoc, ipcalc, kalzium, kchmviewer, kdissert, nxclient, opera, pacman, pdfedit, realplayer, scli, skype, smb4k, textmaker, tuxracer, vlc, wesnoth, wireshark, xchat, xpp, xvier,
+           * 5 distros: fedora 8, ubuntu hardy, opensuse 10.3, debian lenny, mandriva 2008 
+           * Adding Qt-based and popular proprietary apps: skype, textmaker, opera,
+           * Adding FLTK-based applications: xpp, htmldoc,
+           * Initial KDE3 apps support: kdissert
+           * Screencasts: skype, nero, gtklp_
+
+*Early Summer 2008: Milestone 4* [MileStone 4 (details to determined)]
+
+
+*Late Summer 2008: Milestone5* [Milestone5 (details to be determined)]
+
+*Autumn 2008: Milestone 6 (1.0 Release Candidate)* [MileStone 6 (no details yet)]

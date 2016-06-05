@@ -1,0 +1,5 @@
+Autostart
+
+klikd-autostart.desktop entries will be added to /etc/xdg/autostart and $XDG_CONFIG_DIRS.
+If the user doesn't want to use klikd, a ~/.config/autostart/klikd-autostart.desktop will
+be created, setting Hidden to true so the entry will be ignored and klikd won't be started.

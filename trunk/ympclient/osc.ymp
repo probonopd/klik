@@ -1,0 +1,28 @@
+<metapackage xmlns:os="http://opensuse.org/Standards/One_Click_Install" xmlns="http://opensuse.org/Standards/One_Click_Install">
+  <group>
+    <repositories>
+      <repository recommended="true">
+        <name>openSUSE:Tools</name>
+        <summary>openSUSE.org tools</summary>
+        <description>Tools for the openSUSE.org project.
+These are mainly the openSUSE Build Service Server and command line tools.</description>
+        <url>http://download.opensuse.org/repositories/openSUSE:/Tools/xUbuntu_7.10/</url>
+      </repository>
+      <repository recommended="false">
+        <name>Ubuntu:7.10</name>
+        <summary>Ubuntu 7.04 Gutsy Release</summary>
+        <description>This contains all packages from Ubuntu 7.10 &quot;main&quot;, this includes also the packages from KUbuntu, XUbuntu and Edubuntu.</description>
+        <url>http://download.opensuse.org/repositories/Ubuntu:/7.10/standard/</url>
+      </repository>
+    </repositories>
+    <software>
+      <item>
+        <name>osc</name>
+        <summary>The osc package</summary>
+        <description>openSUSE (buildsystem) commander
+svn-like cmdline tool (and python library) to maintain source files in the
+opensuse buildservice</description>
+      </item>
+    </software>
+  </group>
+</metapackage>

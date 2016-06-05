@@ -1,0 +1,6 @@
+23/03/2008
+	* add option -g to change elf loader on the fly
+	* if -g, point /lib/ld-linux.so.2 to /lib/ld-klik2.so.2 transparently for the filesystem
+16/03/2008
+	* started as a new project
+	* initial version : fuseiso from Dmitry Morozhnikov

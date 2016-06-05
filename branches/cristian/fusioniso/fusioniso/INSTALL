@@ -1,0 +1,15 @@
+If you obtained fusioniso from the svn repository you need the following
+software:
+
+- autoconf 2.60
+- automake 1.10
+
+In order to create the configure script and related files you can use the
+following command:
+
+$ autoreconf -i
+
+After that, or if you obtained fusioniso from the official tarballs, the usual
+autotools command apply:
+
+$ ./configure && make && make install

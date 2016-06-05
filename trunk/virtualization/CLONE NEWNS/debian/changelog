@@ -1,0 +1,25 @@
+klik-overlay (0.5-3) unstable; urgency=low
+
+  * Added fuse support.
+  * Added new command prepare|mount to klik-overlay.
+  * Added funionfs_klik static binary.
+  * Added patch for fuse/lib/mount.c to source file.
+  * Fixed making of /klik_run_<nr> for fuse.
+
+ -- Fabian Franz <klik@fabian-franz.de>  Sat, 24 Feb 2007 04:37:56 +0100
+
+klik-overlay (0.5-2) unstable; urgency=low
+
+  * Added exit if mount failed.
+  * Added check for overlayed dirs.
+  * Fixed hardcoded -t aufs.
+  * Fixed .klik wrapper example for libpcre*.
+
+ -- Fabian Franz <klik@fabian-franz.de>  Tue, 20 Feb 2007 08:08:12 +0100
+
+klik-overlay (0.5-1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Fabian Franz <klik@fabian-franz.de>  Tue, 20 Feb 2007 05:49:26 +0100
+

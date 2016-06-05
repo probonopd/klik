@@ -1,0 +1,3 @@
+To install
+./configure --prefix=directory where you kde is installed
+make && make install

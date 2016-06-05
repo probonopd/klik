@@ -1,0 +1,28 @@
+#summary Questions about the design of Klik2
+
+= Introduction =
+
+This page lists questions regarding the current and future design of klik2. I hope these questions are going to be quickly and precisely answered and new questions added when in doubt; that way, this page can become a help to make well-foundated design decisions in the future development of klik. - _bSON_
+
+
+= Questions =
+
+*klik2 uses modified versions of different binaries, like fusermount and fuseiso/fusecram. Why are these modifications needed? Why can't these changes be merged upstream or added through an additional application on top of the existing implementations?*
+
+probono: Mainly to support "union-fuse". Of course we try to bring the changes back upstream once they are stabilized.
+
+*klik2 has implementations for both isofs and cramfs. Why is there support two formats instead of one single one?*
+
+probono: cramfs to run existing cmg files the user already has, and zisofs for the new cmg files created by "klik2". We do care much about backward compatibility.
+
+*klik follows the quite attractive 1-app=1-file principle. However, the very important support for menu and/or desktop entries require certain files, like .desktop files, to be installed at certain locations. How is klik trying to overcome the restriction of providing such desktop integration while keeping as much as possible of it's 1 app = 1 file attractivity?*
+
+probono: If we find a "clean" solution we might consider it. But other design goals are more important for klik (and its unique value proposition), such as "not messing the base system" and "being able to copy/move cmg files to any location and run them fron there".
+
+*It is planned that CMG files will always assume an compilant to the LSB specification, assumingly version 4.0. There are some big desktop-environment-dependent libraries though, like for instance kdelibs, that will probably not included in the LSB spec, at least not in version 4.0. Also, development packages may need newer versions of big base libraries which would result in very big executables. Will such CMGs include these big libraries or just require them although they are not required by the LSB?*
+
+probono: klik will require the LSB version that's most commonly supported by most major distros out there. Plus, if you want to run let's say a KDE application, you need KDE to be installed in your base system. (klik will warn you verbosely if you haven't.) Same goes for Gnome, Python,... and other major frameworks that are not (yet) part of the LSB.
+
+*Ideally, klik applications should be automatically updateable. This requires all possibly updatable applications to be located by an update manager. How should this be done? Is it planned to have a specific "Applications" directory like in MacOS X for this purpose?*
+
+probono: Keep in mind that klik is not a package manager. Having said that, an updater application is well imaginable. The updater would basically ask the user which directory (and subdirectories) should be updated. (Due to the highly automated architecture of klik, we don't know version numbers in all cases though, e.g., for "-latest" or "-nightly" packages). 

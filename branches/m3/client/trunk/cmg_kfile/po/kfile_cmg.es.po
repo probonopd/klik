@@ -1,0 +1,265 @@
+# Traduction for kfile_cmg
+# Copyright (C) 2007 KLIK2
+# This file is distributed under the same license as the PACKAGE package.
+# Ismael Barros (RazZziel) <razielmine@gmail.com>, 2007
+
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-24 16:34+0100\n"
+"PO-Revision-Date: 2007-11-24 16:36+1\n"
+"Last-Translator: Ismael Barros (RazZziel) <razielmine@gmail.com>\n"
+"Language-Team: Spanish <es@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "CMG Information"
+msgstr "Información del fichero CMG"
+
+msgid "Application"
+msgstr "Aplicación"
+
+msgid "Homepage"
+msgstr "Sitio web"
+
+msgid "Category"
+msgstr "Categoria"
+
+msgid "Summary"
+msgstr "Resumen"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Arts"
+msgstr "Arte"
+
+msgid "Astronomy"
+msgstr "Astronomía"
+
+msgid "Aviation"
+msgstr "Aviación"
+
+msgid "Biology"
+msgstr "Biología"
+
+msgid "Bioinformatics"
+msgstr "Bio-informática"
+
+msgid "Molecular biology"
+msgstr "Biología molecular"
+
+msgid "Structural biology"
+msgstr "Biología estructural"
+
+msgid "Chemistry"
+msgstr "Química"
+
+msgid "Electronics"
+msgstr "Electrónica"
+
+msgid "Financial"
+msgstr "Finanzas"
+
+msgid "Genealogy"
+msgstr "Genealogía"
+
+msgid "Geography"
+msgstr "Geografía"
+
+msgid "Geology"
+msgstr "Geología"
+
+msgid "Linguistics"
+msgstr "Linguística"
+
+msgid "Mathematics"
+msgstr "Matemáticas"
+
+msgid "Medicine"
+msgstr "Medicina"
+
+msgid "Medical Imaging"
+msgstr "Imagen médica"
+
+msgid "Physics"
+msgstr "Física"
+
+msgid "Religion"
+msgstr "Religión"
+
+msgid "Statistics"
+msgstr "Estatística"
+
+msgid "Analysing"
+msgstr "Análisis"
+
+msgid "Browsing"
+msgstr "Navegación"
+
+msgid "Chatting"
+msgstr "Chat"
+
+msgid "Compressing"
+msgstr "Compresión"
+
+msgid "Data Conversion"
+msgstr "Conversión"
+
+msgid "Downloading"
+msgstr "Descargas"
+
+msgid "Editing"
+msgstr "Edición"
+
+msgid "Entertaining"
+msgstr "Entretenimiento"
+
+msgid "Learning"
+msgstr "Educación"
+
+msgid "Monitoring"
+msgstr "Vigilancia"
+
+msgid "Data Organisation"
+msgstr "Organización de datos"
+
+msgid "Playing Media"
+msgstr "Multimedia"
+
+msgid "Printing"
+msgstr "Impresión"
+
+msgid "Proxying"
+msgstr "Proxy"
+
+msgid "Searching"
+msgstr "Investigación"
+
+msgid "Synchronisation"
+msgstr "Sincronización"
+
+msgid "Text Formatting"
+msgstr "Formateo de texto"
+
+msgid "Time and Clock"
+msgstr "Fecha y Hora"
+
+msgid "Typesetting"
+msgstr "Composición Tipográfica"
+
+msgid "Data Visualization"
+msgstr "Visualización de Datos"
+
+msgid "Adventure"
+msgstr "Aventura"
+
+msgid "Action and Arcade"
+msgstr "Acción y Arcade"
+
+msgid "Board"
+msgstr "Tablero"
+
+msgid "Chess"
+msgstr "Ajedrez"
+
+msgid "Card"
+msgstr "Cartas"
+
+msgid "Demo"
+msgstr "Demos"
+
+msgid "First person shooter"
+msgstr "Shooter en primera persona"
+
+msgid "Multiplayer RPG"
+msgstr "Rol multijugador"
+
+msgid "Platform"
+msgstr "Plataformas"
+
+msgid "Puzzle"
+msgstr "Puzle"
+
+msgid "Role-playing"
+msgstr "Rol"
+
+msgid "Rogue-Like RPG"
+msgstr "Rogue-Like RPG"
+
+msgid "Simulation"
+msgstr "Simulación"
+
+msgid "Sport games"
+msgstr "Deportes"
+
+msgid "Racing"
+msgstr "Carreras"
+
+msgid "Strategy"
+msgstr "Estrategia"
+
+msgid "Tetris-like"
+msgstr "Estilo Tetris"
+
+msgid "Toy or Gimmick"
+msgstr "Jouet"
+
+msgid "Typing Tutor"
+msgstr "Mecanografía"
+
+msgid "Arcade games"
+msgstr "Arcade"
+
+msgid "3D games"
+msgstr "Juegos 3D"
+
+msgid "Metapackages"
+msgstr "Metapaquetes"
+
+msgid "Finance"
+msgstr "Finanzas"
+
+msgid "Groupware"
+msgstr "Trabajo en Grupo"
+
+msgid "Presentation"
+msgstr "Presentatión"
+
+msgid "Project management"
+msgstr "Gestion de projet"
+
+msgid "Spreadsheet"
+msgstr "Tableur"
+
+msgid "Blog Software"
+msgstr "Logiciel de blog"
+
+msgid "Browser"
+msgstr "Navegación"
+
+msgid "Sound compression"
+msgstr "Compresión de audio"
+
+msgid "MIDI Software"
+msgstr "Software MIDI"
+
+msgid "Sound mixing"
+msgstr "Mezcla de audio"
+
+msgid "Sound playback"
+msgstr "Reproducción de audio"
+
+msgid "Sound recording"
+msgstr "Grabación de audio"
+
+msgid "MIDI Sequencing"
+msgstr "Secuanciamiento MIDI"
+
+msgid "Speech Synthesis"
+msgstr "Sintetización de Voz"
+
+msgid "Not available"
+msgstr "No disponible"

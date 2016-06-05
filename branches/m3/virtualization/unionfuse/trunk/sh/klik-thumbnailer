@@ -1,0 +1,117 @@
+#! /usr/bin/python
+
+#
+# Klik CMG Thumbnailer by Jason Taylor (KillerKiwi2006) 
+# Last Update : 11-Oct-2005
+#
+
+ICON_FILE_NAME = "icon"
+AR_MAGIC = "!<arch>\n"
+BLKSIZE = 10000
+MAXCYCLES = 1000
+
+import getopt 
+import sys
+import os
+import string
+import StringIO
+#import Image, ImageDraw # Try images
+from Numeric import *
+
+def FindAr( file ):
+	
+	buffer = ""
+
+	# Set pointer to end of file
+	file.seek(0, 2)
+
+	# Seek backwards for a number of cycles
+	for i in range( MAXCYCLES ):
+
+		try:
+
+			pos = file.tell()
+			offset = BLKSIZE
+
+			# Check for valid position
+			if pos - BLKSIZE < 0: 
+				offset = pos;
+			if offset < 0:
+				return 0;
+
+			# Move pointer
+			file.seek( -offset, 1)
+
+		        # Get new chunk to buffer 
+			buffer = file.read(offset + len(AR_MAGIC)) 
+			
+			# Move pointer back, read moves pointer on
+			file.seek( -len(buffer), 1)	
+
+			# Test for divider
+			test = buffer.rfind( AR_MAGIC )
+
+			# If divider is found
+			if test > -1:
+				file.seek(  test + len( AR_MAGIC ) ,1)
+				print "Found an AR archive : " 
+				print pos
+				return 1
+
+		except: 
+			print "No Ar Found"
+			return 0
+
+		
+	print "No Ar Found"
+	return 0
+
+def ExtractFile(file, filename):
+	try:
+		ar_file_detail = file.readline()
+		file_name_chunk = ar_file_detail[0:16].strip()
+		file_size_chunk = ar_file_detail[48:58].strip()
+		
+		# Strip trailing char in filename
+		file_name = file_name_chunk[:len(file_name_chunk)-1]
+		# Convert string to number
+		file_size = int(file_size_chunk)
+
+		print "Found a file : " + file_name +" (" + file_size_chunk +" bytes)"
+
+		if file_name == filename:
+
+			buffer = file.read( file_size )
+			print "Found The Correct File!  Extracting..."
+			return buffer
+
+		# Skip to next file and test
+		file.seek( file_size, 1)
+		return ExtractFile(file, filename)
+	except:
+		print "Error occurred while reading ar"
+		return 
+
+def GetFileFromAr( ar, filename):
+	file = open( ar, "r" )
+	result = FindAr( file )
+	#file.seek( 140, 1)
+	if result == 1:
+		return ExtractFile( file, filename )
+	return None
+
+def main():
+	input = sys.argv[1]
+	output = sys.argv[2]
+
+	buffer = GetFileFromAr( input, ICON_FILE_NAME )
+
+	if buffer != None:
+		file = open( output , "w")
+		file.write( buffer )
+		file.close()
+				
+		del file
+
+if __name__ == "__main__":
+	main()

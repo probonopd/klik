@@ -1,0 +1,28 @@
+#summary Collection of useful links dealing with (fake)chroot and alternatives.
+
+= Introduction =
+
+  # What is the problem?
+  # Why don't we use real chroot?
+
+== other ppl with same problem == 
+http://www.mail-archive.com/debian-bugs-dist@lists.debian.org/msg326086.html
+
+plash - http://plash.beasts.org/wiki/PlashFAQs
+
+== A new loader ==
+http://sourceware.org/ml/binutils/2008-03/msg00162.html
+
+== fuse problems ==
+http://osdir.com/ml/file-systems.fuse.devel/2006/msg01155.html
+
+== other options ==
+http://www.lysator.liu.se/noid/user_chroot.html
+
+http://www.debian-administration.org/articles/566
+
+http://sourceforge.net/projects/fakerootng/
+
+http://www.freesoftwaremagazine.com/articles/focus-linux_vserver?page=0%2C1
+
+http://www.ibm.com/developerworks/linux/library/l-mount-namespaces.html

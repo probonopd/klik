@@ -1,0 +1,25 @@
+##
+## Targeted for Kubuntu 7.04
+##
+
+all: fusioniso.dyn
+
+fusioniso.dyn:
+	make -f Makefile clean
+	make -f Makefile
+	mv fusioniso fusioniso.dyn
+	gcc -D_FILE_OFFSET_BITS=64 -D_FILE_OFFSET_BITS=64 -I/usr/include/fuse -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -Wall -g -O3 -o fusioniso fusioniso.o fusioniso-fs.o fusioniso-isofs.o -L/usr/lib /usr/lib/libfuse.a -lpthread -lrt -ldl /usr/lib/libglib-2.0.a /usr/lib/libz.a
+
+clean:
+	make -f Makefile clean
+	rm -f fusioniso fusioniso.dyn
+
+distclean: clean
+	[ ! -d .deps ] || rm -rf .deps
+	[ ! -f *.o ] || rm -f *.o
+	[ ! -f Makefile ] || rm -f Makefile
+
+install:
+	mkdir -p $(DESTDIR)/usr/bin
+	cp fusioniso $(DESTDIR)/usr/bin/
+	cp fusioniso.dyn $(DESTDIR)/usr/bin/

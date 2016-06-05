@@ -1,0 +1,17 @@
+Source: klik
+Section: web
+Priority: optional
+Maintainer: Niall Walsh <niallwalsh@users.berlios.de>
+Build-Depends: cdbs, debhelper (>= 5), autotools-dev, zlib1g-dev, libattr1-dev, kdelibs-dev, gettext, autoconf, automake, autogen, libtool
+Standards-Version: 3.7.3
+Vcs-Svn: https://klikclient.googlecode.com/svn/trunk/client/trunk/
+Vcs-Browser: http://klikclient.googlecode.com/svn/trunk/client/trunk/
+
+Package: klik
+Architecture: i386
+Depends: libc6, python, zlib1g, genisoimage, gnupg, rpm, binutils, python-glade2|python-glade-1.2, xdg-utils, libstdc++5, fusioniso
+Suggests: konqueror, lsb, python-nautilus
+Description: Web based software installer
+ This package provides the client programs needed to use the
+ http://klik.atekon.de site to run software using klik2.
+

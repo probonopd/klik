@@ -1,0 +1,5 @@
+Dmitry Morozhnikov <dmiceman@mail.ru>
+headers & ideas borrowed from linux kernel isofs code
+
+Lionel Tricon <lionel.tricon@gmail.com>
+klik2 adaptations : added union mounting and sandboxing features

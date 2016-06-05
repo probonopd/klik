@@ -1,0 +1,6 @@
+To use this wrapper insmod aufs or unionfs or fuse and replace your ~/.klik and ~/.zAppRun 
+scripts with the hacked versions from /usr/share/doc/klik-overlay/examples/.
+
+The experience should be completely seamless.
+
+- Fabian

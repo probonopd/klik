@@ -1,0 +1,16 @@
+#summary How to use svn
+#labels Deprecated
+
+= KDE =
+
+sudo apt-get install kdesvn
+{{{
+svn+https://klikclient.googlecode.com/svn/trunk/client
+}}}
+
+= GNOME =
+
+sudo apt-get install rapidsvn
+
+
+<!-- this page's promise (in its heading) is not kept (in its content) -->

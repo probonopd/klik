@@ -1,0 +1,4 @@
+This patch is for libfuse to allow a client/server model. You need to rebuild funionfs and link it statically 
+against this binary like:
+
+gcc -static -g -O2 -D_FILE_OFFSET_BITS=64 -DFUSE_USE_VERSION=25 -DHAVE_SETXATTR   -o funionfs_klik  main.o control.o path.o util.o ../fuse-2.6.2/lib/.libs/libfuse.a -lpthread -lrt

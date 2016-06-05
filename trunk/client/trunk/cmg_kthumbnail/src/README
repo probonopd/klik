@@ -1,0 +1,12 @@
+To install it, "make install" or apply the following :
+
+copy the so and la files to :
+/usr/lib/kde3/isofsthumbnail.so
+/usr/lib/kde3/isofsthumbnail.la
+
+and copy the desktop file to :
+/usr/share/services/isofsthumbnail.desktop
+
+Don't forget to enable klik2 previews from kcontrol.
+
+Have fun !

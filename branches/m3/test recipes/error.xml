@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<?xml-stylesheet type="text/xsl" href="recipe.xsl.php" ?>
+<interface uri="http://klik.atekon.de/apt/recipe.gpg.php?package=firefox" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+
+    <name>error</name>
+    <summary>Crash client test</summary>
+    <description>Executing this should produce an error for the client</description>    
+
+    <group main="/dfgdfhfhfgnbbvcgf">
+        <implementation union="/" released="" stability="lsb" version="3beta1" downloadsize="7M">
+            <recipe>
+		    <archive href="httpXXXX:" name="error" />
+		    <archive href="die" name="burn" />
+            </recipe>
+        </implementation>
+    </group>
+</interface>

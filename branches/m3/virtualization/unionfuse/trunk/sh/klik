@@ -1,0 +1,59 @@
+#!/usr/bin/python
+
+#
+# klik interface
+# by probono at myrealbox dot com
+VERSION="20070821"
+# GPLv2
+#
+
+#
+# Todo: Pass through arguments "behind" the main ones
+# Todo: GUI switch
+#
+
+import os, sys, string
+
+# Find out the path to klikruntime, even this command is symlinked
+KLIKPATH = os.path.dirname(os.path.realpath(sys.argv[0]))
+
+if len(sys.argv) < 2:
+    print("    Usage: "+sys.argv[0]+" command [arguments]")
+    print("    Example: "+sys.argv[0]+" get xvier")
+    exit(1)
+
+arg1 = sys.argv[1]
+
+if arg1  == "get":
+    try:
+        os.system(KLIKPATH+"/klik-get "+sys.argv[2])
+    except:
+        sys.exit(1)
+
+if arg1  == "run":
+    try:
+        os.system(KLIKPATH+"/klik-run "+sys.argv[2])
+    except:
+        sys.exit(1)
+
+if arg1  == "setup":
+    try:
+        os.system(KLIKPATH+"/klik-setup")
+    except:
+        sys.exit(1)
+
+# if an xml file is passed without argument, treat it as recipe.xml
+# if a cmg file is passed without argument, then run it
+
+if os.path.exists(sys.argv[1]):
+        if string.find(sys.argv[1],".xml")>-1: 
+            try:
+                os.system(KLIKPATH+"/klik-get "+sys.argv[1])
+            except:
+                sys.exit(1)
+        else:
+            try:
+                os.system(KLIKPATH+"/klik-run "+sys.argv[1])
+            except:
+                sys.exit(1)
+

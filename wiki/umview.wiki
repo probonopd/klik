@@ -1,0 +1,78 @@
+#summary umview+fusioniso
+
+= Introduction =
+
+This is not for general consumption yet. :-)
+
+= Compile =
+
+  * Run Ubuntu Hardy Live
+  * Enable Universe
+  * Install klik2
+  * klik grisbi (for example)
+
+{{{
+sudo apt-get -y install subversion umview build-essential libfuse-dev libglib2.0-dev zlib1g-dev libattr1-dev
+svn checkout http://klikclient.googlecode.com/svn/trunk/virtualization/unionfuse/trunk/fusioniso/
+cd fusioniso/src
+make
+gcc -D_FILE_OFFSET_BITS=64 -I/usr/include/fuse -I/usr/include/glib-2.0 \
+-I/usr/lib/glib-2.0/include -Wall -g -O2 -lpthread fusemain.o fs.o isofs.o \
+-shared -nostartfiles -o umfuse_fusioniso.so /usr/lib/libglib-2.0.so -lz
+sudo mv umfuse_fusioniso.so /usr/lib/umview/modules/
+}}}
+
+= Use =
+
+{{{
+umview bash
+um_add_service umfuse
+mkdir /tmp/newdir
+mount -t umfuse_fusioniso -o pre='-u' /home/ubuntu/Desktop/grisbi*cmg /tmp/newdir
+
+export FAKECHROOT_EXCLUDE_PATH=/tmp/:/proc/:/dev/:/var/run/:$HOME/.klik
+export LD_PRELOAD=/usr/lib/klik/libkfakechroot.so
+export LD_LIBRARY_PATH=/usr/lib/:/tmp/newdir/usr/lib
+chroot /tmp/newdir/ /usr/bin/grisbi
+}}}
+
+----
+
+= Update Sep 5, 2008 =
+
+{{{
+sudo apt-get -y install build-essential libfuse-dev libglib2.0-dev zlib1g-dev libattr1-dev subversion
+svn co https://view-os.svn.sourceforge.net/svnroot/view-os/trunk/xmview-os view-os 
+cd view-os/
+apt-get -y install libtool automake # need the latest updated versions
+autoreconf -i
+./configure --prefix=/usr --disable-vde --disable-python --disable-lwip
+make
+make install
+cd -
+
+# this is slowwww
+svn co http://klikclient.googlecode.com/svn/branches/cristian/fusioniso/fusioniso
+cd fusioniso/
+autoreconf -i
+./configure --prefix=/usr --disable-debug
+make
+make install
+cd -
+
+# this is not faster :(
+svn co https://view-os.svn.sourceforge.net/svnroot/view-os/trunk/fuse-modules/iso9660
+cd iso9660/
+sudo apt-get -y install libiso9660-dev
+autoreconf -i && ./configure --prefix=/usr && make && sudo make install
+cd -
+
+umview xterm
+um_add_service umfuse
+mount -t umfuse_fusioniso -o pre='-u' -o except=/proc,except=/dev,except=/var/run /path/to/grisbi_0.5.9-0p1.cmg /
+# or
+mount -t umfuse_fusioniso -o merge /path/to/grisbi_0.5.9-0p1.cmg /
+# the former uses the fusioniso union_mounting feature, 
+# while the latter uses the umview merge option (for better performance but no sandboxing yet)
+
+}}}

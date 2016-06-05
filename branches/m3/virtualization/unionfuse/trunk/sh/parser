@@ -1,0 +1,77 @@
+#!/usr/bin/python
+# Version 20070826
+# Lionel Tricon <lionel.tricon at free dot fr>
+# extract some informations from the xml recipe
+
+#
+# name: binary to run (default value)
+# <name>appname[:apprun]</name>
+#
+# group: specify a binary to run on a specific platform
+# <group main="appname[:apprun]" platform="x86|..."></group>
+#
+# deal with environment variables (inside a group)
+# <env>
+#   <var name="KDE_FORK_SLAVES" mode="replace">1</var>
+#   <var name="PATH" mode="append">/usr/bin</var>
+#   <var name="FOO" mode="unset"/>
+# </env>
+# 
+
+import sys
+from xml.sax import make_parser
+from xml.sax.handler import ContentHandler
+
+varAppname = ""
+varPlatform = ""
+
+class KLik2EnvHandler(ContentHandler):
+
+  def __init__ (self):
+    self.isNameElement, self.isVarElement, self.isGroupElement = 0, 0, 0
+
+  def startElement(self, name, attrs):
+    global varAppname
+    global varPlatform
+    if name == 'name':
+      self.isNameElement= 1
+    elif name == 'var':
+      if self.isGroupElement == 1:
+        self.isVarElement= 1
+        self.varName = attrs.get('name',"")
+        self.varMode = attrs.get('mode',"")
+    elif name == 'group':
+      if attrs.get('platform',"")==varPlatform or attrs.get('platform',"")=='':
+        self.isGroupElement= 1
+        if attrs.get('main',""):
+          varAppname = attrs.get('main',"")
+    return
+
+  def characters (self, ch):
+    global varAppname
+    if self.isNameElement == 1:
+      varAppname = ch
+    if self.isVarElement == 1:
+      self.isVarElement= 0
+      print "%s;%s;%s" % (self.varMode[0], self.varName, ch)
+
+  def endElement(self, name):
+    if name == 'name':
+      self.isNameElement= 0
+    if name == 'var':
+      if self.isVarElement != 0:
+        print "%s;%s" % (self.varMode[0], self.varName)
+      self.isVarElement= 0
+    if name == 'group':
+      self.isGroupElement= 0
+
+if len(sys.argv) < 3:
+  print "Usage: %s recipe_file platform" % sys.argv[0]
+  sys.exit()
+
+varPlatform = sys.argv[2]
+parser = make_parser()
+curHandler = KLik2EnvHandler()
+parser.setContentHandler(curHandler)
+parser.parse(open(sys.argv[1]))
+print "r;KLIK_APPNAME;%s" % varAppname

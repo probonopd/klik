@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<interface uri="http://www.openoffice.org/klik2" xmlns="http://zero-install.sourceforge.net/2004/injector/interface">
+
+    <name>OpenOffice.org2</name>
+    <summary>Office Suite</summary>
+    <description>OpenOffice.org is a multiplatform and multilingual office suite and an open-source project. Compatible with all other major office suites, the product is free to download, use, and distribute. </description>    
+
+    <group main="/opt/openoffice.org2.3/program/soffice">
+        <implementation union="/" released="" stability="lsb" version="2.3.0" downloadsize="135MB">
+            <recipe>
+            	<!-- this url uses the ooo mirrors -->
+                <archive href="http://openoffice.bouncer.osuosl.org/?product=OpenOffice.org&amp;os=linuxintelwjre&amp;lang=en-US&amp;version=2.3.0" name="openoffice2.3" />
+                <klik-preflight>
+                   <!-- the rpms are in a zip file unzip it first -->
+ 		   <unzip>OOo_2.3.0_LinuxIntel_install_wJRE_en-US.tar.gz</unzip>
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/jre-6u2-linux-i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-base-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-calc-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core01-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core02-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core03-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core03u-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core04-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core04u-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core05-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core05u-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core06-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core07-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core08-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core09-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-core10-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-draw-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-gnome-integration-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-graphicfilter-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-headless-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-impress-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-javafilter-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-kde-integration-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-math-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-onlineupdate-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-pyuno-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-testtool-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-writer-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/openoffice.org-xsltfilter-2.3.0-9221.i586.rpm" destination="/" />
+ 		   <move source="/OOG680_m5_native_packed-1_en-US.9221/RPMS/desktop-integration/openoffice.org-freedesktop-menus-2.3-9215.noarch.rpm" destination="/" />
+                </klik-preflight>
+                <klik-postflight>
+                	<symlink source="/etc/openoffice.org2.3" destination="../opt/openoffice.org2.3" />
+                </klik-postflight>
+            </recipe>
+        </implementation>
+    </group>
+</interface>

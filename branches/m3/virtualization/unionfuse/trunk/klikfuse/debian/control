@@ -1,0 +1,21 @@
+Source: fusioniso
+Section: admin
+Priority: optional
+Maintainer: Niall Walsh <niallwalsh@users.berlios.de>
+Build-Depends: debhelper (>= 5), autotools-dev, libfuse-dev, zlib1g-dev, libglib2.0-dev, xsltproc, docbook-xsl, docbook-xml, libattr1-dev
+Standards-Version: 3.7.2
+
+Package: fusioniso
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, fuse-utils
+Description: FUSE modules to mount klik files
+ This package provides a module to mount ISO based klik files
+ using FUSE.   In addition to providing fuseiso compatibility,
+ it also provides the union and sandboxing facilities
+ used by klik2.
+ With FUSE it is possible to implement a fully functional
+ filesystem in a userspace program.
+ .
+ It can also mount single-tracks .BIN, .MDF, .IMG and .NRG.
+ .
+  Homepage: http://fuse.sourceforge.net/wiki/index.php/FuseIso

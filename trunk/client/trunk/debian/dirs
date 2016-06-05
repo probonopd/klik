@@ -1,0 +1,6 @@
+etc/bash_completion.d
+usr/bin
+usr/lib/klik
+usr/share/klik
+usr/share/services
+

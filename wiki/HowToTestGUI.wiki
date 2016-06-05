@@ -1,0 +1,123 @@
+= http://klik.atekon.de/ikons/distro/22/ubuntu.png http://klik.atekon.de/ikons/distro/22/kubuntu.png http://klik.atekon.de/ikons/distro/22/linspire.png (K)Ubuntu Feisty/Gutsy/Intrepid Live CDs =
+Open a terminal on a (K)Ubuntu Live CD, copy and paste:
+{{{
+ sudo apt-get -y install subversion python-glade2 rpm && \
+ svn co http://klikclient.googlecode.com/svn/trunk/client/ && \
+ cd client/trunk/ && sudo python install.py && \
+ cd -
+}}}
+Done! Test it with:
+{{{
+ klik get xvier 
+}}}
+
+= http://klik.atekon.de/ikons/distro/22/fedora.png Fedora 7, 8, 9, 10 =
+
+{{{
+ su  
+ yum -y install subversion binutils  && \
+ svn co http://klikclient.googlecode.com/svn/trunk/client/  && \
+ cd client/trunk/ && python install.py  && \
+ exit
+}}}
+Done! Test it with:
+{{{
+ klik get pacman
+}}}
+
+= http://klik.atekon.de/ikons/distro/22/suse.png openSUSE 11.1 Live CD =
+{{{
+ su
+ zypper modifyrepo --all
+ zypper install subversion
+ svn co http://klikclient.googlecode.com/svn/trunk/client/
+ cd client/trunk/
+ python ./install.py
+ exit
+}}}
+
+= http://klik.atekon.de/ikons/distro/22/suse.png openSUSE 10.2 Live DVD =
+
+{{{
+ su
+ svn co http://klikclient.googlecode.com/svn/trunk/client/
+ cd client/trunk/
+ python install --prefix /home/linux/
+ exit
+}}}
+Done! Test it with:
+{{{
+ klik get xvier
+}}}
+
+Remarks: use the absolute path for the --prefix command (you are running this as root, remember?). This will install the klik runtime stuff into /home/linux/bin/ which is on the $PATH.
+
+= http://klik.atekon.de/ikons/distro/22/mandriva.png Mandriva 2008 HD and LiveCD =
+
+{{{
+ su
+ urpmi.addmedia main ftp://ftp.proxad.net/pub/Distributions_Linux/MandrivaLinux/official/2008.0/i586/media/main/release
+ urpmi fuse libfuse2 cdrkit-isotools subversion pygtk2.0-libglade
+ svn checkout http://klikclient.googlecode.com/svn/trunk/ klikclient-read-only
+ cd klikclient-read-only/client/trunk
+ python ./install.py
+ mv /opt/klik/bin/fusioniso.dyn /opt/klik/bin/fusioniso
+ ln -s /opt/klik/bin/fusioniso /usr/local/bin/
+ echo "fuse" >> /etc/modules
+ modprobe fuse
+ chmod 777 /dev/fuse
+}}}
+To activate klik2 for each user, add the login name into the fuse group :
+{{{
+ usermod -G fuse [your_user]
+}}}
+Done! Test it with:
+{{{
+ klik hardinfo
+}}}
+
+= http://klik.atekon.de/ikons/distro/22/suse.png openSUSE 10.2 HD install, 10.3 =
+
+IMPORTANT! On openSUSE Live, do:
+mkdir /tmp/klik && mount -t tmpfs tmpfs /tmp/klik 
+
+{{{
+ su
+ smart install subversion python-gtk
+ svn co http://klikclient.googlecode.com/svn/trunk/client/
+ cd client/trunk/
+ python install.py
+ exit
+}}}
+Done! Test it with:
+{{{
+ klik get xvier
+}}}
+
+===== Remarks re. openSUSE on harddisk: =====
+if you don't know it yet: install the "webpin" commandline utility from http://software.opensuse.org/download/openSUSE:/Tools/openSUSE_10.2 -- because with "webpin --url somename" you can search for any package (or file) name (or part of a name) to see which repositories and which package has it on offer. It helps you close holes caused missing dependencies. You'll probably need "xdg-utils", for example. - KillerKiwi : we include our own copy of xdg-utils in case it is not installed
+
+= Sidux =
+{{{
+ sudo apt-get update
+ sudo apt-get -y install subversion rpm python-glade2
+ mkdir ~/klikclient-svn
+ cd ~/klikclient-svn
+ svn co http://klikclient.googlecode.com/svn/trunk/client/trunk/
+ cd trunk/
+ sudo python install.py
+}}}
+Done! Test it with:
+{{{
+ klik get xvier
+}}}
+
+Tested live on sidux 2007-04.5 kde-full.
+
+= To Be Done =
+create a list of packages (and their URLs) to be installed into the base system to make klik2 work. (_probono:_ klik should not need anything besides what comes with the base system/is part of the LSB: _pipitas_: I agree. That's the future. The keyword is _"should"_. But life is different, and life is now. Users in reality do run systems that don't comply to LSB yet.)
+
+
+= Details =
+
+If the instructions don't work, please feel free to simplify/correct them ;-)

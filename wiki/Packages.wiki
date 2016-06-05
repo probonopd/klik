@@ -1,0 +1,84 @@
+#labels Featured
+#packages This page provides links to packages and contains some installation instructions. 
+
+http://software.opensuse.org/css/local/images/get_pack.png
+
+= Packages for installing the klik client =
+
+klik packages for most commonly used desktop distributions can be found [http://download.opensuse.org/repositories/home:/probono/ here]. Note that these packages are built from SVN, and contain binaries compiled from the recent development tree of klik. They are mainly intended for developers, and for users who wish to try out the latest versions of klik. If you are an end user, you should ask your distribution to include a stable version of the klik client instead.
+
+== openSUSE Build Service ==
+
+These packages have been compiled using the openSUSE Build Service, which allows us to easily build clean packages for a range of distributions.   The development packages are also hosted by the openSUSE Build Service and hence the download.opensuse.org lines below so do not worry if you are not using openSUSE, the lines below are right and the packages have been built for the different distributions.
+
+= http://klik.atekon.de/ikons/distro/22/ubuntu.png http://klik.atekon.de/ikons/distro/22/kubuntu.png http://klik.atekon.de/ikons/distro/22/linspire.png Ubuntu, Kubuntu, Linspire 7.04 and later =
+Open a terminal, copy and paste:
+{{{
+sudo su
+echo "deb http://download.opensuse.org/repositories/home:/probono/xUbuntu_7.04 ./" > /etc/apt/sources.list.d/klik.list && \
+apt-get update && apt-get -y --force-yes install klik 
+}}}
+Only necessary if you are using (K)Ubuntu prior to "Hardy Heron" 8.04 (LTS): Add yourself to the FUSE group with
+{{{
+usermod -G fuse YOURUSERNAME 
+}}}
+Log out and log in again in order to become a member of the FUSE group. Then, test it with:
+{{{
+klik pacman
+}}}
+On some systems, it might be necessary to do
+{{{
+sudo chmod 4755 /bin/fusermount 
+}}} 
+= http://klik.atekon.de/ikons/distro/22/fedora.png Fedora 8 and 9=
+
+{{{
+su
+yum install curl
+curl "http://download.opensuse.org/repositories/home:/probono/Fedora_8/home:probono.repo" > /etc/yum.repos.d/klik.repo
+yum install klik
+}}}
+Only necessary if you are using Fedora 8 or earlier: Add yourself to the FUSE group with
+{{{
+usermod -G fuse YOURUSERNAME 
+}}}
+Log out and log in again in order to become a member of the FUSE group. Then, test it with:
+{{{
+klik pacman
+}}}
+
+= http://klik.atekon.de/ikons/distro/22/suse.png openSUSE 10.3 =
+*IMPORTANT!* On openSUSE *Live*, do: 
+{{{
+su
+mkdir /tmp/klik && mount -t tmpfs tmpfs /tmp/klik
+}}}
+Use the openSUSE [http://software.opensuse.org/ymp/home:probono/openSUSE_10.3/klik.ymp 1-Click Install] to set up klik.Then, add yourself to the FUSE group with
+{{{
+su
+groupadd fuse # is not automatically done on openSUSE
+modprobe fuse # is not automatically done on openSUSE
+chown root:fuse /dev/fuse
+usermod -G fuse YOURUSERNAME 
+}}}
+Log out and log in again in order to become a member of the FUSE group. Then, test it with:
+{{{
+ klik pacman
+}}}
+
+= http://klik.atekon.de/ikons/distro/22/mandriva.png Mandriva 2008  =
+
+{{{
+su
+urpmi.addmedia main ftp://ftp.proxad.net/pub/Distributions_Linux/MandrivaLinux/official/2008.0/i586/media/main/release 
+# Please use recent versions, below are examples only
+urpmi http://download.opensuse.org/repositories/home:/probono/Mandriva_2008/i586/fusioniso-0.1-5.1.i586.rpm
+urpmi http://download.opensuse.org/repositories/home:/probono/Mandriva_2008/i586/klik-1.9.2.1364-1.1.i586.rpm
+echo "fuse" >> /etc/modules
+modprobe fuse
+chmod 777 /dev/fuse
+}}}
+Done! Test it with:
+{{{
+klik 3dchess
+}}}
